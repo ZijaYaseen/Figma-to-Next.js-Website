@@ -120,7 +120,7 @@ const HeroSection = () => {
     <div className="flex flex-col lg:flex-row justify-between items-center bg-[#FFF9E5] pb-5 px-6 sm:px-10">
   {/* Image Section */}
   <div className="w-full lg:w-[60%] flex justify-center">
-    <Image src={"/Asgaard sofa 1.svg"} width={800} height={700} alt="sofa" />
+    <Image src={"/asgaardsofa1.svg"} width={800} height={700} alt="sofa" />
   </div>
 
   {/* Text and Button Section */}
