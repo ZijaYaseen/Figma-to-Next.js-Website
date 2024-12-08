@@ -14,22 +14,22 @@ export const Help = [
 
 export const Picksproduct = [
     {
-        Image :"/Trenton modular sofa_3 1.svg",
+        Image :"/p1.svg",
         title:"Trenton modular sofa_3",
         price:"Rs. 25,000.00"
     },
     {
-        Image :"/diningchair.svg",
+        Image :"/p2.svg",
         title:"Dining table with dining chair",
         price:"Rs. 25,000.00"
     },
     {
-        Image :"/Outdoor bar table and stool 1.svg",
+        Image :"/p3.svg",
         title:"Outdoor bar table and stool",
         price:"Rs. 25,000.00"
     },
     {
-        Image :"/Plain console with teak mirror 1.svg",
+        Image :"/p4.svg",
         title:"Plain console with teak mirror",
         price:"Rs. 25,000.00"
     },
