@@ -63,7 +63,7 @@ const HeroSection = () => {
   {/* Second Item */}
   <div className="relative flex flex-col items-center lg:items-start">
     <Image
-      src={"/Cloud sofa three seater + ottoman_3 1.svg"}
+      src={"/cloudsofa.svg"}
       alt="Cloud Sofa"
       width={650}
       height={500}

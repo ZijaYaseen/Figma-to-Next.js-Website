@@ -19,7 +19,7 @@ export const Picksproduct = [
         price:"Rs. 25,000.00"
     },
     {
-        Image :"/Granite dining table with dining chair 1.svg",
+        Image :"/diningchair.svg",
         title:"Dining table with dining chair",
         price:"Rs. 25,000.00"
     },
