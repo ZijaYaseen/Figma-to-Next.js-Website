@@ -31,7 +31,7 @@ const HeroSection = () => {
       width={650}
       height={300}
       className="max-w-full h-auto"
-    />
+    ></Image>
   </div>
 </div>
 
@@ -103,7 +103,7 @@ const HeroSection = () => {
           width={200}
           height={200}
           className="md:w-[250px] md:h-[250px] w-full object-cover"
-        />
+        ></Image>
         {/* Title */}
         <p className="py-4 text-base sm:text-lg font-normal text-center">
           {items.title}
@@ -120,7 +120,7 @@ const HeroSection = () => {
     <div className="flex flex-col lg:flex-row justify-between items-center bg-[#FFF9E5] pb-5 px-6 sm:px-10">
   {/* Image Section */}
   <div className="w-full lg:w-[60%] flex justify-center">
-    <Image src={"/asgaardsofa1.svg"} width={800} height={700} alt="sofa" />
+    <Image src={"/asgaardsofa1.svg"} width={800} height={700} alt="sofa" ></Image>
   </div>
 
   {/* Text and Button Section */}
@@ -153,7 +153,7 @@ const HeroSection = () => {
           width={80}
           height={100}
           className="md:w-full w-[90%] h-[50vh] object-cover rounded-lg"
-        />
+        ></Image>
         <p className="py-4 text-xl font-normal text-center">{items.title}</p>
         <button className="text-base font-bold border-b-2 border-black">Read More</button>
 
