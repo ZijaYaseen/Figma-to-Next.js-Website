@@ -5,6 +5,8 @@ import { Picksproduct, blog } from '@/data/data'
 import { FaRegClock } from "react-icons/fa6";
 import { CiCalendar } from "react-icons/ci";
 import h1 from "../../Public/Rocket-single-seater1.svg"
+import h2 from "../../Granite square side table 1.svg"
+import h3 from "../../Public/cloudsofa.svg"
 
 const HeroSection = () => {
   return (
@@ -42,7 +44,7 @@ const HeroSection = () => {
   {/* First Item */}
   <div className="relative flex flex-col items-center lg:items-start">
     <Image
-      src={"/Granite square side table 1.svg"}
+      src={h2}
       alt="Side Table"
       width={650}
       height={500}
@@ -64,7 +66,7 @@ const HeroSection = () => {
   {/* Second Item */}
   <div className="relative flex flex-col items-center lg:items-start">
     <Image
-      src={"/cloudsofa.svg"}
+      src={h3}
       alt="Cloud Sofa"
       width={650}
       height={500}
