@@ -26,7 +26,7 @@ const HeroSection = () => {
   {/* Image Content */}
   <div className="w-full lg:w-auto flex justify-center lg:mr-10">
     <Image
-      src={"/Rocket single seater 1.svg"}
+      src={"/Rocket-single-seater1.svg"}
       alt="Home Pic"
       width={650}
       height={300}
