@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Picksproduct, blog } from '@/data/data'
 import { FaRegClock } from "react-icons/fa6";
 import { CiCalendar } from "react-icons/ci";
+import h1 from "../../Public/Rocket-single-seater1.svg"
 
 const HeroSection = () => {
   return (
@@ -26,7 +27,7 @@ const HeroSection = () => {
   {/* Image Content */}
   <div className="w-full lg:w-auto flex justify-center lg:mr-10">
     <Image
-      src={"/Rocket-single-seater1.svg"}
+      src={h1}
       alt="Home Pic"
       width={650}
       height={300}
