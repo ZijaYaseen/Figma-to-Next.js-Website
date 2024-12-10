@@ -4,6 +4,7 @@ import { LiaSlidersHSolid } from "react-icons/lia";
 import { BsFillGridFill } from "react-icons/bs";
 import { PiLineVertical } from "react-icons/pi";
 import { CiGrid31 } from "react-icons/ci";
+import Logo from "../../public/Logo.svg";
 import { shop } from '@/data';
 import SubFooter from './SubFooter';
 
@@ -18,7 +19,7 @@ const Shop = () => {
   className='bg-[url("/Rectangle1.svg")] bg-cover bg-center flex flex-col items-center justify-center h-[150px] lg:h-[318px] px-4'
 >
   <Image
-    src={"/Logo.svg"}
+    src={Logo}
     alt='logo'
     width={60}
     height={50}

@@ -3,6 +3,10 @@ import Link from 'next/link'
 import { Picksproduct, blog } from '@/data/index'
 import { FaRegClock } from "react-icons/fa6";
 import { CiCalendar } from "react-icons/ci";
+import h1 from "../../public/Rocket-single-seater1.svg"
+import h2 from "../../public/Granite-square-side-table1.svg"
+import h3 from "../../public/cloudsofa.svg";
+import h4 from "../../public/asgaardsofa1.svg";
 
 const HeroSection = () => {
   return (
@@ -25,7 +29,7 @@ const HeroSection = () => {
   {/* Image Content */}
   <div className="w-full lg:w-auto flex justify-center lg:mr-10">
     <Image
-      src={"/Rocket-single-seater1.svg"}
+      src={h1}
       alt="Home Pic"
       width={650}
       height={300}
@@ -40,7 +44,7 @@ const HeroSection = () => {
   {/* First Item */}
   <div className="relative flex flex-col items-center lg:items-start">
     <Image
-      src={"/Granite-square-side-table1.svg"}
+      src={h2}
       alt="Side Table"
       width={650}
       height={500}
@@ -62,7 +66,7 @@ const HeroSection = () => {
   {/* Second Item */}
   <div className="relative flex flex-col items-center lg:items-start">
     <Image
-      src={"/cloudsofa.svg"}
+      src={h3}
       alt="Cloud Sofa"
       width={650}
       height={500}
@@ -125,7 +129,7 @@ const HeroSection = () => {
     <div className="flex flex-col lg:flex-row justify-between items-center bg-[#FFF9E5] pb-5 px-6 sm:px-10">
   {/* Image Section */}
   <div className="w-full lg:w-[60%] flex justify-center">
-    <Image src={"/asgaardsofa1.svg"} width={800} height={700} alt="sofa" ></Image>
+    <Image src={h4} width={800} height={700} alt="sofa" ></Image>
   </div>
 
   {/* Text and Button Section */}
