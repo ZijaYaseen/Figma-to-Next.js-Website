@@ -16,10 +16,6 @@ const config: Config = {
         poppins: ["Poppins", "sans-serif"], // Add the Poppins font
         inter : ["Inter", "sans-serif"]
       },
-      backgroundImage: {
-        shop: "url('/Rectangle1.svg')",
-        home: "url('/Rectangle17.svg')",
-      },
     },
   },
   plugins: [],

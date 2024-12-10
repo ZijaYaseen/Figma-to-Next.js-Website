@@ -1,10 +1,10 @@
-import p1 from "../../Public/p1.svg"
-import p2 from "../../Public/p2.svg";
-import p3 from "../../Public/p3.svg";
-import p4 from "../../Public/p4.svg";
-import blog1 from '../../Public/blog1.svg';
-import blog2 from '../../Public/blog2.svg';
-import blog3 from '../../Public/blog3.svg';
+import p1 from "../../public/p1.svg"
+import p2 from "../../public/p2.svg";
+import p3 from "../../public/p3.svg";
+import p4 from "../../public/p4.svg";
+import blog1 from '../../public/blog1.svg';
+import blog2 from '../../public/blog2.svg';
+import blog3 from '../../public/blog3.svg';
 
 
 

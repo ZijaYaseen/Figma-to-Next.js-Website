@@ -3,7 +3,8 @@ import { RiArrowRightSLine } from "react-icons/ri";
 import { LiaSlidersHSolid } from "react-icons/lia";
 import { BsFillGridFill } from "react-icons/bs";
 import { CiGrid31 } from "react-icons/ci";
-import Logo from "../../Public/Logo.svg";
+import Logo from "../../public/Logo.svg";
+import bgShop from "../../public/Rectangle1.svg"
 
 
 const Shop = () => {
@@ -12,7 +13,8 @@ const Shop = () => {
 
         {/* Shop 1st section */}
 
-        <div className='bg-shop bg-cover bg-center flex flex-col items-center justify-center h-[318px]'>
+        <div className='bg-[url("/Rectangle1.svg")] bg-cover bg-center flex flex-col items-center justify-center h-[318px]'
+        >
         <Image src={Logo}
         alt='logo'
         width={50}
