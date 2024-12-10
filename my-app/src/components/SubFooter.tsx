@@ -2,7 +2,7 @@ import React from 'react'
 
 const SubFooter = () => {
   return (
-    <div className='flex items-center justify-between bg-[#FAF4F4] h-[300px] px-28 gap-20'>
+    <div className='flex flex-col md:flex-row items-center md:justify-between justify-center py-5 bg-[#FAF4F4] md:h-[300px] md:px-28 px-10 gap-20'>
 
           <div className='flex flex-col'>
             <h2 className='font-medium text-[32px]'>Free Delivery</h2>
