@@ -3,7 +3,7 @@ import { RiArrowRightSLine } from "react-icons/ri";
 import { LiaSlidersHSolid } from "react-icons/lia";
 import { BsFillGridFill } from "react-icons/bs";
 import { CiGrid31 } from "react-icons/ci";
-import Logo from "../../Public/logo.svg"
+import Logo from "../../Public/logo.svg";
 
 const Shop = () => {
   return (
@@ -36,6 +36,7 @@ const Shop = () => {
             Filter
             <BsFillGridFill />
             <CiGrid31 />
+            ugyuguyguygyugyuftyfty
             </div>
             
         </div>
