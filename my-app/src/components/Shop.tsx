@@ -12,7 +12,7 @@ const Shop = () => {
 
         {/* Shop 1st section */}
 
-        <div className='bg-[url("/Rectangle1.svg")] bg-cover bg-center flex flex-col items-center justify-center h-[318px]'>
+        <div className='bgShop bg-cover bg-center flex flex-col items-center justify-center h-[318px]'>
         <Image src={Logo}
         alt='logo'
         width={50}
