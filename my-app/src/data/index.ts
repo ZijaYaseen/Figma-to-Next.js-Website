@@ -1,4 +1,4 @@
-import p1 from "../../public/p1.svg"
+import p1 from "../../public/p1.svg";
 import p2 from "../../public/p2.svg";
 import p3 from "../../public/p3.svg";
 import p4 from "../../public/p4.svg";
