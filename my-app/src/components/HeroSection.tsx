@@ -184,7 +184,7 @@ const HeroSection = () => {
 
 {/* Home pae 6th section */}
 
-<section className="flex flex-col items-center justify-center space-y-6 sm:space-y-8 py-16 sm:py-32 bgHome bg-cover bg-center">
+<section className="flex flex-col items-center justify-center space-y-6 sm:space-y-8 py-16 sm:py-32 bg-home bg-cover bg-center">
   <h1 className="font-bold text-4xl sm:text-6xl text-center">Our Instagram</h1>
   <p className="font-normal text-lg sm:text-xl text-center">Follow our store on Instagram</p>
   <Link
