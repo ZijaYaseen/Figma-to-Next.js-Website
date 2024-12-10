@@ -37,15 +37,15 @@ export const Picksproduct = [
 
 export const blog = [
     {
-        image:"/Rectangle 13.svg",
+        image:"/blog1.svg",
         title:"Going all-in with millennial design",
     },
     {
-        image:"/Rectangle 14.svg",
+        image:"/blog2.svg",
         title:"Going all-in with millennial design",
     },
     {
-        image:"/Rectangle 15.svg",
+        image:"/blog3.svg",
         title:"Going all-in with millennial design",
     },
 ]

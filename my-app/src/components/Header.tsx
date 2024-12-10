@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Nav } from '@/data/data';
+import { Nav } from '@/data';
 import { CiSearch, CiHeart, CiUser, CiShoppingCart } from 'react-icons/ci';
 import { FaBars } from 'react-icons/fa'; // Hamburger icon
 import { MdClose } from 'react-icons/md'; // Close icon from react-icons/md

@@ -1,16 +1,16 @@
 import Image from 'next/image'
-import React from 'react'
 import Link from 'next/link'
-import { Picksproduct, blog } from '@/data/data'
+import { Picksproduct, blog } from '@/data/index'
 import { FaRegClock } from "react-icons/fa6";
 import { CiCalendar } from "react-icons/ci";
 import h1 from "../../Public/Rocket-single-seater1.svg"
-import h2 from "../../Granite square side table 1.svg"
-import h3 from "../../Public/cloudsofa.svg"
+import h2 from "../../Public/Granite-square-side-table1.svg"
+import h3 from "../../Public/cloudsofa.svg";
+import h4 from "../../Public/asgaardsofa1.svg";
 
 const HeroSection = () => {
   return (
-    <div className='max-w-[1440vw] font-poppins h-full w-full'>
+    <div className='max-w-[1440vw] font-poppins h-full w-full overflow-hidden'>
 
      {/* Home 1 Section */}
 <div className="mt-10 flex flex-col-reverse lg:flex-row justify-between items-center w-full h-full bg-[#FBEBB5] mx-auto px-6 lg:px-16 py-10">
@@ -49,7 +49,7 @@ const HeroSection = () => {
       width={650}
       height={500}
       className="w-full max-w-[500px] h-auto"
-    />
+    ></Image>
     <h2 className="absolute text-center lg:text-left font-medium text-2xl sm:text-3xl lg:text-4xl top-[80%] left-1/2 lg:left-[50px] transform -translate-x-1/2 lg:translate-x-0">
       Side Table
     </h2>
@@ -71,7 +71,7 @@ const HeroSection = () => {
       width={650}
       height={500}
       className="w-full max-w-[500px] h-auto"
-    />
+    ></Image>
     <h2 className="absolute text-center lg:text-left font-medium text-2xl sm:text-3xl lg:text-4xl top-[80%] left-1/2 lg:left-[50px] transform -translate-x-1/2 lg:translate-x-0">
       Cloud Sofa
     </h2>
@@ -102,7 +102,7 @@ const HeroSection = () => {
         {/* Image */}
         <Image
           src={items.Image}
-          alt=""
+          alt="Products"
           width={200}
           height={200}
           className="md:w-[250px] md:h-[250px] w-full object-cover"
@@ -123,7 +123,7 @@ const HeroSection = () => {
     <div className="flex flex-col lg:flex-row justify-between items-center bg-[#FFF9E5] pb-5 px-6 sm:px-10">
   {/* Image Section */}
   <div className="w-full lg:w-[60%] flex justify-center">
-    <Image src={"/asgaardsofa1.svg"} width={800} height={700} alt="sofa" ></Image>
+    <Image src={h4} width={800} height={700} alt="sofa" ></Image>
   </div>
 
   {/* Text and Button Section */}
@@ -152,7 +152,7 @@ const HeroSection = () => {
       >
         <Image
           src={items.image}
-          alt=""
+          alt="blog"
           width={80}
           height={100}
           className="md:w-full w-[90%] h-[50vh] object-cover rounded-lg"

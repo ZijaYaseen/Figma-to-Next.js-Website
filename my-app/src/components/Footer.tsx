@@ -1,5 +1,5 @@
 import React from "react";
-import { Nav, Help } from "@/data/data";
+import { Nav, Help } from "@/data";
 import Link from "next/link";
 
 const Footer = () => {
