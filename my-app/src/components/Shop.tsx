@@ -11,7 +11,7 @@ import SubFooter from './SubFooter';
 
 const Shop = () => {
   return (
-    <div className='max-w-[1440vw] font-poppins w-full mt-[90px]' >
+    <div className='max-w-[1440vw] font-poppins w-full md:mt-[90px] mt-[70px]' >
 
         {/* Shop 1st section */}
 
