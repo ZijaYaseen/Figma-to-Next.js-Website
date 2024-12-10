@@ -5,6 +5,7 @@ import { BsFillGridFill } from "react-icons/bs";
 import { CiGrid31 } from "react-icons/ci";
 import Logo from "../../Public/Logo.svg";
 
+
 const Shop = () => {
   return (
     <div className='max-w-[1440vw] font-poppins w-full h-screen mt-[90px]' >
