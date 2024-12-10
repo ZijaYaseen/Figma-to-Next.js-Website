@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Nav } from '@/data';
 import { CiSearch, CiHeart, CiUser, CiShoppingCart } from 'react-icons/ci';
-import { FaBars } from 'react-icons/fa'; // Hamburger icon
+import { RxHamburgerMenu } from "react-icons/rx";// Hamburger icon
 import { MdClose } from 'react-icons/md'; // Close icon from react-icons/md
 import Link from 'next/link';
 
@@ -43,13 +43,14 @@ const Header = () => {
       </div>
 
       {/* Hamburger Menu for Mobile */}
-      <div className="relative md:hidden flex items-center pr-5">
+      <div className="relative md:hidden flex justify-between items-center pr-5 max-w-2xl w-full">
+        <div className='text-xl font-semibold'>Furnishedcom</div>
         {/* Hamburger or Close icon */}
         <div className="text-2xl cursor-pointer" onClick={() => setMenuOpen(!menuOpen)}>
           {menuOpen ? (
             <MdClose size={28} /> // Using MdClose for the close icon
           ) : (
-            <FaBars size={28} /> // Hamburger icon when menu is closed
+            <RxHamburgerMenu  size={28} /> // Hamburger icon when menu is closed
           )}
         </div>
       </div>
