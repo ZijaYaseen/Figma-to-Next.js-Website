@@ -1,5 +1,4 @@
 import React from 'react'
-import Link from 'next/link';
 import { RiArrowRightSLine } from "react-icons/ri";
 import Image from 'next/image'
 import { FaLocationDot } from "react-icons/fa6";
