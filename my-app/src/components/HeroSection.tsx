@@ -7,6 +7,7 @@ import h1 from "../../Public/Rocket-single-seater1.svg"
 import h2 from "../../Public/Granite-square-side-table1.svg"
 import h3 from "../../Public/cloudsofa.svg";
 import h4 from "../../Public/asgaardsofa1.svg";
+import bgHome from "../../Public/Rectangle17.svg"
 
 const HeroSection = () => {
   return (
@@ -183,7 +184,7 @@ const HeroSection = () => {
 
 {/* Home pae 6th section */}
 
-<section className="flex flex-col items-center justify-center space-y-6 sm:space-y-8 py-16 sm:py-32 bg-[url('/Rectangle17.svg')] bg-cover bg-center">
+<section className="flex flex-col items-center justify-center space-y-6 sm:space-y-8 py-16 sm:py-32 bgHome bg-cover bg-center">
   <h1 className="font-bold text-4xl sm:text-6xl text-center">Our Instagram</h1>
   <p className="font-normal text-lg sm:text-xl text-center">Follow our store on Instagram</p>
   <Link
