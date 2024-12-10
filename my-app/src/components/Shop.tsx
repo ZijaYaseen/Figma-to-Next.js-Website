@@ -5,12 +5,11 @@ import { BsFillGridFill } from "react-icons/bs";
 import { PiLineVertical } from "react-icons/pi";
 import { CiGrid31 } from "react-icons/ci";
 import { shop } from '@/data';
-import SubFooter from './SubFooter';
 
 
 const Shop = () => {
   return (
-    <div className='max-w-[1440vw] font-poppins w-full md:mt-[90px] mt-[70px]' >
+    <div className='max-w-[1440vw] font-poppins w-full md:mt-[90px] mt-[60px]' >
 
         {/* Shop 1st section */}
 
@@ -96,9 +95,6 @@ const Shop = () => {
           <p className='hover:bg-[#FBEBB5] bg-[#FFF9E5] md:px-8 px-4 md:py-[15px] py-2 rounded-[10px]'>Next</p>
           
         </div>
-
-        {/* 5th section | ads section */}
-        <SubFooter />
 
     </div>
   )

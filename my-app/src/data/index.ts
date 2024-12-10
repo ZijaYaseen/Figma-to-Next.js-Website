@@ -2,7 +2,7 @@ export const Nav = [
     {name:"Home", Link:"/"},
     {name:"Shop", Link:"/Shop"},
     {name:"About", Link:"/"},
-    {name:"Contact", Link:"/"},
+    {name:"Contact", Link:"/Contact"},
 ]
 
 export const Help = [
