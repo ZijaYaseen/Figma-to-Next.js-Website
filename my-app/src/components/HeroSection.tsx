@@ -51,7 +51,7 @@ const HeroSection = () => {
     </h2>
     <Link
       href={"/"}
-      className="absolute text-center lg:text-left top-[90%] left-1/2 lg:left-[50px] transform -translate-x-1/2 lg:translate-x-0"
+      className="absolute text-center lg:text-left top-[95%] left-1/2 lg:left-[50px] transform -translate-x-1/2 lg:translate-x-0"
     >
       <button className="font-medium text-base sm:text-xl lg:text-2xl border-b-2 border-[#3f3b2d] leading-10">
         View More
@@ -73,9 +73,9 @@ const HeroSection = () => {
     </h2>
     <Link
       href={"/"}
-      className="absolute text-center lg:text-left top-[90%] left-1/2 lg:left-[50px] transform -translate-x-1/2 lg:translate-x-0"
+      className="absolute text-center lg:text-left top-[95%] left-1/2 lg:left-[50px] transform -translate-x-1/2 lg:translate-x-0"
     >
-      <button className="font-medium text-base sm:text-xl lg:text-2xl border-b-2 border-[#3f3b2d] leading-10">
+      <button className="font-medium text-base sm:text-xl lg:text-2xl border-b-2 border-[#3f3b2d] leading-10 ">
         View More
       </button>
     </Link>
