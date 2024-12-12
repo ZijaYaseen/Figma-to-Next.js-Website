@@ -6,7 +6,6 @@ import { PiLineVertical } from "react-icons/pi";
 import { CiGrid31 } from "react-icons/ci";
 import { shop } from '@/data';
 import Numbering from './Numbering';
-import Link from 'next/link';
 
 
 const Shop = () => {
