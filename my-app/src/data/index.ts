@@ -147,7 +147,7 @@ export const shop = [
         image: "/shop14.svg",
         title :"Asgaard sofa",
         price :"Rs. 250,000.00",
-        link :"/"
+        link :"/Single-Product"
     },
     {
         id:15,

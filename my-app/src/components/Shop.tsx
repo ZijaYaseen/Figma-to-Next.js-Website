@@ -6,6 +6,7 @@ import { PiLineVertical } from "react-icons/pi";
 import { CiGrid31 } from "react-icons/ci";
 import { shop } from '@/data';
 import Numbering from './Numbering';
+import Link from 'next/link';
 
 
 const Shop = () => {
@@ -48,7 +49,7 @@ const Shop = () => {
             <h4 className='font-normal text-xl'>Filter</h4>
             <BsFillGridFill size={17} />
             <CiGrid31 size={24}/>
-            <PiLineVertical color='#EEEEEE' size={37} className='text-[#EEEEEE]'/>
+            <PiLineVertical color='#EEEEEE' size={40} className='text-[#000000]'/>
             <p className='font-normal md:text-base text-xs'>Showing 1&#8211;16 of 32 results</p>
             </div>
 
@@ -69,6 +70,7 @@ const Shop = () => {
 
         <div className='grid grid-cols-2 md:grid-cols-4 py-4 place-items-center px-6 md:px-16 lg:px-28 gap-[31px]'>
   {shop.map((items) => (
+    
     <div className='w-36 md:w-72 h-auto md:h-[372px]' key={items.id}>
       <Image
         src={items.image}

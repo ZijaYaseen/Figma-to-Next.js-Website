@@ -15,7 +15,7 @@ const HeroSection = () => {
     <h1 className="font-medium text-[32px] sm:text-[48px] lg:text-[64px] leading-tight">
       Rocket Single Seater
     </h1>
-    <Link href={"/"}>
+    <Link href={"/Shop"}>
       <button className="mt-6 sm:mt-[20px] lg:mt-[35px] font-medium text-lg sm:text-xl lg:text-2xl border-b-2 border-[#3f3b2d] leading-10">
         Shop Now
       </button>
@@ -50,7 +50,7 @@ const HeroSection = () => {
       Side Table
     </h2>
     <Link
-      href={"/"}
+      href={"/Shop"}
       className="absolute text-center lg:text-left top-[95%] left-1/2 lg:left-[50px] transform -translate-x-1/2 lg:translate-x-0"
     >
       <button className="font-medium text-base sm:text-xl lg:text-2xl border-b-2 border-[#3f3b2d] leading-10">
@@ -72,7 +72,7 @@ const HeroSection = () => {
       Cloud Sofa
     </h2>
     <Link
-      href={"/"}
+      href={"/Shop"}
       className="absolute text-center lg:text-left top-[95%] left-1/2 lg:left-[50px] transform -translate-x-1/2 lg:translate-x-0"
     >
       <button className="font-medium text-base sm:text-xl lg:text-2xl border-b-2 border-[#3f3b2d] leading-10 ">
@@ -132,9 +132,10 @@ const HeroSection = () => {
   <div className="flex flex-col items-center w-full lg:w-[40%] justify-center text-center">
     <p className="font-medium text-2xl">New Arrivals</p>
     <h2 className="font-bold text-3xl sm:text-4xl lg:text-5xl">Asgaard sofa</h2>
+    <Link href={"/Single-Product"}>
     <button className="border mt-[33px] border-black font-normal text-xl w-[80%] sm:w-[60%] md:w-[40%] lg:w-[18vw] h-[10vh] shadow-xl">
       Order Now
-    </button>
+    </button></Link>
   </div>
 </div>
 
