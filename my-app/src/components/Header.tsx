@@ -47,7 +47,9 @@ const Header = () => {
 
       {/* Icons for Mobile Center Alignment */}
       <div className="absolute left-1/2 -translate-x-1/2 flex space-x-6 md:hidden">
-        <CiUser size={24} />
+      <Link href={"/Account"}>
+        <CiUser size={28} />
+        </Link>
         <CiSearch size={24} />
         <CiHeart size={24} />
         <CiShoppingCart size={24} />
