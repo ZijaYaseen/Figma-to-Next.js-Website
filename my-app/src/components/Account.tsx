@@ -6,7 +6,7 @@ const Account = () => {
     return (
         <div className='max-w-[1440vw] font-poppins w-full md:mt-[90px] mt-[60px]' >
 
-            {/* Shop 1st section */}
+            {/* Account 1st section */}
 
             <div
                 className='bg-[url("/Rectangle1.svg")] bg-cover bg-center flex flex-col items-center justify-center h-[150px] lg:h-[318px] px-4'
