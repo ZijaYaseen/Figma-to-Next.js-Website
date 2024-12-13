@@ -22,7 +22,7 @@ const Header = () => {
   };
 
   return (
-    <nav className="z-50 fixed top-0 left-0 flex items-center w-full md:h-[90px] max-w-[1440vw] h-[60px] shadow-md bg-white">
+    <nav className="z-50 fixed top-0 left-0 flex items-center w-full md:h-[90px] max-w-[1440vw] h-[60px] shadow-lg bg-white">
       {/* Nav Links for Desktop and Large Screens */}
       <div className="hidden md:block flex-1">
         <ul className="flex space-x-14 justify-center text-base font-medium font-poppins md:ml-20">
