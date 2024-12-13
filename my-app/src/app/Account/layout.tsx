@@ -1,7 +1,7 @@
 import React from 'react';
 import SubFooter from '@/components/SubFooter';
 
-interface AccounLayoutProps {
+interface AccountLayoutProps {
     children : React.ReactNode
 }
 
