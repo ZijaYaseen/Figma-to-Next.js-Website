@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import Link from 'next/link';
 import { RiArrowRightSLine } from "react-icons/ri";
 import Image from 'next/image'
 import { FaLocationDot } from "react-icons/fa6";
@@ -23,7 +24,9 @@ const Contact = () => {
   <h1 className='font-medium text-3xl sm:text-4xl lg:text-5xl'>Contact</h1>
 
   <div className='flex space-x-2 py-2 text-sm sm:text-base'>
+    <Link href={"/"}>
     <h1 className='font-medium'>Home</h1>
+    </Link>
     <RiArrowRightSLine
       size={20}
       className='sm:size-[24] lg:size-[24]'

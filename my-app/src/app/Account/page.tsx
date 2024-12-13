@@ -1,9 +1,12 @@
 import React from 'react'
+import Account from '@/components/Account' 
 
-const Contactpage = () => {
+const Accountpage = () => {
   return (
-    <div>page</div>
+    <div>
+      <Account />
+    </div>
   )
 }
 
-export default Contactpage
+export default Accountpage

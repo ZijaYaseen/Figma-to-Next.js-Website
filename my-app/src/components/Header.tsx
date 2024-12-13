@@ -36,10 +36,13 @@ const Header = () => {
 
       {/* Icons for Desktop and Larger Screens */}
       <div className="hidden md:flex space-x-10 mr-10">
+        <Link href={"/Account"}>
         <CiUser size={28} />
+        </Link>
         <CiSearch size={28} />
         <CiHeart size={28} />
-        <CiShoppingCart size={28} />
+        <Link href={"/Account"}>
+        <CiShoppingCart size={28} /></Link>
       </div>
 
       {/* Icons for Mobile Center Alignment */}
