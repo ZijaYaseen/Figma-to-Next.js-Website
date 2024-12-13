@@ -1,7 +1,7 @@
 export const Nav = [
     {name:"Home", Link:"/"},
     {name:"Shop", Link:"/Shop"},
-    {name:"About", Link:"/"},
+    {name:"About", Link:"/Account"},
     {name:"Contact", Link:"/Contact"},
 ]
 
