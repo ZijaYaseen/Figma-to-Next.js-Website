@@ -29,7 +29,9 @@ const Blog = () => {
   <h1 className='font-medium text-3xl sm:text-4xl lg:text-5xl'>Blog</h1>
 
   <div className='flex space-x-2 py-2 text-sm sm:text-base'>
+    <Link href={"/"}>
     <h1 className='font-medium'>Home</h1>
+    </Link>
     <RiArrowRightSLine
       size={20}
       className='sm:size-[24] lg:size-[24]'

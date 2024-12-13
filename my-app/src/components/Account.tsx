@@ -41,7 +41,7 @@ const Account = () => {
                 <div className="flex flex-col gap-8 md:w-[40%] w-full mx-auto">
                     <h1 className="font-semibold text-4xl">Log In</h1>
 
-                    <form action="post" className="flex flex-col gap-7">
+                    <form className="flex flex-col gap-7" method="POST">
                         <div className="flex flex-col gap-4">
                             <label htmlFor="text" className="text-base font-medium">
                                 Username or email address
@@ -52,6 +52,7 @@ const Account = () => {
                                 name="username"
                                 className="mt-1 p-2 border border-[#9F9F9F] md:w-[423px] h-[75px] rounded-[10px]  focus:outline-none"
                                 placeholder=""
+                                required
                             />
                         </div>
 
@@ -66,6 +67,7 @@ const Account = () => {
                                 name="username"
                                 className="mt-1 p-2 border border-[#9F9F9F] md:w-[423px] h-[75px] rounded-[10px]  focus:outline-none"
                                 placeholder=""
+                                required
                             />
                         </div>
 
@@ -75,11 +77,13 @@ const Account = () => {
                         </div>
 
                         <div className="flex gap-5 items-center">
-                        <Link href={"/"}>
-                        <button className="font-normal text-xl w-[215px] h-16 rounded-[15px] border border-black">
+                       
+                        <button
+                        type="submit"
+                        className="font-normal text-xl w-[215px] h-16 rounded-[15px] border border-black">
                         Log In
                         </button>
-                        </Link>
+                   
                             <p className="font-light text-base">Lost Your Password?</p>
                         </div>
                     </form>
@@ -90,7 +94,7 @@ const Account = () => {
                 <div className="flex flex-col gap-8 md:w-[40%] w-full mx-auto">
                     <h1 className="font-semibold text-4xl">Register</h1>
 
-                    <form action="post" className="flex flex-col gap-7">
+                    <form method="POST" className="flex flex-col gap-7">
                         <div className="flex flex-col gap-4">
                             <label htmlFor="text" className="text-base font-medium">
                                 Email address
@@ -101,6 +105,7 @@ const Account = () => {
                                 name="username"
                                 className="mt-1 p-2 border border-[#9F9F9F] md:w-[423px] h-[75px] rounded-[10px]  focus:outline-none"
                                 placeholder=""
+                                required
                             />
                         </div>
 
@@ -110,11 +115,12 @@ const Account = () => {
                         </div>
 
                         <div className="flex items-center md:mt-16">
-                        <Link href={"/"}>
-                        <button className="font-normal text-xl w-[215px] h-16 rounded-[15px] border border-black">
+                        <button 
+                        type="submit"
+                        className="font-normal text-xl w-[215px] h-16 rounded-[15px] border border-black">
                         Register
                         </button>
-                        </Link>
+                
                         </div>
                     </form>
 
