@@ -50,11 +50,11 @@ const Cart = () => {
                             className="bg-[#FBEBB5] hidden md:block w-[76px] md:h-[80px] h-[20px] md:rounded-[10px] rounded-sm">
 
                         </Image>
-                        <div className='flex font-normal text-base text-[#9F9F9F] md:flex-row flex-col gap-5 md:gap-0 p-3'>
-                            <p className='w-[180px]'>Asgaard sofa</p>
+                        <div className='flex font-normal text-base text-[#9F9F9F] md:flex-row flex-col gap-5 p-3'>
+                            <p className='w-[130px]'>Asgaard sofa</p>
                             <p className='w-[190px]'>Rs. 250,000.00</p>
                             <p className='border border-[#9F9F9F] w-8 h-8 rounded-[5px] flex items-center justify-center text-black'>1</p>
-                            <p className='w-[150px] md:ml-[76px] text-black'>Rs. 250,000.00</p>
+                            <p className='w-[150px] md:ml-10 text-black'>Rs. 250,000.00</p>
                         </div>
                     </div>
 
