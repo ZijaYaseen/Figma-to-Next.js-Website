@@ -59,7 +59,7 @@ const SingleProduct = () => {
                     ))}
                         <FaStarHalf size={20} className="text-[#FFDA5B]" />
                         <PiLineVertical color="#EEEEEE" size={40} />
-                        <p className="font-normal md:text-sm text-[10px] text-[#9F9F9F]">5 Customer Reviews</p>
+                        <p className="font-normal md:text-sm text-xs text-[#9F9F9F]">5 Customer Reviews</p>
                     </div>
 
                     {/* Description */}
@@ -92,12 +92,12 @@ const SingleProduct = () => {
 
                     {/* Add to Cart Section */}
                     <div className="flex md:gap-4 gap-2 my-5 pb-14 border-b border-[#D9D9D9]">
-                        <div className="flex px-2 md:gap-8 gap-4 items-center border border-[#9F9F9F] w-[123px] md:h-16 h-10 rounded-[10px] justify-center">
+                        <div className="flex px-2 md:gap-8 gap-4 items-center border border-[#9F9F9F] w-[123px] md:h-16 h-12 rounded-[10px] justify-center">
                             <button>-</button>
                             <p>1</p>
                             <button>+</button>
                         </div>
-                        <div className="flex gap-8 items-center border border-black w-[215px] md:h-16 h-10 rounded-[10px] md:rounded-[15px] justify-center">
+                        <div className="flex gap-8 items-center border border-black w-[215px] md:h-16 h-12 rounded-[10px] md:rounded-[15px] justify-center">
                             <button className="md:font-normal font-bold md:text-xl text-xs">Add To Cart</button>
                         </div>
                     </div>
