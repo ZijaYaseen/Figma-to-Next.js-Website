@@ -21,9 +21,9 @@ const SingleProduct = () => {
             </div>
 
             {/* 2nd Section: Product Details */}
-            <div className="flex mt-10 w-full md:px-20 px-5">
+            <div className="flex md:flex-row flex-col mt-10 w-full md:px-20 px-5 gap-4">
                 {/* Left: Thumbnail Images */}
-                <div className="flex flex-col md:gap-8 gap-4 md:mr-10 mr-3">
+                <div className="flex md:flex-col flex-row md:gap-8 gap-4 md:mr-10 mr-3">
                     {['/SingleProduct1.svg', '/SingleProduct2.svg', '/SingleProduct3.svg', '/SingleProduct4.svg'].map((src, index) => (
                         <Image
                             key={index}
@@ -31,25 +31,25 @@ const SingleProduct = () => {
                             alt={`Thumbnail ${index + 1}`}
                             width={100}
                             height={100}
-                            className="bg-[#FFF9E5] w-[76px] md:h-[80px] h-[20px] md:rounded-lg rounded-sm"
+                            className="bg-[#FFF9E5] w-[76px] md:h-[80px] h-[45px] md:rounded-lg rounded-sm"
                         />
                     ))}
                 </div>
 
                 {/* Center: Main Product Image */}
-                <div className="md:mr-20 mr-5">
+                <div className="md:mr-20">
                     <Image
                         src="/SingleProduct0.svg"
                         width={423}
                         height={500}
                         alt="Asgaard Sofa"
-                        className="bg-[#FFF9E5] w-[423px] md:h-[500px] h-[150px] rounded-lg"
+                        className="bg-[#FFF9E5] w-[423px] md:h-[500px] h-[200px] rounded-lg"
                     />
                 </div>
 
                 {/* Right: Product Description */}
-                <div className="flex flex-col md:w-[35%] w-[50%]">
-                    <h1 className="font-normal md:text-[42px] md:leading-[60px] text-xl">Asgaard Sofa</h1>
+                <div className="flex flex-col md:w-[35%] w-full">
+                    <h1 className="font-normal md:text-[42px] leading-[60px] text-3xl">Asgaard Sofa</h1>
                     <p className="text-[#9F9F9F] font-medium md:text-2xl">Rs. 250,000.00</p>
 
                     {/* Ratings */}
@@ -59,7 +59,7 @@ const SingleProduct = () => {
                     ))}
                         <FaStarHalf size={20} className="text-[#FFDA5B]" />
                         <PiLineVertical color="#EEEEEE" size={40} />
-                        <p className="font-normal md:text-sm text-[8px] text-[#9F9F9F]">5 Customer Reviews</p>
+                        <p className="font-normal md:text-sm text-[10px] text-[#9F9F9F]">5 Customer Reviews</p>
                     </div>
 
                     {/* Description */}
@@ -134,7 +134,7 @@ const SingleProduct = () => {
                 <div className="md:w-[70%] w-[90%] mx-auto flex flex-col text-[#9F9F9F]">
                     <div className="flex justify-center md:gap-14 gap-4 md:mb-10 mb-5">
                         {['Description', 'Additional Information', 'Reviews [5]'].map((tab, index) => (
-                            <h2 key={index} className="font-normal md:text-2xl text-lg hover:text-black cursor-pointer">
+                            <h2 key={index} className="font-normal md:text-2xl text-xl hover:text-black cursor-pointer">
                                 {tab}
                             </h2>
                         ))}
@@ -152,7 +152,7 @@ const SingleProduct = () => {
 
              {/* two pics ..Sofaa */}
 
-             <div className='flex flex-col md:flex-row gap-4 justify-between md:px-12 px-5 md:pb-10 pb-5 border border-[#D9D9D9]'>
+             <div className='flex flex-col md:flex-row gap-4 justify-between md:px-12 px-5 md:pb-10 pb-5 border-b border-[#D9D9D9]'>
 
 <div className='bg-[#FFF9E5] md:w-[605px] md:h-[348px] rounded-xl'>
     <Image src={"/CloudSofa1.svg"} width={600} height={300} alt='Cloud Sofa'></Image>
