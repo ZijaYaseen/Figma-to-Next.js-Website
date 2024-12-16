@@ -16,7 +16,7 @@ const Shop = () => {
         {/* Shop 1st section */}
 
         <div
-  className='bg-[url("/Rectangle1.svg")] bg-cover bg-center flex flex-col items-center justify-center h-[150px] lg:h-[318px] px-4'
+  className='bg-[url("/Rectangle1.svg")] bg-cover bg-center flex flex-col items-center justify-center h-[318px] px-4'
 >
   <Image
     src={"/Logo.svg"}
@@ -45,24 +45,24 @@ const Shop = () => {
 
         {/* shop 2nd section  */}
 
-        <div className='bg-[#FAF4F4] h-[100px] mt-10 px-10 py-3 md:py-0  flex flex-col md:flex-row justify-between items-center ' >
+        <div className='bg-[#FAF4F4] md:h-[100px] mt-10 px-10 py-3 md:py-0  flex flex-col md:flex-row justify-between items-center gap-4' >
  
           <div className='flex items-center space-x-3'>
             <LiaSlidersHSolid size={25}/>
             <h4 className='font-normal text-xl'>Filter</h4>
             <BsFillGridFill size={17} />
             <CiGrid31 size={24}/>
-            <PiLineVertical color='#EEEEEE' size={40} className='text-[#000000]'/>
+            <PiLineVertical color='black' size={50} className='text-[#000000]'/>
             <p className='font-normal md:text-base text-xs'>Showing 1&#8211;16 of 32 results</p>
             </div>
 
             <div className='flex items-center space-x-6  '>
               <div className='flex items-center md:gap-4 gap-2'>
-              <h4 className='font-normal md:text-xl text-xs'>Show</h4>
+              <h4 className='font-normal md:text-xl text-sm'>Show</h4>
               <input type="text" name="text" placeholder='16' className='flex w-[55px] h-[40px] md:h-[55px] placeholder:text-[#9F9F9F] placeholder:text-base placeholder:font-normal focus:outline-none text-center justify-center'  />
               </div>
               <div className='flex items-center md:gap-4 gap-2'>
-              <h4 className='font-normal md:text-xl text-xs'>Sort by</h4>
+              <h4 className='font-normal md:text-xl text-sm'>Sort by</h4>
               <input type="text" name="text" placeholder='Default' className='flex md:w-[188px] w-[100px] h-[40px] md:h-[55px] placeholder:text-[#9F9F9F] placeholder:text-base placeholder:font-normal focus:outline-none text-center justify-center'  />
               </div>
             </div>

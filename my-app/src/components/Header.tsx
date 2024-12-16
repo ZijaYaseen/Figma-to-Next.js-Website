@@ -34,26 +34,18 @@ const Header = () => {
         </ul>
       </div>
 
-      {/* Icons for Desktop and Larger Screens */}
-      <div className="hidden md:flex space-x-10 mr-10">
-        <Link href={"/Account"}>
-        <CiUser size={28} />
-        </Link>
-        <CiSearch size={28} />
-        <CiHeart size={28} />
-        <Link href={"/Account"}>
-        <CiShoppingCart size={28} /></Link>
-      </div>
+     {/* Unified Icons for All Screens */}
+<div className="absolute flex left-[25%] md:static space-x-6 md:space-x-10 md:mr-10">
+  <Link href={"/Account"}>
+    <CiUser size={28} />
+  </Link>
+  <CiSearch size={28} />
+  <CiHeart size={28} />
+  <Link href={"/Cart"}>
+    <CiShoppingCart size={28} />
+  </Link>
+</div>
 
-      {/* Icons for Mobile Center Alignment */}
-      <div className="absolute left-1/2 -translate-x-1/2 flex space-x-6 md:hidden">
-      <Link href={"/Account"}>
-        <CiUser size={28} />
-        </Link>
-        <CiSearch size={24} />
-        <CiHeart size={24} />
-        <CiShoppingCart size={24} />
-      </div>
 
       {/* Hamburger Menu for Mobile */}
       <div className="relative flex items-center md:hidden w-full">

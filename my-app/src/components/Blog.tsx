@@ -16,7 +16,7 @@ const Blog = () => {
         {/* blog 1st section */}
 
         <div
-  className='bg-[url("/Rectangle1.svg")] bg-cover bg-center flex flex-col items-center justify-center h-[150px] lg:h-[318px] px-4'
+  className='bg-[url("/Rectangle1.svg")] bg-cover bg-center flex flex-col items-center justify-center h-[318px] px-4'
 >
   <Image
     src={"/Logo.svg"}

@@ -133,7 +133,7 @@ const HeroSection = () => {
     <p className="font-medium text-2xl">New Arrivals</p>
     <h2 className="font-bold text-3xl sm:text-4xl lg:text-5xl">Asgaard sofa</h2>
     <Link href={"/Single-Product"}>
-    <button className="border mt-[33px] border-black font-normal text-xl w-[80%] sm:w-[60%] md:w-[40%] lg:w-[18vw] h-[10vh] shadow-xl">
+    <button className="border mt-[33px] border-black font-normal text-xl w-[50vw] md:w-[40%] lg:w-[18vw] h-[10vh] shadow-xl">
       Order Now
     </button></Link>
   </div>
@@ -143,7 +143,7 @@ const HeroSection = () => {
 {/* Home page 5th section */}
 <section className="flex flex-col items-center justify-center bg-[#FFFFFF] py-10">
   <h1 className="font-medium text-3xl sm:text-4xl">Our Blogs</h1>
-  <p className="text-[#9F9F9F] font-medium text-base mt-[13px] text-center sm:text-lg">
+  <p className="text-[#9F9F9F] font-medium text-base mt-[13px] text-center sm:text-lg px-2">
     Find a bright ideal to suit your taste with our great selection
   </p>
 
