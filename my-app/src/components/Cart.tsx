@@ -38,7 +38,7 @@ const Cart = () => {
 
             <table className="md:w-[60%] w-full border-collapse">
   {/* Table Header */}
-  <thead className="bg-[#FFF9E5] font-medium text-base h-[80px]">
+  <thead className="bg-[#FFF9E5] font-medium text-base md:h-[80px] h-[50px]">
     <tr className="md:p-10">
       <th>Product</th>
       <th>Price</th>
@@ -58,7 +58,7 @@ const Cart = () => {
       alt="Cart"
       width={100}
       height={100}
-      className="bg-[#FBEBB5] w-[76px] md:h-[80px] h-[40px] md:rounded-[10px] rounded-sm"
+      className="bg-[#FBEBB5] md:w-[76px] w-[50px] md:h-[80px] h-[40px] md:rounded-[10px] rounded-sm"
     />
     <span className="text-[#9F9F9F]">Asgaard sofa</span>
   </div>
