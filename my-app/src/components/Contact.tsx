@@ -38,7 +38,7 @@ const Contact = () => {
 {/* 2nd section heading */}
 
 <div className='flex flex-col justify-center items-center md:py-20 py-10 text-center px-5 '>
-    <h1 className='font-semibold text-4xl'>Get In Touch With Us</h1>
+    <h1 className='font-semibold md:text-4xl text-2xl'>Get In Touch With Us</h1>
     <p className='text-base font-normal text-[#9F9F9F] md:w-[45%] w-full'>For More Information About Our Product & Services. Please Feel Free To Drop Us An Email. Our Staff Always Be There To Help You Out. Do Not Hesitate!</p>
 </div>
 
