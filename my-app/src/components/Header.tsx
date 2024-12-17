@@ -86,11 +86,11 @@ const Header = () => {
                 <MdClose size={25} color="white" className="ml-10 bg-gray-400 w-6 h-6 border-4 border-gray-400 rounded-full justify-end flex"/>
              </div>
              <div className="absolute  bottom-14 right-2 md:left-10 left-2 flex gap-5 py-4 border-t border-[#D9D9D9]">
-              <Link href={"/Cart"} className="w-36 h-10 flex justify-center items-center font-medium  text-base border border-black rounded-[18px] hover:text-white hover:bg-black">
+              <Link href={"/Cart"} className="w-36 h-10 flex justify-center items-center font-medium  text-base border border-black rounded-[18px] hover:text-white hover:bg-black" onClick={CarthandleLinkClick}>
               View Cart
               </Link>
 
-              <Link href={"/Checkout"} className="w-36 h-10 justify-center items-center flex font-medium text-base border border-black rounded-[18px] hover:text-white hover:bg-black">
+              <Link href={"/Checkout"} className="w-36 h-10 justify-center items-center flex font-medium text-base border border-black rounded-[18px] hover:text-white hover:bg-black" onClick={CarthandleLinkClick}>
               Checkout
               </Link>
              </div>
