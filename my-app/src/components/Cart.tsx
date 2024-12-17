@@ -82,10 +82,10 @@ const Cart = () => {
 </table>
 
 
-                <div className='md:w-[393px] bg-[#FFF9E5] md:h-[390px] h-[290px] flex flex-col items-center'>
+                <div className='md:w-[393px] bg-[#FFF9E5] md:h-[390px] h-[320px] flex flex-col items-center'>
                     <h1 className='mt-4 font-semibold text-[32px]'>Cart Totals</h1>
 
-                    <div className='flex justify-between md:p-16 p-5 w-[95%]'>
+                    <div className='flex justify-between md:p-16 px-5 py-8 w-[90%]'>
                         <div className='flex flex-col gap-10 font-medium text-base'>
                             <p>Subtotal</p>
                             <p>Total</p>
