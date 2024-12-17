@@ -46,7 +46,7 @@ const Footer = () => {
           <h4 className="text-[#9F9F9F] font-medium text-base mb-1 sm:mb-8 text-left">
             Newsletter
           </h4>
-          <form action="post" className="flex w-full space-y-4 sm:space-y-0">
+          <form method="POST" className="flex w-full space-y-4 sm:space-y-0">
             {/* Email Input */}
             <input
               type="email"
