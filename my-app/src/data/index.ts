@@ -52,28 +52,28 @@ export const blog = [
 
 export const shop = [
     {
-        id:1,
+        id:"Trenton-modular-sofa_3",
         image: "/shop1.svg",
         title :"Trenton modular sofa_3",
         price :"Rs. 25,000.00",
         link :"/"
     },
     {
-        id:2,
+        id:"Granite-dining-table-with-dining-chair",
         image: "/shop2.svg",
         title :"Granite dining table with dining chair",
         price :"Rs. 25,000.00",
         link :"/"
     },
     {
-        id:3,
+        id:"Outdoor-bar-table-and-stool",
         image: "/shop3.svg",
         title :"Outdoor bar table and stool",
         price :"Rs. 25,000.00",
         link :"/"
     },
     {
-        id:4,
+        id:"Plain-console-with-teak-mirror",
         image: "/shop4.svg",
         title :"Plain console with teak mirror",
         price :"Rs. 25,000.00",
