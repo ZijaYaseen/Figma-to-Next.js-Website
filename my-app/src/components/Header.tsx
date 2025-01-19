@@ -13,7 +13,7 @@ import { MdClose } from "react-icons/md"; // Close icon from react-icons/md
 import Link from "next/link";
 import Image from "next/image";
 
-const Header = () => {
+const Header = (props:{bgColor:string, shadow:string}) => {
   // State to manage the menu open or close status
   const [NavmenuOpen, NavsetMenuOpen] = useState(false);
 
@@ -30,10 +30,16 @@ const Header = () => {
   };
 
   return (
-    <nav className="z-50 fixed top-0 left-0 flex items-center w-full md:h-[90px] max-w-[1440vw] h-[60px] shadow-md bg-white">
+    <nav className={`z-50 fixed top-0 left-0 flex items-center w-full md:h-[90px] max-w-[1440vw] h-[60px] ${props.shadow} ${props.bgColor}`}>
+
+ {/* Logo */}
+ <div className="text-black lg:px-14 font-serif px-2 hidden lg:block">
+        <h1 className="font-semibold lg:text-2xl text-xl">EcoFurnish</h1>
+      </div>
+
       {/* Nav Links for Desktop and Large Screens */}
       <div className="hidden md:block flex-1">
-        <ul className="flex space-x-14 justify-center text-base font-medium font-poppins md:ml-20">
+        <ul className="flex space-x-14 justify-center text-base font-medium font-poppins md:ml-12">
           {Nav.map((item) => (
             <Link href={item.Link} key={item.name}>
               <li>{item.name}</li>
@@ -43,18 +49,18 @@ const Header = () => {
       </div>
 
      {/* Unified Icons for All Screens */}
-<div className="absolute flex right-5 md:static space-x-8 md:space-x-10 md:mr-10">
+<div className="absolute flex lg:right-5 right-2 md:static space-x-3 md:space-x-10 md:mr-10">
   <Link href={"/Account"}>
-    <CiUser size={28} />
+    <CiUser size={28} className="w-6 h-6 lg:w-8 lg:h-8" />
   </Link>
-  <CiSearch size={28} />
-  <CiHeart size={28} />
+  <CiSearch size={28} className="w-6 h-6 lg:w-8 lg:h-8"/>
+  <CiHeart size={28} className="w-6 h-6 lg:w-8 lg:h-8"/>
 
 {/* ShoppingCart icon... */}
     <div
     onClick={() => CartsetMenuOpen(!CartmenuOpen)}
   >
-    <CiShoppingCart size={28} className="cursor-pointer"/> 
+    <CiShoppingCart size={28} className="cursor-pointer w-6 h-6 lg:w-8 lg:h-8"/> 
 
   </div>
   
@@ -107,22 +113,27 @@ const Header = () => {
 
       {/* Hamburger Menu for Mobile */}
       <div className="relative flex items-center md:hidden w-full">
+
   {/* Hamburger or Close icon */}
   <div
-    className="text-2xl cursor-pointer absolute left-5"
+    className="text-2xl cursor-pointer mx-2"
     onClick={() => NavsetMenuOpen(!NavmenuOpen)}
   >
     {NavmenuOpen ? (
-      <MdClose size={28} /> // Using MdClose for the close icon
+      <MdClose size={28} className="w-6 h-6 lg:w-8 lg:h-8"/> // Using MdClose for the close icon
     ) : (
-      <RxHamburgerMenu size={25} /> // Hamburger icon when menu is closed
+      <RxHamburgerMenu size={25} className="w-6 h-6 lg:w-8 lg:h-8"/> // Hamburger icon when menu is closed
     )}
   </div>
+  {/* Logo */}
+ <div className="text-black lg:px-14 font-serif px-2 ">
+        <h1 className="font-semibold lg:text-2xl text-xl">EcoFurnish</h1>
+      </div>
 </div>
 
       {/* Mobile Menu */}
       {NavmenuOpen && (
-        <div className="absolute top-12 left-0 w-[75%] h-screen bg-white shadow-lg md:hidden">
+        <div className={`absolute top-12 left-0 w-[75%] h-screen ${props.bgColor} shadow-lg md:hidden`}>
           <ul className="flex flex-col space-y-5 text-start p-8">
             {Nav.map((item) => (
               <Link href={item.Link} key={item.name}>

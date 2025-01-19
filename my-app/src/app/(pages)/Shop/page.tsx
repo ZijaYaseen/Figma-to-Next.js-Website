@@ -3,12 +3,24 @@ import { LiaSlidersHSolid } from "react-icons/lia";
 import { BsFillGridFill } from "react-icons/bs";
 import { PiLineVertical } from "react-icons/pi";
 import { CiGrid31 } from "react-icons/ci";
-import { shop } from '@/data';
 import Numbering from '@/components/Numbering';
 import PagesHeader from '@/components/PagesHeader';
 import Link from 'next/link';
+import { GetProductsData } from '@/sanity/lib/queries';
 
-const Shop = () => {
+interface Product {
+  _id: string;
+  name: string;
+  imagePath?: string;
+  description?: string;
+  price?: number;
+  category?: string;
+  stockLevel?: number;
+  isFeaturedProduct?: boolean;
+}
+
+const Shop = async () => {
+  const products: Product[] = await GetProductsData()
   return (
     <div className='max-w-[1440vw] font-poppins w-full md:mt-[90px] mt-[60px]' >
 
@@ -49,21 +61,31 @@ const Shop = () => {
         
        
        <div className='grid grid-cols-2 md:grid-cols-4 py-4 place-items-center px-6 md:px-16 lg:px-28 gap-[31px]'>
-  {shop.map((items) => (
+  {products.map((product) => (
 
-<Link href={`Shop/${items.id}`} key={items.id}>
+<Link href={`Shop/${product._id}`} key={product._id}>
    
-    <div className='w-36 md:w-72 h-auto md:h-[422px] hover:shadow-md flex flex-col justify-center mx-auto' key={items.id}>
-      <Image
-        src={items.image}
-        alt='products'
-        width={600}
-        height={600}
-        className='w-52 h-32 md:w-60 md:h-72 flex flex-col justify-center mx-auto'
-      />
+    <div className='w-36 md:w-72 h-auto md:h-[422px] hover:shadow-md flex flex-col justify-center mx-auto'>
+    {product.imagePath ? (
+              <Image
+              src={product.imagePath}
+              alt='products'
+              width={600}
+              height={600}
+              className='w-52 h-32 md:w-60 md:h-72 flex flex-col justify-center mx-auto'
+            />
+            ) : (
+              <Image 
+                src="/placeholder-image.jpg" // Fallback image path
+                alt="Placeholder"
+                width={200}
+                height={200}
+              />
+            )}
+     
       <div className='w-[130px] md:w-[194px] flex-col justify-center mx-auto'>
-        <p className='font-normal text-sm md:text-base mt-2 md:mt-[14px] flex-col justify-center mx-auto'>{items.title}</p>
-        <h3 className='font-medium text-lg md:text-2xl mt-2 md:mt-3 flex-col justify-center mx-auto'>{items.price}</h3>
+        <p className='font-normal text-sm md:text-base mt-2 md:mt-[14px] flex-col justify-center mx-auto'>{product.name}</p>
+        <h3 className='font-medium text-lg md:text-2xl mt-2 md:mt-3 flex-col justify-center mx-auto'>${product.price}</h3>
       </div>
     </div>
     </Link>

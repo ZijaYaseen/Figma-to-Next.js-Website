@@ -13,6 +13,9 @@
 /.next/
 /out/
 
+# sanity
+.env.local
+
 # production
 /build
 

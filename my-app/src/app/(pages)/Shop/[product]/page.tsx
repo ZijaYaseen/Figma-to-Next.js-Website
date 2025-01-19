@@ -1,3 +1,5 @@
+"use client";
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { RiArrowRightSLine } from 'react-icons/ri';
@@ -5,23 +7,41 @@ import { PiLineVertical } from 'react-icons/pi';
 import { FaStar, FaStarHalf, FaFacebook, FaLinkedin } from 'react-icons/fa';
 import { AiFillTwitterCircle } from 'react-icons/ai';
 import { Picksproduct } from '@/data';
-import { shop } from '@/data';
+import { GetProductsData } from '@/sanity/lib/queries';
+import { useState, useEffect } from 'react';
+
+interface IProduct {
+    _id: string;
+    name: string;
+    imagePath?: string;
+    description?: string;
+    price?: number;
+    category?: string;
+    stockLevel?: number;
+    isFeaturedProduct?: boolean;
+  }
 
 
 export default function Product({ params }: { params: { product: string } }) {
-    const slug = params.product;
-
-    // Find the product based on slug
-    const product = shop.find((item) => item.id === slug);
-
-    // If product not found, return a message
+    const [product, setProduct] = useState<IProduct | null>(null);
+    const [count, setCount] = useState(1);
+  
+    useEffect(() => {
+      async function fetchProductData() {
+        const productData: IProduct[] = await GetProductsData();
+        const foundProduct = productData.find((item) => item._id === params.product);
+        setProduct(foundProduct || null);
+      }
+      fetchProductData();
+    }, [params.product]);
+  
+    const handleIncrement = () => setCount((prev) => prev + 1);
+    const handleDecrement = () => setCount((prev) => Math.max(1, prev - 1));
+  
     if (!product) {
-        return (
-            <div>
-                <h1 className="mt-32">Product not found</h1>
-            </div>
-        );
+      return <div><h1 className="mt-32">Product not found</h1></div>;
     }
+  
 
     return (
         <div className="max-w-[1440px] font-poppins w-full md:mt-[90px] mt-[60px] md:py-10 py-5">
@@ -33,7 +53,7 @@ export default function Product({ params }: { params: { product: string } }) {
                 <RiArrowRightSLine size={20} color="black" />
                 <PiLineVertical color="#EEEEEE" size={30} />
                 <p className="text-black">
-                    {product.title}
+                    {product.name}
                 </p>
             </div>
 
@@ -55,19 +75,29 @@ export default function Product({ params }: { params: { product: string } }) {
 
                 {/* Center: Main Product Image */}
                 <div className="md:mr-20">
-                    <Image
-                        src={product.image}
-                        width={423}
-                        height={500}
-                        alt="Asgaard Sofa"
-                        className="bg-[#FFF9E5] w-[423px] md:h-[500px] h-[200px] rounded-lg"
-                    />
+                    
+                    {product.imagePath ? (
+                                  <Image
+                                  src={product.imagePath}
+                                  width={423}
+                                  height={500}
+                                  alt="Asgaard Sofa"
+                                  className="bg-[#FFF9E5] w-[423px] md:h-[500px] h-[200px] rounded-lg"
+                              />
+                                ) : (
+                                  <Image 
+                                    src="/placeholder-image.jpg" // Fallback image path
+                                    alt="Placeholder"
+                                    width={200}
+                                    height={200}
+                                  />
+                                )}
                 </div>
 
                 {/* Right: Product Description */}
                 <div className="flex flex-col md:w-[35%] w-full">
-                    <h1 className="font-normal md:text-[42px] leading-[60px] text-3xl">{product.title} </h1>
-                    <p className="text-[#9F9F9F] font-medium md:text-2xl">{product.price} </p>
+                    <h1 className="font-normal md:text-[42px] leading-[60px] text-3xl">{product.name} </h1>
+                    <p className="text-[#9F9F9F] font-medium md:text-2xl">${product.price} </p>
 
                     {/* Ratings */}
                     <div className="flex md:gap-2 gap-[0px] md:my-2 my-0 items-center">
@@ -110,19 +140,19 @@ export default function Product({ params }: { params: { product: string } }) {
                     {/* Add to Cart Section */}
                     <div className="flex md:gap-4 gap-2 my-5 pb-14 border-b border-[#D9D9D9]">
                         <div className="flex px-2 md:gap-8 gap-4 items-center border border-[#9F9F9F] w-[123px] md:h-16 h-12 rounded-[10px] justify-center">
-                            <button>-</button>
-                            <p>1</p>
-                            <button>+</button>
+                        <button onClick={handleDecrement} className="text-xl font-bold"> - </button>
+                        <p className="text-lg">{count}</p>
+                        <button onClick={handleIncrement} className="text-xl"> + </button>
                         </div>
                         <div className="flex gap-8 items-center border border-black w-[215px] md:h-16 h-12 rounded-[10px] md:rounded-[15px] justify-center">
                             {/* <Link href={"/Cart"}> */}
                             <button
                                 className="snipcart-add-item md:font-normal font-bold md:text-xl text-xs"
-                                data-item-id={product.id}
+                                data-item-id={product._id}
                                 data-item-price={product.price}
                                 data-item-description="Setting the bar as one of the loudest speakers in its class, the Kilburn is a compact, stout-hearted hero with a well-balanced audio which boasts a clear midrange and extended highs for a sound."
-                                data-item-image={product.image}
-                                data-item-name={product.title}
+                                data-item-image={product.imagePath}
+                                data-item-name={product.name}
                             >
                                 Add To Cart
                             </button>

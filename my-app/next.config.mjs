@@ -1,4 +1,25 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
-
-export default nextConfig;
+const nextConfig = {
+    images: {
+      remotePatterns: [
+        {
+          protocol: 'https',
+          hostname: 'images.unsplash.com',
+          pathname: '/**', // Allow all images from this domain
+        },
+        {
+          protocol: 'https',
+          hostname: 'plus.unsplash.com',
+          pathname: '/**', // If you're also using this domain
+        },
+        {
+            protocol:"https",
+            hostname:"next-ecommerce-template-4.vercel.app",
+            pathname:"/**",
+        }
+      ],
+    },
+  };
+  
+  export default nextConfig;
+  

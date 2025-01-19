@@ -3,16 +3,21 @@ import Link from 'next/link'
 import { Picksproduct, blog } from '@/data/index'
 import { FaRegClock } from "react-icons/fa6";
 import { CiCalendar } from "react-icons/ci";
+import Header from '@/components/Header';
 
 const Home = () => {
   return (
     <div className='max-w-[1440vw] font-poppins h-full w-full overflow-hidden'>
 
+      <header>
+      <Header bgColor="bg-[#FBEBB5]" shadow='no' />
+      </header>
+
      {/* Home 1 Section */}
-<div className="mt-10 flex flex-col-reverse lg:flex-row justify-between items-center w-full h-full bg-[#FBEBB5] mx-auto px-6 lg:px-16 py-10">
+<div className="mt-2 flex flex-col-reverse lg:flex-row justify-between items-center w-full bg-[#FBEBB5]  px-3 lg:px-16 py-8">
   {/* Text Content */}
   <div className="lg:ml-[202px] w-full lg:w-[40%] text-center lg:text-left">
-    <h1 className="font-medium text-[32px] sm:text-[48px] lg:text-[64px] leading-tight">
+    <h1 className="font-medium text-[32px] sm:text-[48px] lg:text-[64px] lg:leading-tight">
       Rocket Single Seater
     </h1>
     <Link href={"/Shop"}>
@@ -202,9 +207,7 @@ const Home = () => {
     </button>
   </Link>
 </section>
-   
-
-
+  
     </div>
   )
 }
