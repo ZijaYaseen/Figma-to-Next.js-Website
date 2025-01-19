@@ -1,5 +1,4 @@
 import PagesHeader from "@/components/PagesHeader"
-import SubFooter from "@/components/SubFooter"
 
 const Account = () => {
     return (
