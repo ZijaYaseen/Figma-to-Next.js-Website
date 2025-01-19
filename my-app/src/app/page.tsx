@@ -138,7 +138,7 @@ const Home = () => {
     <p className="font-medium text-2xl">New Arrivals</p>
     <h2 className="font-bold text-3xl sm:text-4xl lg:text-5xl">Asgaard sofa</h2>
     <Link href={"/SingleProduct"}>
-    <button className="border mt-[33px] border-black font-normal text-xl w-[50vw] md:w-[40%] lg:w-[18vw] h-[10vh] shadow-xl">
+    <button className="border mt-[33px] border-black font-normal text-xl w-[50vw] md:w-[40%] lg:w-[18vw] lg:h-[10vh] h-[8vh] shadow-xl">
       Order Now
     </button></Link>
   </div>
