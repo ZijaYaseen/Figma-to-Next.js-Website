@@ -7,20 +7,11 @@ import Numbering from '@/components/Numbering';
 import PagesHeader from '@/components/PagesHeader';
 import Link from 'next/link';
 import { GetProductsData } from '@/sanity/lib/queries';
+import { IProduct } from '@/data';
 
-interface Product {
-  _id: string;
-  name: string;
-  imagePath?: string;
-  description?: string;
-  price?: number;
-  category?: string;
-  stockLevel?: number;
-  isFeaturedProduct?: boolean;
-}
 
 const Shop = async () => {
-  const products: Product[] = await GetProductsData()
+  const products: IProduct[] = await GetProductsData()
   return (
     <div className='max-w-[1440vw] font-poppins w-full md:mt-[90px] mt-[60px]' >
 
@@ -77,15 +68,15 @@ const Shop = async () => {
             ) : (
               <Image 
                 src="/placeholder-image.jpg" // Fallback image path
-                alt="Placeholder"
+                alt="image"
                 width={200}
                 height={200}
               />
             )}
      
       <div className='w-[130px] md:w-[194px] flex-col justify-center mx-auto'>
-        <p className='font-normal text-sm md:text-base mt-2 md:mt-[14px] flex-col justify-center mx-auto'>{product.name}</p>
-        <h3 className='font-medium text-lg md:text-2xl mt-2 md:mt-3 flex-col justify-center mx-auto'>${product.price}</h3>
+        <p className='font-semibold text-sm md:text-base mt-2 md:mt-[14px] flex-col justify-center mx-auto'>{product.name}</p>
+        <h3 className='font-medium text-base md:text-xl mt-2 md:mt-3 flex-col justify-center mx-auto'>Price: <span className='font-medium text-lg md:text-2xl'>${product.price}</span></h3>
       </div>
     </div>
     </Link>

@@ -4,8 +4,20 @@ import { Picksproduct, blog } from '@/data/index'
 import { FaRegClock } from "react-icons/fa6";
 import { CiCalendar } from "react-icons/ci";
 import Header from '@/components/Header';
+import HeroSection from '@/components/HeroSection';
+import { IProduct } from '@/data/index';
+import { FeaturedSectionData, HeroSectionData, TopPicksData } from '@/sanity/lib/queries';
+import FeaturedSection from '@/components/FeaturedSection';
+import TopPicks from '@/components/TopPicks';
 
-const Home = () => {
+
+const Home = async () => {
+
+const HeroSectionProductData: IProduct = await HeroSectionData();
+const FeaturedSectionProductData: IProduct[] = await FeaturedSectionData()
+const TopPicksProductData : IProduct[] = await TopPicksData()
+
+
   return (
     <div className='max-w-[1440vw] font-poppins h-full w-full overflow-hidden'>
 
@@ -13,117 +25,16 @@ const Home = () => {
       <Header bgColor="bg-[#FBEBB5]" shadow='no' />
       </header>
 
-     {/* Home 1 Section */}
-<div className="mt-2 flex flex-col-reverse lg:flex-row justify-between items-center w-full bg-[#FBEBB5]  px-3 lg:px-16 py-8">
-  {/* Text Content */}
-  <div className="lg:ml-[202px] w-full lg:w-[40%] text-center lg:text-left">
-    <h1 className="font-medium text-[32px] sm:text-[48px] lg:text-[64px] lg:leading-tight">
-      Rocket Single Seater
-    </h1>
-    <Link href={"/Shop"}>
-      <button className="mt-6 sm:mt-[20px] lg:mt-[35px] font-medium text-lg sm:text-xl lg:text-2xl border-b-2 border-[#3f3b2d] leading-10">
-        Shop Now
-      </button>
-    </Link>
-  </div>
-
-  {/* Image Content */}
-  <div className="w-full lg:w-auto flex justify-center lg:mr-10">
-    <Image
-      src={"/Rocket-single-seater1.svg"}
-      alt="Home Pic"
-      width={650}
-      height={300}
-      className="max-w-full h-auto"
-    ></Image>
-  </div>
-</div>
+     {/* Home 1 Section Rocket Single Seater sofa*/}
+     <HeroSection product={HeroSectionProductData}  />
 
 
-    {/* Home Page 2nd section */}
-    <div className="flex flex-col lg:flex-row justify-between items-center w-full h-full bg-[#FAF4F4] mx-auto px-6 lg:px-16 py-10 gap-8">
-  {/* First Item */}
-  <div className="relative flex flex-col items-center lg:items-start">
-    <Image
-      src={"/Granite-square-side-table1.svg"}
-      alt="Side Table"
-      width={650}
-      height={500}
-      className="w-full max-w-[500px] h-auto"
-    ></Image>
-    <h2 className="absolute text-center lg:text-left font-medium text-2xl sm:text-3xl lg:text-4xl top-[80%] left-1/2 lg:left-[50px] transform -translate-x-1/2 lg:translate-x-0">
-      Side Table
-    </h2>
-    <Link
-      href={"/Shop"}
-      className="absolute text-center lg:text-left top-[95%] left-1/2 lg:left-[50px] transform -translate-x-1/2 lg:translate-x-0"
-    >
-      <button className="font-medium text-base sm:text-xl lg:text-2xl border-b-2 border-[#3f3b2d] leading-10">
-        View More
-      </button>
-    </Link>
-  </div>
-
-  {/* Second Item */}
-  <div className="relative flex flex-col items-center lg:items-start">
-    <Image
-      src={"/cloudsofa.svg"}
-      alt="Cloud Sofa"
-      width={650}
-      height={500}
-      className="w-full max-w-[500px] h-auto"
-    ></Image>
-    <h2 className="absolute text-center lg:text-left font-medium text-2xl sm:text-3xl lg:text-4xl top-[80%] left-1/2 lg:left-[50px] transform -translate-x-1/2 lg:translate-x-0">
-      Cloud Sofa
-    </h2>
-    <Link
-      href={"/Shop"}
-      className="absolute text-center lg:text-left top-[95%] left-1/2 lg:left-[50px] transform -translate-x-1/2 lg:translate-x-0"
-    >
-      <button className="font-medium text-base sm:text-xl lg:text-2xl border-b-2 border-[#3f3b2d] leading-10 ">
-        View More
-      </button>
-    </Link>
-  </div>
-</div>
+    {/* Home Page 2nd section  Featured section*/}
+    <FeaturedSection products={FeaturedSectionProductData} />
 
 
     {/* Home page 3rd section */}
-
-    <div className="flex flex-col justify-between items-center bg-[#FFFFFF] px-6 sm:px-10 py-10">
-  <h1 className="font-medium text-2xl sm:text-3xl">Top Picks For You</h1>
-  <p className="text-[#9F9F9F] font-medium text-sm sm:text-base text-center max-w-[600px] mt-4">
-    Find a bright ideal to suit your taste with our great selection of suspension, floor, and table lights.
-  </p>
-
-  {/* Products */}
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:mt-8 w-full max-w-[1200px]">
-    {Picksproduct.map((items) => (
-      <div key={items.title} className="flex flex-col items-center">
-        {/* Image */}
-        <Image
-          src={items.Image}
-          alt="Products"
-          width={200}
-          height={200}
-          className="md:w-[250px] md:h-[250px] w-full object-cover"
-        ></Image>
-        {/* Title */}
-        <p className="py-4 text-base sm:text-lg font-normal text-center">
-          {items.title}
-        </p>
-        {/* Price */}
-        <h3 className="text-xl sm:text-2xl font-medium">{items.price}</h3>
-      </div>
-    ))}
-  </div>
-
-  <Link href={"/Shop"}>
-  <button className="font-medium text-xl border-b-2 border-black pb-2 mt-16">
-    View More
-    </button>
-    </Link>
-</div>
+    <TopPicks products={TopPicksProductData}/>
 
 
     {/* home page 4th section */}

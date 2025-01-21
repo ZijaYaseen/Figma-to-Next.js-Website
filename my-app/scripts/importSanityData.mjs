@@ -54,6 +54,7 @@ async function importData() {
         stockLevel: product.stockLevel,
         category: product.category,
         imagePath: product.imagePath,
+        tags: product.tags || [],
       }
       console.log('Uploading product to Sanity:', sanityProduct.name)
       const result = await client.create(sanityProduct)

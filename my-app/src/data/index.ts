@@ -10,7 +10,19 @@ export const Help = [
     {name:"Returns", Link:"/"},
     {name:"Privacy Policies", Link:"/"},
 
-]
+];
+
+export interface IProduct {
+    _id: string;
+    name: string;
+    imagePath: string;
+    description?: string;
+    price?: number;
+    category?: string;
+    stockLevel?: number;
+    isFeaturedProduct?: boolean;
+    tags?: string[];
+  }
 
 export const Picksproduct = [
     {

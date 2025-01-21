@@ -1,5 +1,6 @@
 import { client } from "./client";
 
+// for shop page data
 export async function GetProductsData() {
   const query = `
   *[_type == 'product'] {
@@ -14,3 +15,41 @@ export async function GetProductsData() {
   }`;
   return await client.fetch(query);
 }
+
+// Hero section product data
+export async function HeroSectionData() {
+
+  const query = `*[_type == "product" && "HeroSection" in tags[]] {
+    _id,
+    name,
+    imagePath,
+  }[0]`;
+  return await client.fetch(query);
+};
+
+// featured section product data
+export async function FeaturedSectionData() {
+
+  const query = `
+  *[_type == "product" && "Featured Section" in tags[]] {
+    _id,
+    name,
+    imagePath,
+  }
+  `;
+  return await client.fetch(query);
+};
+
+// Top Picks product data
+export async function TopPicksData() {
+
+  const query = `
+  *[_type == "product" && "Top Picks" in tags[]] {
+    _id,
+    name,
+    imagePath,
+  }
+  `;
+  return await client.fetch(query);
+};
+

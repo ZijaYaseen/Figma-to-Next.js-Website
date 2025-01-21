@@ -9,38 +9,41 @@ import { AiFillTwitterCircle } from 'react-icons/ai';
 import { Picksproduct } from '@/data';
 import { GetProductsData } from '@/sanity/lib/queries';
 import { useState, useEffect } from 'react';
-
-interface IProduct {
-    _id: string;
-    name: string;
-    imagePath?: string;
-    description?: string;
-    price?: number;
-    category?: string;
-    stockLevel?: number;
-    isFeaturedProduct?: boolean;
-  }
+import { IProduct } from '@/data';
 
 
 export default function Product({ params }: { params: { product: string } }) {
     const [product, setProduct] = useState<IProduct | null>(null);
     const [count, setCount] = useState(1);
+    const [loading, setLoading] = useState(true)
   
     useEffect(() => {
-      async function fetchProductData() {
-        const productData: IProduct[] = await GetProductsData();
-        const foundProduct = productData.find((item) => item._id === params.product);
-        setProduct(foundProduct || null);
-      }
-      fetchProductData();
-    }, [params.product]);
-  
-    const handleIncrement = () => setCount((prev) => prev + 1);
-    const handleDecrement = () => setCount((prev) => Math.max(1, prev - 1));
-  
-    if (!product) {
-      return <div><h1 className="mt-32">Product not found</h1></div>;
-    }
+        async function fetchProductData() {
+          try {
+            setLoading(true); // Start loading
+            const productData: IProduct[] = await GetProductsData();
+            const foundProduct = productData.find((item) => item._id === params.product);
+            setProduct(foundProduct || null);
+          } catch (error) {
+            console.error("Error fetching product data:", error);
+          } finally {
+            setLoading(false); // Stop loading
+          }
+        }
+        fetchProductData();
+      }, [params.product]);
+      
+      const handleIncrement = () => setCount((prev) => prev + 1);
+      const handleDecrement = () => setCount((prev) => Math.max(1, prev - 1));
+
+if (loading) {
+  return <div><h1 className="mt-32">Loading...</h1></div>;
+}
+
+if (!product) {
+  return <div><h1 className="mt-32">Product not found</h1></div>;
+}
+
   
 
     return (
@@ -61,14 +64,14 @@ export default function Product({ params }: { params: { product: string } }) {
             <div className="flex md:flex-row flex-col mt-10 w-full md:px-20 px-5 gap-4">
                 {/* Left: Thumbnail Images */}
                 <div className="flex md:flex-col flex-row md:gap-8 gap-4 md:mr-10 mr-3">
-                    {['/SingleProduct1.svg', '/SingleProduct2.svg', '/SingleProduct3.svg', '/SingleProduct4.svg'].map((src, index) => (
+                    {[product.imagePath, product.imagePath, product.imagePath, product.imagePath].map((src, index) => (
                         <Image
                             key={index}
                             src={src}
                             alt={`Thumbnail ${index + 1}`}
                             width={100}
                             height={100}
-                            className="bg-[#FFF9E5] w-[76px] md:h-[80px] h-[45px] md:rounded-lg rounded-sm"
+                            className="bg-[#FFF9E5] w-[76px] md:h-[80px] h-[45px] md:rounded-lg rounded-sm border hover:border-black"
                         />
                     ))}
                 </div>
@@ -97,7 +100,7 @@ export default function Product({ params }: { params: { product: string } }) {
                 {/* Right: Product Description */}
                 <div className="flex flex-col md:w-[35%] w-full">
                     <h1 className="font-normal md:text-[42px] leading-[60px] text-3xl">{product.name} </h1>
-                    <p className="text-[#9F9F9F] font-medium md:text-2xl">${product.price} </p>
+                    <p className="text-[#9F9F9F] font-medium md:text-2xl"><span>Price : </span>${product.price} </p>
 
                     {/* Ratings */}
                     <div className="flex md:gap-2 gap-[0px] md:my-2 my-0 items-center">
@@ -111,7 +114,7 @@ export default function Product({ params }: { params: { product: string } }) {
 
                     {/* Description */}
                     <p className="font-normal text-sm mb-4">
-                        Setting the bar as one of the loudest speakers in its class, the Kilburn is a compact, stout-hearted hero with a well-balanced audio which boasts a clear midrange and extended highs for a sound.
+                        {product.description}
                     </p>
 
                     {/* Size Options */}

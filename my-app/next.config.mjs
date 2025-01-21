@@ -16,6 +16,11 @@ const nextConfig = {
             protocol:"https",
             hostname:"next-ecommerce-template-4.vercel.app",
             pathname:"/**",
+        },
+        {
+          protocol: "https",
+          hostname :"asset.cloudinary.com",
+          pathname :"/**",
         }
       ],
     },

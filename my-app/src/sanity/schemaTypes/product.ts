@@ -44,6 +44,17 @@ export default {
         type: 'number',
       },
       {
+        name: "tags",
+        title: "Tags",
+        description: "Add tags like HeroSection, Top Picks, Featured Section, etc.",
+        type: "array",
+        of: [
+          {
+            type: "string",
+          },
+        ],
+      },
+      {
         name: 'category',
         title: 'Category',
         type: 'string',
