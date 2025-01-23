@@ -5,7 +5,6 @@ import { RiArrowRightSLine } from 'react-icons/ri';
 import { PiLineVertical } from 'react-icons/pi';
 import { FaStar, FaStarHalf, FaFacebook, FaLinkedin } from 'react-icons/fa';
 import { AiFillTwitterCircle } from 'react-icons/ai';
-import { Picksproduct } from '@/data';
 
 const SingleProduct = () => {
     return (
@@ -168,28 +167,6 @@ const SingleProduct = () => {
 
 <div className="flex flex-col justify-between items-center bg-[#FFFFFF] px-6 sm:px-10 py-10">
   <h1 className="font-medium text-2xl sm:text-4xl">Related Products</h1>
-
-  {/* Products */}
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:mt-8 w-full max-w-[1200px]">
-    {Picksproduct.map((items) => (
-      <div key={items.title} className="flex flex-col items-center">
-        {/* Image */}
-        <Image
-          src={items.Image}
-          alt="Products"
-          width={200}
-          height={200}
-          className="md:w-[250px] md:h-[250px] w-full object-cover"
-        ></Image>
-        {/* Title */}
-        <p className="py-4 text-base sm:text-lg font-normal text-center">
-          {items.title}
-        </p>
-        {/* Price */}
-        <h3 className="text-xl sm:text-2xl font-medium">{items.price}</h3>
-      </div>
-    ))}
-  </div>
 
   <Link href={"/Shop"}>
   <button className="font-medium text-xl border-b-2 border-black pb-2 mt-16">
