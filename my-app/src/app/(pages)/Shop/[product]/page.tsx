@@ -6,7 +6,7 @@ import { RiArrowRightSLine } from 'react-icons/ri';
 import { PiLineVertical } from 'react-icons/pi';
 import { FaStar, FaStarHalf, FaFacebook, FaLinkedin } from 'react-icons/fa';
 import { AiFillTwitterCircle } from 'react-icons/ai';
-import { GetProductsData, TopPicksData } from '@/sanity/lib/queries';
+import { GetProductsData } from '@/sanity/lib/queries';
 import { useState, useEffect } from 'react';
 import { IProduct } from '@/data';
 import { useDispatch } from 'react-redux';
