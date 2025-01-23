@@ -12,6 +12,10 @@ import { RxHamburgerMenu } from "react-icons/rx"; // Hamburger icon
 import { MdClose } from "react-icons/md"; // Close icon from react-icons/md
 import Link from "next/link";
 import Image from "next/image";
+import { UseAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
+import { useDispatch } from "react-redux";
+import { removeFromCart } from "@/redux/cartSlice";
 
 const Header = (props:{bgColor:string, shadow:string}) => {
   // State to manage the menu open or close status
@@ -28,7 +32,19 @@ const Header = (props:{bgColor:string, shadow:string}) => {
   const CarthandleLinkClick = () => {
     CartsetMenuOpen(false); // Close the menu on link click
   };
+    
+  //  add to cart functionality
+   const cartItems = UseAppSelector((state:RootState) =>
+      state.cart.items
+  );
 
+  const dispatch = useDispatch()
+
+  const handleRemove = (id: string) => {
+    dispatch(removeFromCart(id));
+  };
+
+  
   return (
     <nav className={`z-50 fixed top-0 left-0 flex items-center w-full md:h-[90px] max-w-[1440vw] h-[60px] ${props.shadow} ${props.bgColor}`}>
 
@@ -69,29 +85,54 @@ const Header = (props:{bgColor:string, shadow:string}) => {
         <div className="absolute top-0 md:w-[30%] right-0 w-[75%] h-screen bg-white shadow-lg">
           <div className="flex flex-col space-y-5 text-start md:p-8 p-4">
           <div className="relative">
-            <h1 className="absolute left-0 p-3 border-b border-[#D9D9D9] font-semibold md:text-2xl text-lg">Shopping Cart</h1>
+            <h1 className="p-3 border-b border-[#D9D9D9] font-semibold md:text-2xl text-lg">Shopping Cart</h1>
             <MdClose size={28} className="absolute top-3 right-0" onClick={CarthandleLinkClick}/>
             </div>
-           <div className="flex items-center gap-2 md:gap-4 absolute top-28">
-               <Image
-                 src="/CartAsgaardsofa4.svg"
-                 alt="Cart"
-                 width={100}
-                 height={100}
-                 className="bg-[#FBEBB5] md:w-[76px] w-[50px] md:h-[80px] h-[50px] md:rounded-[10px] rounded-sm"
-               />
-               <div className="flex flex-col  text-left gap-2">
-                <p>Asgaard sofa
-                </p>
-                <div className="flex gap-4">
-                  1 
-                  <MdClose size={15} className="mt-1"/>
-                  <span className="text-[#B88E2F]">Rs.250,000.00</span>
-                </div>
-                </div>
-                <MdClose size={25} color="white" className="ml-10 bg-gray-400 w-6 h-6 border-4 border-gray-400 rounded-full justify-end flex"/>
-             </div>
-             <div className="absolute  bottom-14 right-2 md:left-10 left-2 flex gap-5 py-4 border-t border-[#D9D9D9]">
+            {cartItems.length === 0 ? (
+      <div className='text-center items-center flex justify-center text-2xl font-bold h-[400px]'>Your cart is empty.</div>
+    ) : (
+      <div className="flex flex-col gap-6">
+  {cartItems.map((product, index) => (
+    <div key={index} className="flex flex-col gap-4 border-b pb-4">
+      {/* Product Details */}
+      <div className="flex items-center gap-4">
+        <Image
+          src={product.imagePath}
+          alt="Cart"
+          width={100}
+          height={100}
+          className="bg-[#FBEBB5] md:w-[76px] w-[50px] md:h-[80px] h-[50px] md:rounded-[10px] rounded-sm"
+        />
+        <div className="flex flex-col text-left gap-2">
+          <p className="lg:text-lg text-sm font-semibold">{product.name}</p>
+          <div className="flex items-center gap-4">
+            <p>Quantity: {product.quantity}</p>
+            <MdClose size={15} />
+            <span className="text-[#B88E2F] font-bold">${product.price}</span>
+          </div>
+        </div>
+        <MdClose
+          size={25}
+          color="white"
+          className="ml-auto bg-gray-400 w-6 h-6 border-4 border-gray-400 rounded-full cursor-pointer"
+          onClick={() => handleRemove(product.id)}
+        />
+      </div>
+
+      {/* Subtotal */}
+      <div className="flex justify-between">
+        <p className="text-sm font-medium">Subtotal</p>
+        <p className="text-[#B88E2F] font-bold">
+          ${product.price * product.quantity}
+        </p>
+      </div>
+    </div>
+  ))}
+</div>
+
+             )}
+
+            <div className="absolute  bottom-14 right-2 md:left-10 left-2 flex gap-5 py-4 border-t border-[#D9D9D9]">
               <Link href={"/Cart"} className="w-36 h-10 flex justify-center items-center font-medium  text-base border border-black rounded-[18px] hover:text-white hover:bg-black" onClick={CarthandleLinkClick}>
               View Cart
               </Link>
@@ -100,14 +141,10 @@ const Header = (props:{bgColor:string, shadow:string}) => {
               Checkout
               </Link>
              </div>
-               
-             <div className="flex absolute justify-between bottom-36 w-[80%] ">
-             <p>Subtotal</p>
-             <p className="text-[#B88E2F]">250,000.00</p>
-             </div>
           </div>
-          
-        </div>
+           
+          </div>
+
       )}
 
 

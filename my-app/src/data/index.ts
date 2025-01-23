@@ -17,35 +17,15 @@ export interface IProduct {
     name: string;
     imagePath: string;
     description?: string;
+    size?:string,
+    color:string,
     price?: number;
     category?: string;
     stockLevel?: number;
     isFeaturedProduct?: boolean;
     tags?: string[];
+    
   }
-
-export const Picksproduct = [
-    {
-        Image :"/p1.svg",
-        title:"Trenton modular sofa_3",
-        price:"Rs. 25,000.00"
-    },
-    {
-        Image :"/p2.svg",
-        title:"Dining table with dining chair",
-        price:"Rs. 25,000.00"
-    },
-    {
-        Image :"/p3.svg",
-        title:"Outdoor bar table and stool",
-        price:"Rs. 25,000.00"
-    },
-    {
-        Image :"/p4.svg",
-        title:"Plain console with teak mirror",
-        price:"Rs. 25,000.00"
-    },
-];
 
 export const blog = [
     {

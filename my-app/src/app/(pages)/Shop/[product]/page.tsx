@@ -6,16 +6,55 @@ import { RiArrowRightSLine } from 'react-icons/ri';
 import { PiLineVertical } from 'react-icons/pi';
 import { FaStar, FaStarHalf, FaFacebook, FaLinkedin } from 'react-icons/fa';
 import { AiFillTwitterCircle } from 'react-icons/ai';
-import { Picksproduct } from '@/data';
-import { GetProductsData } from '@/sanity/lib/queries';
+import { GetProductsData, TopPicksData } from '@/sanity/lib/queries';
 import { useState, useEffect } from 'react';
 import { IProduct } from '@/data';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '@/redux/cartSlice';
+import TopPicks from '@/components/TopPicks';
+// import TopPicks from '@/components/TopPicks';
 
 
-export default function Product({ params }: { params: { product: string } }) {
+export default  function Product({ params }: { params: { product: string } }) {
     const [product, setProduct] = useState<IProduct | null>(null);
+    const [TopPicksProduct, setTopPicksProduct] = useState<IProduct[] | null>(null);
     const [count, setCount] = useState(1);
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
+      const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [error, setError] = useState('');
+
+    const dispatch = useDispatch()
+
+    const handleAddToCart = () => {
+        if (!selectedSize) {
+            setError('Please select a size.');
+            return;
+          }
+          if (!selectedColor) {
+            setError('Please select a color.');
+            return;
+          }
+
+        if (product) {
+            const cartItem = {
+                id: product._id,
+                name: product.name,
+                imagePath: product.imagePath,
+                description: product.description || "",
+                price: product.price || 0,
+                size: selectedSize,
+                color: selectedColor,
+                quantity: count,
+            };
+           const items= dispatch(addToCart(cartItem));
+           setError(''); // Clear error after successful addition
+           console.log(items);
+           
+        } else {
+            console.error("Product is null. Cannot add to cart.");
+        }
+    };
   
     useEffect(() => {
         async function fetchProductData() {
@@ -29,15 +68,35 @@ export default function Product({ params }: { params: { product: string } }) {
           } finally {
             setLoading(false); // Stop loading
           }
+
         }
+
+        async function picks_data(){
+            try{
+                setLoading(true);
+                const picksData: IProduct[] = await TopPicksData();
+                setTopPicksProduct(picksData || null);
+            } catch {
+
+             console.error("Error fetching product data:", error);
+          } finally {
+            setLoading(false); // Stop loading
+          }
+        }
+
         fetchProductData();
+        picks_data()
+        
+
+
+
       }, [params.product]);
       
       const handleIncrement = () => setCount((prev) => prev + 1);
       const handleDecrement = () => setCount((prev) => Math.max(1, prev - 1));
 
 if (loading) {
-  return <div><h1 className="mt-32">Loading...</h1></div>;
+  return <div><h1 className="flex justify-center items-center h-[300px] mt-14 font-bold text-2xl">Loading...</h1></div>;
 }
 
 if (!product) {
@@ -79,22 +138,15 @@ if (!product) {
                 {/* Center: Main Product Image */}
                 <div className="md:mr-20">
                     
-                    {product.imagePath ? (
-                                  <Image
-                                  src={product.imagePath}
-                                  width={423}
-                                  height={500}
-                                  alt="Asgaard Sofa"
-                                  className="bg-[#FFF9E5] w-[423px] md:h-[500px] h-[200px] rounded-lg"
-                              />
-                                ) : (
-                                  <Image 
-                                    src="/placeholder-image.jpg" // Fallback image path
-                                    alt="Placeholder"
-                                    width={200}
-                                    height={200}
-                                  />
-                                )}
+                   
+                 <Image
+                src={product.imagePath}
+                width={423}
+                height={500}
+                alt="Asgaard Sofa"
+                className="bg-[#FFF9E5] w-[423px] md:h-[500px] h-[200px] rounded-lg"
+                />
+                            
                 </div>
 
                 {/* Right: Product Description */}
@@ -117,28 +169,37 @@ if (!product) {
                         {product.description}
                     </p>
 
-                    {/* Size Options */}
-                    <p className="text-[#9F9F9F] font-normal text-sm mb-3">Size</p>
-                    <div className="flex gap-4">
-                        {['L', 'XL', 'XS'].map((size) => (
-                            <p
-                                key={size}
-                                className="flex w-8 h-8 bg-[#FAF4F4] hover:bg-[#FBEBB5] rounded-md text-sm justify-center items-center cursor-pointer"
-                            >
-                                {size}
-                            </p>
-                        ))}
-                    </div>
-
+                   {/* Size Options */}
+      <p className="text-[#9F9F9F] font-normal text-sm mb-3">Size</p>
+      <div className="flex gap-4">
+        {['L', 'XL', 'XS'].map((size) => (
+          <p
+            key={size}
+            onClick={() => setSelectedSize(size)}
+            className={`flex w-8 h-8 rounded-md text-sm justify-center items-center cursor-pointer bg-[#FAF4F4] ${
+              selectedSize === size ? 'bg-[#FBEBB5]' : 'bg-[#FAF4F4]'
+            }`}
+          >
+            {size}
+          </p>
+        ))}
+      </div>
+                      {/* Error Message */}
+      {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
                     {/* Color Options */}
                     <p className="text-[#9F9F9F] font-normal text-sm my-3">Color</p>
                     <div className="flex gap-4">
                         {['#816DFA', '#000000', '#CDBA7B'].map((color, index) => (
-                            <button key={index}>
-                                <p className={`w-[30px] h-[30px] rounded-full`} style={{ backgroundColor: color }}></p>
+                            <button key={index}
+                            onClick={() => setSelectedColor(color)}
+                            >
+                                <p className={`w-[30px] h-[30px] rounded-full ${
+                                selectedColor === color ? 'border-2 border-lime-950' : 'border-2 border-transparent'
+                                    }`} style={{ backgroundColor: color }}></p>
                             </button>
                         ))}
                     </div>
+                   
 
                     {/* Add to Cart Section */}
                     <div className="flex md:gap-4 gap-2 my-5 pb-14 border-b border-[#D9D9D9]">
@@ -149,19 +210,19 @@ if (!product) {
                         </div>
                         <div className="flex gap-8 items-center border border-black w-[215px] md:h-16 h-12 rounded-[10px] md:rounded-[15px] justify-center">
                             {/* <Link href={"/Cart"}> */}
-                            <button
-                                className="snipcart-add-item md:font-normal font-bold md:text-xl text-xs"
-                                data-item-id={product._id}
-                                data-item-price={product.price}
-                                data-item-description="Setting the bar as one of the loudest speakers in its class, the Kilburn is a compact, stout-hearted hero with a well-balanced audio which boasts a clear midrange and extended highs for a sound."
-                                data-item-image={product.imagePath}
-                                data-item-name={product.name}
+                           <Link href={"/Cart"}>
+                           <button
+                            onClick={handleAddToCart} 
+                            className=" md:font-normal font-bold md:text-xl text-xs"
+ 
                             >
                                 Add To Cart
                             </button>
+                           </Link>
                             {/* </Link> */}
                         </div>
                     </div>
+
 
                     {/* SKU, Category, Tags, Share */}
                     <div className="flex justify-between md:my-16 my-5 md:gap-5 gap-2 items-start md:w-[25%] text-[#9F9F9F] font-normal text-base">
@@ -225,39 +286,9 @@ if (!product) {
 
             </div>
 
-            {/* $products... import to heroSection */}
-
-            <div className="flex flex-col justify-between items-center bg-[#FFFFFF] px-6 sm:px-10 py-10">
-                <h1 className="font-medium text-2xl sm:text-4xl">Related Products</h1>
-
-                {/* Products */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:mt-8 w-full max-w-[1200px]">
-                    {Picksproduct.map((items) => (
-                        <div key={items.title} className="flex flex-col items-center">
-                            {/* Image */}
-                            <Image
-                                src={items.Image}
-                                alt="Products"
-                                width={200}
-                                height={200}
-                                className="md:w-[250px] md:h-[250px] w-full object-cover"
-                            ></Image>
-                            {/* Title */}
-                            <p className="py-4 text-base sm:text-lg font-normal text-center">
-                                {items.title}
-                            </p>
-                            {/* Price */}
-                            <h3 className="text-xl sm:text-2xl font-medium">{items.price}</h3>
-                        </div>
-                    ))}
-                </div>
-
-                <Link href={"/Shop"}>
-                    <button className="font-medium text-xl border-b-2 border-black pb-2 mt-16">
-                        View More
-                    </button>
-                </Link>
-            </div>
+                {/* Picks Products */}
+                <TopPicks products={TopPicksProduct || []}/>
+        
 
 
         </div>
