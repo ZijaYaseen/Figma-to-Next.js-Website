@@ -210,7 +210,7 @@ if (!product) {
                         <div className="flex gap-8 items-center border border-black w-[215px] md:h-16 h-12 rounded-[10px] md:rounded-[15px] justify-center">
                             {/* <Link href={"/Cart"}> */}
                            <Link href={"/Cart"}>
-                           <button
+                           <button 
                             onClick={handleAddToCart} 
                             className=" md:font-normal font-bold md:text-xl text-xs"
  
