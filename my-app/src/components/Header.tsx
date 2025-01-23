@@ -73,23 +73,41 @@ const Header = (props:{bgColor:string, shadow:string}) => {
   <CiHeart size={28} className="w-6 h-6 lg:w-8 lg:h-8"/>
 
 {/* ShoppingCart icon... */}
-    <div
-    onClick={() => CartsetMenuOpen(!CartmenuOpen)}
-  >
-    <CiShoppingCart size={28} className="cursor-pointer w-6 h-6 lg:w-8 lg:h-8"/> 
+<div className="block z-50 cursor-pointer">
+  {CartmenuOpen ? (
+    // Close Button
+    <MdClose
+      size={28}
+      className="cursor-pointer w-6 h-6 lg:w-8 lg:h-8"
+      onClick={() => {
+        console.log("Cart Closed!");
+        CartsetMenuOpen(false); // Close the cart
+      }}
+    />
+  ) : (
+    // Shopping Cart Icon
+    <CiShoppingCart
+      size={28}
+      className="cursor-pointer w-6 h-6 lg:w-8 lg:h-8"
+      onClick={() => {
+        console.log("Cart Opened!");
+        CartsetMenuOpen(true); // Open the cart
+      }}
+    />
+  )}
+</div>
 
-  </div>
   
 </div>
 {CartmenuOpen && (
-        <div className="absolute top-0 md:w-[30%] right-0 w-[75%] h-screen bg-white shadow-lg">
+        <div className="absolute top-14 md:w-[30%] right-0 w-[75%] h-screen bg-white shadow-lg">
           <div className="flex flex-col space-y-5 text-start md:p-8 p-4">
           <div className="relative">
             <h1 className="p-3 border-b border-[#D9D9D9] font-semibold md:text-2xl text-lg">Shopping Cart</h1>
-            <MdClose size={28} className="absolute top-3 right-0" onClick={CarthandleLinkClick}/>
+            
             </div>
             {cartItems.length === 0 ? (
-      <div className='text-center items-center flex justify-center text-2xl font-bold h-[400px]'>Your cart is empty.</div>
+      <div className='text-center items-center flex justify-center lg:text-2xl text-lg font-bold h-[400px]'>Your cart is empty.</div>
     ) : (
       <div className="flex flex-col gap-6">
   {cartItems.map((product, index) => (
