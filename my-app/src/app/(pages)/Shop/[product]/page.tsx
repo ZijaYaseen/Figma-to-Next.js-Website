@@ -6,17 +6,17 @@ import { RiArrowRightSLine } from 'react-icons/ri';
 import { PiLineVertical } from 'react-icons/pi';
 import { FaStar, FaStarHalf, FaFacebook, FaLinkedin } from 'react-icons/fa';
 import { AiFillTwitterCircle } from 'react-icons/ai';
-import { GetProductsData } from '@/sanity/lib/queries';
+import { GetProductsData, TopPicksData } from '@/sanity/lib/queries';
 import { useState, useEffect } from 'react';
 import { IProduct } from '@/data';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '@/redux/cartSlice';
-// import TopPicks from '@/components/TopPicks';
+import TopPicks from '@/components/TopPicks';
 
 
 export default  function Product({ params }: { params: { product: string } }) {
     const [product, setProduct] = useState<IProduct | null>(null);
-    // const [TopPicksProduct, setTopPicksProduct] = useState<IProduct[] | null>(null);
+    const [TopPicksProduct, setTopPicksProduct] = useState<IProduct[] | null>(null);
     const [count, setCount] = useState(1);
     const [loading, setLoading] = useState(true);
       const [selectedSize, setSelectedSize] = useState<string | null>(null);
@@ -60,6 +60,8 @@ export default  function Product({ params }: { params: { product: string } }) {
           try {
             setLoading(true); // Start loading
             const productData: IProduct[] = await GetProductsData();
+            console.log(productData);
+            
             const foundProduct = productData.find((item) => item._id === params.product);
             setProduct(foundProduct || null);
           } catch (error) {
@@ -70,21 +72,21 @@ export default  function Product({ params }: { params: { product: string } }) {
 
         }
 
-        // async function picks_data(){
-        //     try{
-        //         setLoading(true);
-        //         const picksData: IProduct[] = await TopPicksData();
-        //         setTopPicksProduct(picksData || null);
-        //     } catch {
+        async function picks_data(){
+            try{
+                setLoading(true);
+                const picksData: IProduct[] = await TopPicksData();
+                setTopPicksProduct(picksData || null);
+            } catch {
 
-        //      console.error("Error fetching product data:", error);
-        //   } finally {
-        //     setLoading(false); // Stop loading
-        //   }
-        // }
+             console.error("Error fetching product data:", error);
+          } finally {
+            setLoading(false); // Stop loading
+          }
+        }
 
         fetchProductData();
-        // picks_data()
+        picks_data()
         
 
 
@@ -286,7 +288,7 @@ if (!product) {
             </div>
 
                 {/* Picks Products */}
-                {/* <TopPicks products={TopPicksProduct || []}/> */}
+                <TopPicks products={TopPicksProduct || []}/>
         
 
 
