@@ -65,7 +65,7 @@ const Header = (props:{bgColor:string, shadow:string}) => {
       </div>
 
      {/* Unified Icons for All Screens */}
-<div className="absolute flex right-5 md:static space-x-3 md:space-x-10 md:mr-10">
+<div className="absolute flex right-5 md:static space-x-3 md:space-x-10 md:mr-10 z-50">
   <Link href={"/Account"}>
     <CiUser size={28} className="w-6 h-6 lg:w-8 lg:h-8" />
   </Link>
@@ -112,10 +112,11 @@ const Header = (props:{bgColor:string, shadow:string}) => {
     ) : (
       <div className="flex flex-col gap-6">
   {cartItems.map((product, index) => (
-    <Link href={`Shop/${product.id}`} onClick={()=> CarthandleLinkClick()}>
     <div key={index} className="flex flex-col gap-4 border-b pb-4">
       {/* Product Details */}
       <div className="flex items-center gap-4">
+        <div>
+        <Link href={`Shop/${product.id}`} onClick={()=> CarthandleLinkClick()} className="flex items-center lg:gap-4 gap-2">
         <Image
           src={product.imagePath}
           alt="Cart"
@@ -123,18 +124,20 @@ const Header = (props:{bgColor:string, shadow:string}) => {
           height={100}
           className="bg-[#FBEBB5] md:w-[76px] w-[50px] md:h-[80px] h-[50px] md:rounded-[10px] rounded-sm"
         />
-        <div className="flex flex-col text-left gap-2">
-          <p className="lg:text-lg text-sm font-semibold">{product.name}</p>
+        <div className="flex flex-col text-left lg:gap-2 gap-1">
+          <p className="lg:text-lg text-xs font-semibold">{product.name}</p>
           <div className="flex items-center lg:gap-4 gap-1 text-xs">
             <p>Quantity: {product.quantity}</p>
             <MdClose size={12} />
             <span className="text-[#B88E2F] font-bold">${product.price}</span>
           </div>
         </div>
+        </Link>
+        </div>
         <MdClose
           size={25}
           color="white"
-          className="ml-auto bg-gray-400 w-6 h-[22px] border-4 border-gray-400 rounded-full cursor-pointer"
+          className="ml-auto bg-gray-400 w-6 h-6 border-4 border-gray-400 rounded-full cursor-pointer"
           onClick={() => handleRemove(product.id)}
         />
       </div>
@@ -147,7 +150,7 @@ const Header = (props:{bgColor:string, shadow:string}) => {
         </p>
       </div>
     </div>
-    </Link>
+    
   ))}
 </div>
 
