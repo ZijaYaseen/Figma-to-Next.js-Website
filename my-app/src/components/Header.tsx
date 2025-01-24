@@ -101,7 +101,7 @@ const Header = (props:{bgColor:string, shadow:string}) => {
   
 </div>
 {CartmenuOpen && (
-        <div className="absolute top-14 md:w-[30%] right-0 w-[75%] h-screen bg-white shadow-lg">
+        <div className={`absolute top-[60px] md:[90px] md:w-[30%] right-0 w-[75%] h-screen ${props.bgColor}  shadow-lg`}>
           <div className="flex flex-col space-y-5 text-start md:p-8 p-4">
           <div className="relative">
             <h1 className="p-3 border-b border-[#D9D9D9] font-semibold md:text-2xl text-lg">Shopping Cart</h1>
