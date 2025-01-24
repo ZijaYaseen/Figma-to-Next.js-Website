@@ -109,7 +109,7 @@ if (!product) {
     return (
         <div className="max-w-[1440px] font-poppins w-full md:mt-[90px] mt-[60px] md:py-10 py-5">
             {/* 1st Section: Breadcrumb Links */}
-            <div className="flex text-center items-center md:gap-4 gap-2 text-[#9F9F9F] font-normal text-base md:px-20 px-5">
+            <div className="flex text-center items-center md:gap-4 gap-1 text-[#9F9F9F] font-normal md:text-base text-sm md:px-20 px-5">
                 <Link href="/">Home</Link>
                 <RiArrowRightSLine size={20} color="black" />
                 <Link href="/Shop">Shop</Link>

@@ -65,7 +65,7 @@ const Header = (props:{bgColor:string, shadow:string}) => {
       </div>
 
      {/* Unified Icons for All Screens */}
-<div className="absolute flex lg:right-5 right-2 md:static space-x-3 md:space-x-10 md:mr-10">
+<div className="absolute flex right-5 md:static space-x-3 md:space-x-10 md:mr-10">
   <Link href={"/Account"}>
     <CiUser size={28} className="w-6 h-6 lg:w-8 lg:h-8" />
   </Link>
@@ -87,20 +87,21 @@ const Header = (props:{bgColor:string, shadow:string}) => {
   ) : (
     // Shopping Cart Icon
     <CiShoppingCart
-      size={28}
-      className="cursor-pointer w-6 h-6 lg:w-8 lg:h-8"
-      onClick={() => {
-        console.log("Cart Opened!");
-        CartsetMenuOpen(true); // Open the cart
-      }}
-    />
+  size={28}
+  className="cursor-pointer w-6 h-6 lg:w-8 lg:h-8"
+  onClick={() => {
+    console.log("Cart Opened!");
+    CartsetMenuOpen(true); // Open the cart
+    handleLinkClick(); // Call handleLinkClick
+  }}
+/>
   )}
 </div>
 
   
 </div>
 {CartmenuOpen && (
-        <div className="absolute top-14 md:w-[30%] right-0 w-[75%] h-screen bg-white shadow-lg">
+        <div className="absolute top-14 md:top-0 md:w-[30%] right-0 w-[75%] h-screen bg-white shadow-lg">
           <div className="flex flex-col space-y-5 text-start md:p-8 p-4">
           <div className="relative">
             <h1 className="p-3 border-b border-[#D9D9D9] font-semibold md:text-2xl text-lg">Shopping Cart</h1>
@@ -111,6 +112,7 @@ const Header = (props:{bgColor:string, shadow:string}) => {
     ) : (
       <div className="flex flex-col gap-6">
   {cartItems.map((product, index) => (
+    <Link href={`Shop/${product.id}`} onClick={()=> CarthandleLinkClick()}>
     <div key={index} className="flex flex-col gap-4 border-b pb-4">
       {/* Product Details */}
       <div className="flex items-center gap-4">
@@ -123,16 +125,16 @@ const Header = (props:{bgColor:string, shadow:string}) => {
         />
         <div className="flex flex-col text-left gap-2">
           <p className="lg:text-lg text-sm font-semibold">{product.name}</p>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center lg:gap-4 gap-1 text-xs">
             <p>Quantity: {product.quantity}</p>
-            <MdClose size={15} />
+            <MdClose size={12} />
             <span className="text-[#B88E2F] font-bold">${product.price}</span>
           </div>
         </div>
         <MdClose
           size={25}
           color="white"
-          className="ml-auto bg-gray-400 w-6 h-6 border-4 border-gray-400 rounded-full cursor-pointer"
+          className="ml-auto bg-gray-400 w-6 h-[22px] border-4 border-gray-400 rounded-full cursor-pointer"
           onClick={() => handleRemove(product.id)}
         />
       </div>
@@ -145,6 +147,7 @@ const Header = (props:{bgColor:string, shadow:string}) => {
         </p>
       </div>
     </div>
+    </Link>
   ))}
 </div>
 
@@ -171,17 +174,20 @@ const Header = (props:{bgColor:string, shadow:string}) => {
 
   {/* Hamburger or Close icon */}
   <div
-    className="text-2xl cursor-pointer mx-2"
-    onClick={() => NavsetMenuOpen(!NavmenuOpen)}
-  >
+  className="text-2xl cursor-pointer mx-5"
+  onClick={() => {
+    NavsetMenuOpen(!NavmenuOpen);  // Toggle Nav menu state
+    CarthandleLinkClick();         // Call the second function
+  }}
+>
     {NavmenuOpen ? (
       <MdClose size={28} className="w-6 h-6 lg:w-8 lg:h-8"/> // Using MdClose for the close icon
     ) : (
-      <RxHamburgerMenu size={25} className="w-6 h-6 lg:w-8 lg:h-8"/> // Hamburger icon when menu is closed
+      <RxHamburgerMenu size={20} className="w-[22px] h-6 lg:w-8 lg:h-8"/> // Hamburger icon when menu is closed
     )}
   </div>
   {/* Logo */}
- <div className="text-black lg:px-14 font-serif px-2 ">
+ <div className="text-black lg:px-14 font-serif ">
         <h1 className="font-semibold lg:text-2xl text-xl">EcoFurnish</h1>
       </div>
 </div>

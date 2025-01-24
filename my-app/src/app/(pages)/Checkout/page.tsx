@@ -1,7 +1,25 @@
-import React from 'react';
+"use client";
 import PagesHeader from '@/components/PagesHeader';
+import { UseAppSelector } from '@/redux/hooks';
+import { MdClose } from 'react-icons/md';
 
 const Checkout = () => {
+
+    const cartItems_selectedProduct = UseAppSelector((state) => state.cart.selectedItem);
+
+     // Handle the case when cartItems_selectedProduct is null
+     if (cartItems_selectedProduct === null) {
+        return (
+            <div className='max-w-[1440vw] font-poppins w-full md:mt-[90px] mt-[60px]'>
+              <PagesHeader name='Checkout' title='Checkout' />
+            
+            <div className='text-center items-center flex justify-center lg:text-xl text-base font-semibold h-[400px]'>
+                Your cart is empty! Please add items before proceeding to checkout.
+            </div>
+            </div>
+        );
+    }
+
     return (
         <div className='max-w-[1440vw] font-poppins w-full md:mt-[90px] mt-[60px]' >
 
@@ -10,7 +28,7 @@ const Checkout = () => {
             <div>
               <PagesHeader name='Checkout' title='Checkout' />
             </div>
-
+    
             {/* Billing Details */}
             <div className="flex flex-col md:flex-row justify-between md:w-[85%] w-[90%] mx-auto md:py-20 py-10 gap-10">
 
@@ -31,7 +49,7 @@ const Checkout = () => {
                                         type="text"
                                         id="text"
                                         name="username"
-                                        className="mt-1 p-6 border border-[#9F9F9F] md:w-[211px] w-[160px] h-[75px] rounded-[10px]  focus:outline-none"
+                                        className="mt-1 p-6 border border-[#9F9F9F] lg:w-[211px] w-[150px] lg:h-[75px] h-12 rounded-[10px]  focus:outline-none"
                                         placeholder=""
                                         required
                                     />
@@ -45,7 +63,7 @@ const Checkout = () => {
                                         type="text"
                                         id="text"
                                         name="username"
-                                        className="mt-1 p-6 border border-[#9F9F9F] md:w-[211px] w-[160px] h-[75px] rounded-[10px]  focus:outline-none"
+                                        className="mt-1 p-6 border border-[#9F9F9F] lg:w-[211px] w-[150px] lg:h-[75px] h-12 rounded-[10px]  focus:outline-none"
                                         placeholder=""
                                         required
                                     />
@@ -61,7 +79,7 @@ const Checkout = () => {
                                     type="text"
                                     id="text"
                                     name="Company Name"
-                                    className="mt-1 p-6 border border-[#9F9F9F] md:w-[453px] h-[75px] rounded-[10px]  focus:outline-none"
+                                    className="mt-1 p-6 border border-[#9F9F9F] md:w-[453px] lg:h-[75px] h-12 rounded-[10px]  focus:outline-none"
                                     placeholder=""
                                 />
                             </div>
@@ -74,7 +92,7 @@ const Checkout = () => {
                                     type="text"
                                     id="text"
                                     name="Country / Region"
-                                    className="mt-1 p-6 border border-[#9F9F9F] md:w-[453px] h-[75px] rounded-[10px]  focus:outline-none"
+                                    className="mt-1 p-6 border border-[#9F9F9F] md:w-[453px] lg:h-[75px] h-12 rounded-[10px]  focus:outline-none"
                                     placeholder="Sri Lanka"
                                     required
                                 />
@@ -88,7 +106,7 @@ const Checkout = () => {
                                     type="text"
                                     id="text"
                                     name="Street Address"
-                                    className="mt-1 p-6 border border-[#9F9F9F] md:w-[453px] h-[75px] rounded-[10px]  focus:outline-none"
+                                    className="mt-1 p-6 border border-[#9F9F9F] md:w-[453px] lg:h-[75px] h-12 rounded-[10px]  focus:outline-none"
                                     placeholder=""
                                     required
                                 />
@@ -102,7 +120,7 @@ const Checkout = () => {
                                     type="text"
                                     id="text"
                                     name="Town / City"
-                                    className="mt-1 p-6 border border-[#9F9F9F] md:w-[453px] h-[75px] rounded-[10px]  focus:outline-none"
+                                    className="mt-1 p-6 border border-[#9F9F9F] md:w-[453px] lg:h-[75px] h-12 rounded-[10px]  focus:outline-none"
                                     placeholder=""
                                     required
                                 />
@@ -116,7 +134,7 @@ const Checkout = () => {
                                     type="text"
                                     id="text"
                                     name="Province"
-                                    className="mt-1 p-6 border border-[#9F9F9F] md:w-[453px] h-[75px] rounded-[10px]  focus:outline-none"
+                                    className="mt-1 p-6 border border-[#9F9F9F] md:w-[453px] lg:h-[75px] h-12 rounded-[10px]  focus:outline-none"
                                     placeholder="Western Province"
                                     required
                                 />
@@ -130,7 +148,7 @@ const Checkout = () => {
                                     type="text"
                                     id="text"
                                     name="ZIP code"
-                                    className="mt-1 p-6 border border-[#9F9F9F] md:w-[453px] h-[75px] rounded-[10px]  focus:outline-none"
+                                    className="mt-1 p-6 border border-[#9F9F9F] md:w-[453px] lg:h-[75px] h-12 rounded-[10px]  focus:outline-none"
                                     placeholder=""
                                     required
                                 />
@@ -144,7 +162,7 @@ const Checkout = () => {
                                     type="text"
                                     id="text"
                                     name="Phone"
-                                    className="mt-1 p-6 border border-[#9F9F9F] md:w-[453px] h-[75px] rounded-[10px]  focus:outline-none"
+                                    className="mt-1 p-6 border border-[#9F9F9F] md:w-[453px] lg:h-[75px] h-12 rounded-[10px]  focus:outline-none"
                                     placeholder=""
                                     required
                                 />
@@ -158,7 +176,7 @@ const Checkout = () => {
                                     type="email"
                                     id="text"
                                     name="Email"
-                                    className="mt-1 p-6 border border-[#9F9F9F] md:w-[453px] h-[75px] rounded-[10px]  focus:outline-none"
+                                    className="mt-1 p-6 border border-[#9F9F9F] md:w-[453px] lg:h-[75px] h-12 rounded-[10px]  focus:outline-none"
                                     placeholder=""
                                     required
                                 />
@@ -168,7 +186,7 @@ const Checkout = () => {
                                 <textarea
                                     rows={1}
                                     id="text"
-                                    className="mt-10 p-6 border border-[#9F9F9F] md:w-[453px] h-[75px] rounded-[10px] focus:outline-none flex items-center"
+                                    className="mt-10 p-6 border border-[#9F9F9F] md:w-[453px] h-[75px]  rounded-[10px] focus:outline-none flex items-center"
                                     placeholder="Additional information"
                                     required
                                 />
@@ -185,22 +203,24 @@ const Checkout = () => {
                                 <div className='flex flex-col justify-start gap-4 font-normal text-base'>
                                     <h1 className='font-medium text-2xl'>Product</h1>
 
-                                    <div className='flex gap-3'>
-                                        <p className='text-[#9F9F9F]'>Asgaard sofa</p>
-                                        <p>*</p>
-                                        <p>1</p>
+                                    <div className='flex gap-3 items-center'>
+                                        <p className='text-[#9F9F9F]'>
+                                            {cartItems_selectedProduct.name}
+                                        </p>
+                                        <MdClose size={15} />
+                                        <p>
+                                            {cartItems_selectedProduct.quantity}
+                                        </p>
                                     </div>
 
-                                    <p>Subtotal</p>
                                     <p>Total</p>
                                 </div>
 
                                 <div className='flex flex-col justify-end gap-4 text-end font-light text-base'>
                                     <h1 className='font-medium text-2xl'>Subtotal</h1>
 
-                                    <p>Rs. 250,000.00</p>
-                                    <p>Rs. 250,000.00</p>
-                                    <h2 className='font-bold text-2xl text-[#B88E2F]'>Rs. 250,000.00</h2>
+                                    <p>${cartItems_selectedProduct.price * cartItems_selectedProduct.quantity}</p>
+                                    <h2 className='font-bold text-2xl text-[#B88E2F]'>${cartItems_selectedProduct.price * cartItems_selectedProduct.quantity}</h2>
                                 </div>
                             </div>
                               
@@ -229,7 +249,7 @@ const Checkout = () => {
 
                               </div>
 
-                              <button className='mt-4 flex justify-center mx-auto rounded-[15px] font-normal text-xl w-[318px] py-5 border border-black'>
+                              <button className='mt-4 flex justify-center mx-auto rounded-[15px] font-normal text-xl lg:w-[318px] w-[280px] lg:py-5 py-3 border border-black'>
                               Place order
                               </button>
 
@@ -242,6 +262,8 @@ const Checkout = () => {
                 </div>
 
             </div>
+           
+        
         </div>
     )
 }

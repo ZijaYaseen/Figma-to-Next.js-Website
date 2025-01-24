@@ -4,26 +4,33 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import PagesHeader from '@/components/PagesHeader';
 import { UseAppSelector } from '@/redux/hooks';
-import { RootState } from '@/redux/store';
 import Link from 'next/link';
+import { useDispatch } from 'react-redux';
+import { setSelectedItem } from '@/redux/cartSlice';
 interface IProduct {
   id: string;
   name: string;
   price: number;
+  description: string,
   quantity: number;
   imagePath: string;
 }
 
 const Cart = () => {
-  const cartItems = UseAppSelector((state:RootState) =>
-    state.cart.items
-  );
+  const cartItems = UseAppSelector((state) => state.cart.items);
 
   const [selectCartItem, setSelectCartItem] = useState<IProduct | null>(null);
 
   // Calculate the total price for the selected product
   const selectedProductTotal = selectCartItem? selectCartItem.price * selectCartItem.quantity: 0;
   const selectedProductSubtotal = selectCartItem? selectCartItem.price : 0;
+
+  const dispatch = useDispatch();
+
+  const handleSelectProduct = (product: IProduct) => {
+    setSelectCartItem(product); // Local state ke liye
+    dispatch(setSelectedItem(product)); // Redux state ke liye
+  };
   
   return (
     <div className='max-w-[1440vw] font-poppins w-full md:mt-[90px] mt-[60px]' >
@@ -59,7 +66,7 @@ const Cart = () => {
             className={`border-b border-[#E5E5E5] text-[10px] md:text-base cursor-pointery ${
               selectCartItem?.id === product.id ? "border-yellow-500 bg-yellow-100" : ""
             }`}
-            onClick={() => setSelectCartItem(product)} // Set selected product
+            onClick={() => handleSelectProduct(product)}
           >
               {/* Product Image */}
               <td className="py-4 md:px-4 px-2">
