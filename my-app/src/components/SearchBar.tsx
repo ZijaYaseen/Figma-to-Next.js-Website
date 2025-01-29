@@ -1,61 +1,60 @@
-'use client';
+"use client";
 
-import { useState } from "react";
-import { MdClose } from "react-icons/md"; // Close icon
+import React, { useState } from "react";
+import { UseAppDispatch } from "@/redux/hooks";
+import { performSearch } from "@/redux/Search/searchActions";
+import { useRouter } from "next/navigation"; // Correct useRouter import for App Directory
+import { MdClose } from "react-icons/md";
 import { CiSearch } from "react-icons/ci";
 
-interface SearchBarProps {
-  onSearch: (query: string) => void;
-}
-
-const SearchBar = ({ onSearch }: SearchBarProps) => {
-  const [searchOpen, setSearchOpen] = useState(false); // Toggle state for search overlay
-  const [query, setQuery] = useState(""); // Search input state
+const SearchBar: React.FC = () => {
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const dispatch = UseAppDispatch();
+  const router = useRouter(); // Ensure it's imported from next/navigation
+  console.log(router);
+  
 
   const handleSearch = () => {
-    onSearch(query); // Pass query and filter to parent
+    if (searchTerm.trim() === "") {
+      alert("Please enter a search term!");
+      return;
+    }
+    dispatch(performSearch(searchTerm));
+    router.push("/Shop"); // Redirect user to the Shop page
   };
 
   return (
-    <div className="max-w-[1440px]">
-      {/* Search toggle icon */}
-      <div className="relative flex items-center w-full">
-        <div
-          className="text-2xl cursor-pointer absolute"
-          onClick={() => setSearchOpen(!searchOpen)}
-        >
-          {searchOpen ? (
-            <MdClose size={28} /> // Close icon
-          ) : (
-            <CiSearch size={25} /> // Search icon
-          )}
-        </div>
+    <div>
+      <div className="block z-50 cursor-pointer">
+        {searchOpen ? (
+          <MdClose
+            size={28}
+            className="cursor-pointer w-6 h-6 lg:w-8 lg:h-8"
+            onClick={() => setSearchOpen(false)}
+          />
+        ) : (
+          <CiSearch
+            size={28}
+            className="cursor-pointer w-6 h-6 lg:w-8 lg:h-8"
+            onClick={() => setSearchOpen(true)}
+          />
+        )}
       </div>
-
-      {/* Search overlay */}
       {searchOpen && (
-        <div className="absolute left-0 top-20 w-full h-screen">
-          <div className="absolute w-full bg-white pt-10 pb-20">
-            <div className="flex gap-2 w-[90%] mx-auto p-3 text-gray-600 border-b border-black">
-              <CiSearch size={24} />
-              {/* Input for search query */}
-              <input
-                type="text"
-                name="search"
-                placeholder="Search"
-                className="focus:outline-none w-full"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)} // Update query state
-              />
-              {/* Search button */}
-              <button
-                className="px-4 py-1 bg-white text-black rounded-lg border hover:text-white hover:bg-black border-black"
-                onClick={handleSearch}
-              >
-                Search
-              </button>
-            </div>
-          </div>
+        <div className="fixed z-10 md:top-24 top-16 left-4 right-4 md:right-8 md:left-8  max-w-[1440vw]">
+          <div className="flex items-center gap-2 w-full">
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search products..."
+            className="border px-4 py-2 md:py-5 rounded w-full focus:outline-none"
+          />
+          <button onClick={handleSearch} className="px-4 md:px-8 py-2 md:py-5 bg-[#7e6b2f] hover:bg-[#b1a067] text-white rounded">
+            Search
+          </button>
+        </div>
         </div>
       )}
     </div>

@@ -16,6 +16,7 @@ import { UseAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
 import { useDispatch } from "react-redux";
 import { removeFromCart } from "@/redux/cartSlice";
+import SearchBar from "./SearchBar";
 
 const Header = (props:{bgColor:string, shadow:string}) => {
   // State to manage the menu open or close status
@@ -46,7 +47,7 @@ const Header = (props:{bgColor:string, shadow:string}) => {
 
   
   return (
-    <nav className={`z-50 fixed top-0 left-0 flex items-center w-full md:h-[90px] max-w-[1440vw] h-[60px] ${props.shadow} ${props.bgColor}`}>
+    <nav className={`fixed z-10 top-0 left-0 flex items-center w-full md:h-[90px] max-w-[1440vw] h-[60px] ${props.shadow} ${props.bgColor}`}>
 
  {/* Logo */}
  <div className="text-black lg:px-14 font-serif px-2 hidden lg:block">
@@ -65,27 +66,17 @@ const Header = (props:{bgColor:string, shadow:string}) => {
       </div>
 
      {/* Unified Icons for All Screens */}
-<div className="absolute flex right-5 md:static space-x-3 md:space-x-10 md:mr-10 z-50">
+<div className="absolute flex right-5 md:static space-x-3 md:space-x-10 md:mr-10 z-20">
   <Link href={"/Account"}>
     <CiUser size={28} className="w-6 h-6 lg:w-8 lg:h-8" />
   </Link>
-  <CiSearch size={28} className="w-6 h-6 lg:w-8 lg:h-8"/>
+  <SearchBar />
   <CiHeart size={28} className="w-6 h-6 lg:w-8 lg:h-8"/>
 
 {/* ShoppingCart icon... */}
-<div className="block z-50 cursor-pointer">
-  {CartmenuOpen ? (
-    // Close Button
-    <MdClose
-      size={28}
-      className="cursor-pointer w-6 h-6 lg:w-8 lg:h-8"
-      onClick={() => {
-        console.log("Cart Closed!");
-        CartsetMenuOpen(false); // Close the cart
-      }}
-    />
-  ) : (
-    // Shopping Cart Icon
+<div className="cursor-pointer">
+
+    {/* Shopping Cart Icon */}
     <CiShoppingCart
   size={28}
   className="cursor-pointer w-6 h-6 lg:w-8 lg:h-8"
@@ -95,16 +86,23 @@ const Header = (props:{bgColor:string, shadow:string}) => {
     handleLinkClick(); // Call handleLinkClick
   }}
 />
-  )}
-</div>
 
+</div>
   
 </div>
 {CartmenuOpen && (
-        <div className={`absolute top-[60px] md:[90px] md:w-[30%] right-0 w-[75%] h-screen ${props.bgColor}  shadow-lg`}>
+        <div className={`absolute z-50 top-0 md:w-[30%] right-0 w-[75%] h-screen ${props.bgColor}  shadow-lg`}>
           <div className="flex flex-col space-y-5 text-start md:p-8 p-4">
-          <div className="relative">
-            <h1 className="p-3 border-b border-[#D9D9D9] font-semibold md:text-2xl text-lg">Shopping Cart</h1>
+          <div className="flex justify-between">
+            <h1 className="p-1 border-b border-[#D9D9D9] font-semibold md:text-2xl text-lg">Shopping Cart</h1>
+            <MdClose
+             size={24}
+            className="cursor-pointer w-6 h-6 lg:w-8 lg:h-8"
+             onClick={() => {
+             console.log("Cart Closed!");
+             CartsetMenuOpen(false); // Close the cart
+      }}
+    />
             
             </div>
             {cartItems.length === 0 ? (
@@ -173,7 +171,7 @@ const Header = (props:{bgColor:string, shadow:string}) => {
 
 
       {/* Hamburger Menu for Mobile */}
-      <div className="relative flex items-center md:hidden w-full">
+      <div className="relative flex items-center md:hidden w-full z-10">
 
   {/* Hamburger or Close icon */}
   <div
@@ -197,8 +195,9 @@ const Header = (props:{bgColor:string, shadow:string}) => {
 
       {/* Mobile Menu */}
       {NavmenuOpen && (
-        <div className={`absolute top-12 left-0 w-[75%] h-screen ${props.bgColor} shadow-lg md:hidden`}>
-          <ul className="flex flex-col space-y-5 text-start p-8">
+        <div className={`absolute top-0 left-0 w-[75%] h-screen ${props.bgColor} shadow-lg md:hidden z-10`}>
+          <div className="mt-10">
+          <ul className="flex flex-col space-y-5 text-start p-8 ">
             {Nav.map((item) => (
               <Link href={item.Link} key={item.name}>
                 <li onClick={handleLinkClick}>{item.name}</li>
@@ -206,6 +205,7 @@ const Header = (props:{bgColor:string, shadow:string}) => {
               </Link>
             ))}
           </ul>
+          </div>
         </div>
       )}
     </nav>

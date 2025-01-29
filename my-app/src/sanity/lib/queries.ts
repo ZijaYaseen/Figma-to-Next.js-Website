@@ -1,20 +1,24 @@
 import { client } from "./client";
 
 // for shop page data
-export async function GetProductsData() {
+export async function GetProductsData(searchQuery: string = '') {
   const query = `
-  *[_type == 'product'] {
-    _id,
-    name,
-    imagePath,
-    description,
-    price,
-    category,
-    stockLevel,
-    isFeaturedProduct
-  }`;
-  return await client.fetch(query);
+    *[_type == 'product' && 
+      (name match $searchQuery || category match $searchQuery)
+    ] {
+      _id,
+      name,
+      imagePath,
+      description,
+      price,
+      category,
+      stockLevel,
+      isFeaturedProduct
+    }
+  `;
+  return await client.fetch(query, { searchQuery: `*${searchQuery}*` });
 }
+
 
 // Hero section product data
 export async function HeroSectionData() {

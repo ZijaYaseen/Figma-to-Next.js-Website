@@ -6,10 +6,12 @@ import { FaUser } from "react-icons/fa";
 import { BsBox2Fill } from "react-icons/bs";
 import { FaTag } from "react-icons/fa6";
 import Link from 'next/link';
-import Numbering from '@/components/Numbering';
 import PagesHeader from '@/components/PagesHeader';
+import Pagination from '@/components/Pagination';
 
 const Blog = () => {
+  const currentPage = 1; // This should come from query params
+  const totalPages = 5; // Replace with your total pages logic
   return (
     <div className='max-w-[1440vw] font-poppins w-full md:mt-[90px] mt-[60px]' >
 
@@ -127,7 +129,7 @@ const Blog = () => {
   </div>
 
 </div>
-<Numbering />
+{/* <Pagination totalPages={totalPages} currentPage={currentPage} /> */}
 </div>
   )
 }
