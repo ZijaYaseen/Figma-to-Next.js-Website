@@ -7,7 +7,7 @@ import { BsBox2Fill } from "react-icons/bs";
 import { FaTag } from "react-icons/fa6";
 import Link from 'next/link';
 import PagesHeader from '@/components/PagesHeader';
-import Pagination from '@/components/Pagination';
+// import Pagination from '@/components/Pagination';
 
 const Blog = () => {
   const currentPage = 1; // This should come from query params
