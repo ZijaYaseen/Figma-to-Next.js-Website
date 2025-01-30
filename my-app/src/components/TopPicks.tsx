@@ -25,6 +25,7 @@ const TopPicks = ({products}:TopPicksProps) => {
           alt="Products"
           width={200}
           height={200}
+          priority={false} // Default lazy loading
           className="md:w-[250px] md:h-[250px] w-full object-cover"
         ></Image>
         {/* Title */}

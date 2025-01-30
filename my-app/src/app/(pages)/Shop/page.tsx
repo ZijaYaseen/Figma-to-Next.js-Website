@@ -8,14 +8,15 @@ import PagesHeader from '@/components/PagesHeader';
 import ProductsList from '@/components/ProductsList';
 import Pagination from "@/components/Pagination";
 import { UseAppSelector } from "@/redux/hooks";
+import { performSearch } from "@/redux/Search/searchActions";
 
 
 const Shop = () => {
   const {itemsPerPage, filteredProducts, currentPage,} = UseAppSelector((state) => state.search);
-  const query = UseAppSelector((state) => state.search.searchQuery);
+  const searchQuery = UseAppSelector((state) => state.search.searchQuery);
 
   // Query ko console log karo
-  console.log("User Query from Redux:", query);
+  console.log("User Query from Redux:", searchQuery);
   
   
   const startIndex = (currentPage - 1) * itemsPerPage + 1;
@@ -55,7 +56,7 @@ const Shop = () => {
               <div className='flex items-center md:gap-4 gap-2'>
               <h4 className='font-normal md:text-xl text-sm'>Sort by</h4>
               <p className='flex md:w-[188px] w-[100px] h-[40px] md:h-[55px] text-[#9F9F9F] text-base bg-slate-50 font-normal justify-center items-center'>
-              {query || "Default"}
+              {searchQuery || "Default"}
               </p>
               </div>
             </div>

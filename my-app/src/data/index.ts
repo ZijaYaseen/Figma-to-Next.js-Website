@@ -1,8 +1,17 @@
 export const Nav = [
     {name:"Home", Link:"/"},
     {name:"Shop", Link:"/Shop"},
-    {name:"About", Link:"/Account"},
+    {name:"About", Link:"/About"},
     {name:"Contact", Link:"/Contact"},
+]
+
+export const NavMbl = [
+    {name:"Home", Link:"/"},
+    {name:"Shop", Link:"/Shop"},
+    {name:"About", Link:"/About"},
+    {name:"Contact", Link:"/Contact"},
+    {name:"Login", Link:"/Account/Login"},
+    {name:"Sign Up", Link:"/Account/Sign-up"},
 ]
 
 export const Help = [

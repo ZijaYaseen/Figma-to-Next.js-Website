@@ -58,6 +58,7 @@ const ProductsList: React.FC = () => {
               alt={product.name}
               width={600}
               height={600}
+              priority={false} // Default lazy loading
               className="w-52 h-32 md:w-60 md:h-72 flex flex-col justify-center mx-auto"
             />
             <div className="w-[130px] md:w-[194px] flex-col justify-center mx-auto">

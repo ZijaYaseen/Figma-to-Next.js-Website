@@ -12,6 +12,8 @@ import { IProduct } from '@/data';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '@/redux/cartSlice';
 import TopPicks from '@/components/TopPicks';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // for toast mesage
 
 
 export default  function Product({ params }: { params: { product: string } }) {
@@ -27,31 +29,41 @@ export default  function Product({ params }: { params: { product: string } }) {
 
     const handleAddToCart = () => {
         if (!selectedSize) {
-            setError('Please select a size.');
-            return;
-          }
-          if (!selectedColor) {
-            setError('Please select a color.');
-            return;
-          }
-
+          setError("Please select a size.");
+          return;
+        }
+        if (!selectedColor) {
+          setError("Please select a color.");
+          return;
+        }
+      
         if (product) {
-            const cartItem = {
-                id: product._id,
-                name: product.name,
-                imagePath: product.imagePath,
-                description: product.description || "",
-                price: product.price || 0,
-                size: selectedSize,
-                color: selectedColor,
-                quantity: count,
-            };
-           const items= dispatch(addToCart(cartItem));
-           setError(''); // Clear error after successful addition
-           console.log(items);
-           
+          const cartItem = {
+            id: product._id,
+            name: product.name,
+            imagePath: product.imagePath,
+            description: product.description || "",
+            price: product.price || 0,
+            size: selectedSize,
+            color: selectedColor,
+            quantity: count,
+          };
+      
+          dispatch(addToCart(cartItem));
+          setError(""); // Clear error after successful addition
+          
+          //  Toastify message for success
+          toast.success(`Item added to cart! `, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+      
         } else {
-            console.error("Product is null. Cannot add to cart.");
+          console.error("Product is null. Cannot add to cart.");
         }
     };
   
@@ -131,6 +143,7 @@ if (!product) {
                             alt={`Thumbnail ${index + 1}`}
                             width={100}
                             height={100}
+                            priority={false} // Default lazy loading
                             className="bg-[#FFF9E5] w-[76px] md:h-[80px] h-[45px] md:rounded-lg rounded-sm border hover:border-black"
                         />
                     ))}
@@ -145,6 +158,7 @@ if (!product) {
                 width={423}
                 height={500}
                 alt="Asgaard Sofa"
+                priority
                 className="bg-[#FFF9E5] w-[423px] md:h-[500px] h-[200px] rounded-lg"
                 />
                             
@@ -211,7 +225,7 @@ if (!product) {
                         </div>
                         <div className="flex gap-8 items-center border border-black w-[215px] md:h-16 h-12 rounded-[10px] md:rounded-[15px] justify-center">
                             {/* <Link href={"/Cart"}> */}
-                           <Link href={"/Cart"}>
+                           
                            <button
                             onClick={handleAddToCart} 
                             className=" md:font-normal font-bold md:text-xl text-xs"
@@ -219,8 +233,8 @@ if (!product) {
                             >
                                 Add To Cart
                             </button>
-                           </Link>
-                            {/* </Link> */}
+                           
+                            <ToastContainer />
                         </div>
                     </div>
 

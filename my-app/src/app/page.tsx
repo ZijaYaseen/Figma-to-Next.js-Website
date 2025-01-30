@@ -5,7 +5,6 @@ import { FaRegClock } from "react-icons/fa6";
 import { CiCalendar } from "react-icons/ci";
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
-import { IProduct } from '@/data/index';
 import { FeaturedSectionData, HeroSectionData, TopPicksData } from '@/sanity/lib/queries';
 import FeaturedSection from '@/components/FeaturedSection';
 import TopPicks from '@/components/TopPicks';
@@ -13,13 +12,13 @@ import TopPicks from '@/components/TopPicks';
 
 const Home = async () => {
 
-const HeroSectionProductData: IProduct = await HeroSectionData();
-const FeaturedSectionProductData: IProduct[] = await FeaturedSectionData()
-const TopPicksProductData : IProduct[] = await TopPicksData()
+const HeroSectionProductData = await HeroSectionData();
+const FeaturedSectionProductData = await FeaturedSectionData()
+const TopPicksProductData = await TopPicksData()
 
 
   return (
-    <div className='max-w-[1440vw] font-poppins h-full w-full overflow-hidden'>
+    <div className='max-w-[1920px] font-poppins h-full w-full overflow-hidden'>
 
       <header>
       <Header bgColor="bg-[#FBEBB5]" shadow='no' />
@@ -41,7 +40,10 @@ const TopPicksProductData : IProduct[] = await TopPicksData()
     <div className="flex flex-col lg:flex-row justify-between items-center bg-[#FFF9E5] pb-5 px-6 sm:px-10">
   {/* Image Section */}
   <div className="w-full lg:w-[60%] flex justify-center">
-    <Image src={"/asgaardsofa1.svg"} width={800} height={700} alt="sofa" ></Image>
+    <Image src={"/asgaardsofa1.svg"} 
+    width={800} height={700} alt="sofa" 
+    priority={false} // Default lazy loading
+    ></Image>
   </div>
 
   {/* Text and Button Section */}
@@ -69,11 +71,13 @@ const TopPicksProductData : IProduct[] = await TopPicksData()
         key={index}
         className="flex flex-col items-center justify-center mb-8 w-full sm:w-[45%] md:w-[30%] lg:w-[22%]"
       >
+        
         <Image
           src={items.image}
           alt="blog"
           width={80}
           height={100}
+          priority={false} // Default lazy loading
           className="md:w-full w-[90%] h-[50vh] object-cover rounded-lg"
         ></Image>
         <p className="py-4 text-xl font-normal text-center">{items.title}</p>

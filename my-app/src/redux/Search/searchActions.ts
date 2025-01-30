@@ -1,6 +1,6 @@
 import { IProduct } from '@/data';
 import { Dispatch } from '../store';
-import { setAllProducts, setFilteredProducts } from './searchSlice';
+import { setAllProducts, setFilteredProducts, setSearchQuery } from './searchSlice';
 import { GetProductsData } from '@/sanity/lib/queries';
 
 // Fetch and set all products when app loads
@@ -15,6 +15,7 @@ export const fetchAllProducts = () => async (dispatch: Dispatch) => {
 
 // Perform search and filter products
 export const performSearch = (query: string) => (dispatch: Dispatch, getState: any) => {
+  dispatch(setSearchQuery(query)); //  Redux store me query update karna
   const { allProducts } = getState().search; // Get default products
   const filtered = allProducts.filter((product: IProduct) =>
     product.name.toLowerCase().includes(query.toLowerCase())

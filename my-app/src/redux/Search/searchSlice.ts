@@ -22,7 +22,7 @@ const searchSlice = createSlice({
   name: 'search',
   initialState,
   reducers: {
-    setQuery: (state, action: PayloadAction<string>) => {
+    setSearchQuery: (state, action: PayloadAction<string>) => {
       state.searchQuery = action.payload;
     },
     setFilteredProducts: (state, action: PayloadAction<IProduct[]>) => {
@@ -41,5 +41,5 @@ const searchSlice = createSlice({
   },
 });
 
-export const { setQuery, setFilteredProducts,setAllProducts, setCurrentPage, setItemsPerPage } = searchSlice.actions;
+export const { setSearchQuery, setFilteredProducts,setAllProducts, setCurrentPage, setItemsPerPage } = searchSlice.actions;
 export default searchSlice.reducer;
