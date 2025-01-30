@@ -10,8 +10,8 @@ import PagesHeader from '@/components/PagesHeader';
 // import Pagination from '@/components/Pagination';
 
 const Blog = () => {
-  const currentPage = 1; // This should come from query params
-  const totalPages = 5; // Replace with your total pages logic
+  //const currentPage = 1; // This should come from query params
+  //const totalPages = 5; // Replace with your total pages logic
   return (
     <div className='max-w-[1440vw] font-poppins w-full md:mt-[90px] mt-[60px]' >
 
