@@ -8,7 +8,6 @@ import PagesHeader from '@/components/PagesHeader';
 import ProductsList from '@/components/ProductsList';
 import Pagination from "@/components/Pagination";
 import { UseAppSelector } from "@/redux/hooks";
-import { performSearch } from "@/redux/Search/searchActions";
 
 
 const Shop = () => {

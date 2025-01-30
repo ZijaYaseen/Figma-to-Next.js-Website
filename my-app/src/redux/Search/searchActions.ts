@@ -1,5 +1,5 @@
 import { IProduct } from '@/data';
-import { Dispatch } from '../store';
+import { Dispatch, RootState } from '../store';
 import { setAllProducts, setFilteredProducts, setSearchQuery } from './searchSlice';
 import { GetProductsData } from '@/sanity/lib/queries';
 
@@ -14,7 +14,7 @@ export const fetchAllProducts = () => async (dispatch: Dispatch) => {
 };
 
 // Perform search and filter products
-export const performSearch = (query: string) => (dispatch: Dispatch, getState: any) => {
+export const performSearch = (query: string) => (dispatch: Dispatch, getState: () => RootState) => {
   dispatch(setSearchQuery(query)); //  Redux store me query update karna
   const { allProducts } = getState().search; // Get default products
   const filtered = allProducts.filter((product: IProduct) =>
@@ -24,7 +24,7 @@ export const performSearch = (query: string) => (dispatch: Dispatch, getState: a
 };
 
 // for pagination
-export const selectPaginatedProducts = (state: any) => {
+export const selectPaginatedProducts = (state: RootState) => {
   const { currentPage, itemsPerPage, filteredProducts } = state.search;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;

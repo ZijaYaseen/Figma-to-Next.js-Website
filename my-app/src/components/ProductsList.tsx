@@ -23,6 +23,8 @@ const ProductsList: React.FC = () => {
           await dispatch(fetchAllProducts());
         }
       } catch (err) {
+        console.log("Err" + err);
+        
         setError('Failed to load products. Please try again later.');
       } finally {
         setLoading(false);
