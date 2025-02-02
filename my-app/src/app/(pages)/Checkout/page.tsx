@@ -211,7 +211,7 @@ const Checkout = () => {
                         <div className='flex flex-col gap-4 md:w-[40%]'>
 
                            {cartItems.map((product) =>(
-                             <div className='flex justify-between w-full border-b border-[#D9D9D9] md:pb-6 pb-3'>
+                             <div key={product.id} className='flex justify-between w-full border-b border-[#D9D9D9] md:pb-6 pb-3'>
 
                              <div className='flex flex-col justify-start gap-4 font-normal text-base'>
                                  <h1 className='font-medium text-2xl'>Product</h1>

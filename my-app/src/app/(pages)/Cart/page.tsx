@@ -1,22 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
 import Image from 'next/image';
 import PagesHeader from '@/components/PagesHeader';
 import { UseAppSelector } from '@/redux/hooks';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
-import { removeFromCart, setCartItems } from '@/redux/cartSlice';
+import { removeFromCart } from '@/redux/cartSlice';
 import { MdDelete } from "react-icons/md";
-
-interface IProduct {
-  id: string;
-  name: string;
-  price: number;
-  description: string,
-  quantity: number;
-  imagePath: string;
-}
 
 const Cart = () => {
   const cartItems = UseAppSelector((state) => state.cart.items);
