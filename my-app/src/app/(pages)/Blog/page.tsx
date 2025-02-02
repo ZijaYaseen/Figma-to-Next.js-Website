@@ -13,7 +13,7 @@ const Blog = () => {
   //const currentPage = 1; // This should come from query params
   //const totalPages = 5; // Replace with your total pages logic
   return (
-    <div className='max-w-[1440vw] font-poppins w-full md:mt-[90px] mt-[60px]' >
+    <div className='max-w-[1920px] font-poppins w-full md:mt-[90px] mt-[60px]' >
 
         {/* blog 1st section */}
         <div>

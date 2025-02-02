@@ -11,12 +11,10 @@ interface CartItem {
 
 interface CartState {
     items: CartItem[],
-    selectedItem: CartItem | null; // Add selectedItem
 }
 
 const initialState : CartState = {
     items : [],
-    selectedItem: null, // Initialize as null
 }
 
 const cartSlice = createSlice(
@@ -48,14 +46,10 @@ const cartSlice = createSlice(
                 state.items = action.payload;
               },
 
-              setSelectedItem(state, action: PayloadAction<CartItem | null>) {
-                state.selectedItem = action.payload; // Update selectedItem
-              },
-
         }
     }
 );
 
-export const {addToCart, removeFromCart, clearCart, setCartItems, setSelectedItem} = cartSlice.actions;
+export const {addToCart, removeFromCart, clearCart, setCartItems} = cartSlice.actions;
 
 export default cartSlice.reducer;

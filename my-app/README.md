@@ -4,8 +4,13 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 First, run the development server:
 
-```bash
+```npm
 npm install react-toastify
+
+```
+```npm
+npm i --save stripe @stripe/react-stripe-js @stripe/stripe-js
+
 ```
 
 For react Toastify Message.

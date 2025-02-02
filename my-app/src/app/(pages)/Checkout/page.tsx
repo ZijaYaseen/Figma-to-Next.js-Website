@@ -1,14 +1,26 @@
 "use client";
 import PagesHeader from '@/components/PagesHeader';
 import { UseAppSelector } from '@/redux/hooks';
+import { useRouter } from "next/navigation";
+import { useState } from 'react';
 import { MdClose } from 'react-icons/md';
 
 const Checkout = () => {
 
-    const cartItems_selectedProduct = UseAppSelector((state) => state.cart.selectedItem);
-
-     // Handle the case when cartItems_selectedProduct is null
-     if (cartItems_selectedProduct === null) {
+    const cartItems = UseAppSelector((state) => state.cart.items);
+    const cartTotal = cartItems.reduce((acc, product) => acc + (product.price * product.quantity), 0);
+    const [paymentMethod, setpaymentMethod] = useState("bank")
+     
+    const router = useRouter()
+    const handlePlaceOrder = () => {
+        if (paymentMethod === "bank") {
+          router.push("/Payment");
+        } else if (paymentMethod === "cod") {
+          alert("Your order has been placed successfully!");
+        }
+      };
+     // Handle the case when cartItems is null
+     if (cartItems === null) {
         return (
             <div className='max-w-[1440vw] font-poppins w-full md:mt-[90px] mt-[60px]'>
               <PagesHeader name='Checkout' title='Checkout' />
@@ -198,49 +210,65 @@ const Checkout = () => {
 
                         <div className='flex flex-col gap-4 md:w-[40%]'>
 
-                            <div className='flex justify-between w-full border-b border-[#D9D9D9] md:pb-6 pb-3'>
+                           {cartItems.map((product) =>(
+                             <div className='flex justify-between w-full border-b border-[#D9D9D9] md:pb-6 pb-3'>
 
-                                <div className='flex flex-col justify-start gap-4 font-normal text-base'>
-                                    <h1 className='font-medium text-2xl'>Product</h1>
+                             <div className='flex flex-col justify-start gap-4 font-normal text-base'>
+                                 <h1 className='font-medium text-2xl'>Product</h1>
 
-                                    <div className='flex gap-3 items-center'>
-                                        <p className='text-[#9F9F9F]'>
-                                            {cartItems_selectedProduct.name}
-                                        </p>
-                                        <MdClose size={15} />
-                                        <p>
-                                            {cartItems_selectedProduct.quantity}
-                                        </p>
-                                    </div>
+                                 <div className='flex gap-3 items-center'>
+                                     <p className='text-[#9F9F9F]'>
+                                         {product.name}
+                                     </p>
+                                     <MdClose size={15} />
+                                     <p>
+                                         {product.quantity}
+                                     </p>
+                                 </div>
+                                 <p>Subtotal</p>
+                                 
+                             </div>
 
-                                    <p>Total</p>
-                                </div>
+                             <div className='flex flex-col justify-end gap-4 text-end font-light text-base'>
+                                 <h1 className='font-medium text-2xl'>Subtotal</h1>
 
-                                <div className='flex flex-col justify-end gap-4 text-end font-light text-base'>
-                                    <h1 className='font-medium text-2xl'>Subtotal</h1>
+                                 <p>${product.price * product.quantity}</p>
+                                 <h2>${product.price * product.quantity}</h2>
+                             </div>
+                               
 
-                                    <p>${cartItems_selectedProduct.price * cartItems_selectedProduct.quantity}</p>
-                                    <h2 className='font-bold text-2xl text-[#B88E2F]'>${cartItems_selectedProduct.price * cartItems_selectedProduct.quantity}</h2>
-                                </div>
-                            </div>
+                         </div>
+                           ))}
+
+                           {/* Total */}
+                           <div className='flex  justify-between text-end font-light text-base'>
+
+                                 <h1 className='font-medium text-2xl'>Total</h1>
+                                 <h2 className='font-bold text-2xl text-[#B88E2F]'>${cartTotal}</h2>
+                             </div>
                               
                               <div className='text-base font-normal'>
 
                                 <div className='flex gap-4 items-center'>
                                     <p className='w-[14px] h-[14px] rounded-full bg-black'></p>
-                                    <p>Direct Bank Transfer</p>
+                                    <p>{paymentMethod=== "bank" ? "Direct Bank Transfer": "Cash On Delivery"}</p>
+                                    
                                 </div>
-                                <p className='font-light text-[#9F9F9F] mt-3'>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.
+                                <p className='font-light text-[#9F9F9F] mt-3'>
+                                    {paymentMethod === "bank"? "Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.": "Pay with cash when your order is delivered. Ensure you have the exact amount ready as change may not be available."}
+                                    
                                 </p>
 
-                                <div className='py-6 flex flex-col gap-3'>
-                                <div className='flex gap-4 items-center text-[#9F9F9F]'>
-                                    <p className='w-[14px] h-[14px] rounded-full border border-[#9F9F9F]'></p>
+                                <div className='py-6 flex flex-col gap-3 cursor-pointer'>
+                                <div onClick={() => (setpaymentMethod("bank"))}
+                                 className={`flex gap-4 items-center ${paymentMethod==="bank"? "text-black" : "text-[#9F9F9F]"} `}>
+                                    <p className={`w-[14px] h-[14px] rounded-full border ${paymentMethod === "bank" ? "border-black bg-black" :"border-[#9F9F9F]"} `}></p>
                                     <p>Direct Bank Transfer</p>
                                 </div>
 
-                                <div className='flex gap-4 items-center text-[#9F9F9F]'>
-                                    <p className='w-[14px] h-[14px] rounded-full border border-[#9F9F9F]'></p>
+                                <div onClick={() => (setpaymentMethod("cod"))}
+                                 className={`flex gap-4 items-center ${paymentMethod==="cod"? "text-black" : "text-[#9F9F9F]"} cursor-pointer`}>
+                                    <p className={`w-[14px] h-[14px] rounded-full border ${paymentMethod === "cod" ?  "border-black bg-black" :"border-[#9F9F9F]"}`}></p>
                                     <p>Cash On Delivery</p>
                                 </div>
                                 </div>
@@ -249,9 +277,11 @@ const Checkout = () => {
 
                               </div>
 
-                              <button className='mt-4 flex justify-center mx-auto rounded-[15px] font-normal text-xl lg:w-[318px] w-[280px] lg:py-5 py-3 border border-black'>
+                              <button onClick={handlePlaceOrder} className='mt-4 flex justify-center mx-auto rounded-[15px] font-normal text-xl lg:w-[318px] w-[280px] lg:py-5 py-3 border border-black'>
                               Place order
                               </button>
+
+                              {paymentMethod === "bank" }
 
                         </div>
 

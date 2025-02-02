@@ -6,7 +6,9 @@ import PagesHeader from '@/components/PagesHeader';
 import { UseAppSelector } from '@/redux/hooks';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
-import { setSelectedItem } from '@/redux/cartSlice';
+import { removeFromCart, setCartItems } from '@/redux/cartSlice';
+import { MdDelete } from "react-icons/md";
+
 interface IProduct {
   id: string;
   name: string;
@@ -19,17 +21,14 @@ interface IProduct {
 const Cart = () => {
   const cartItems = UseAppSelector((state) => state.cart.items);
 
-  const [selectCartItem, setSelectCartItem] = useState<IProduct | null>(null);
+  // Calculate total and subtotal for all cart items
+const cartTotal = cartItems.reduce((acc, product) => acc + (product.price * product.quantity), 0);
 
-  // Calculate the total price for the selected product
-  const selectedProductTotal = selectCartItem? selectCartItem.price * selectCartItem.quantity: 0;
-  const selectedProductSubtotal = selectCartItem? selectCartItem.price : 0;
 
   const dispatch = useDispatch();
 
-  const handleSelectProduct = (product: IProduct) => {
-    setSelectCartItem(product); // Local state ke liye
-    dispatch(setSelectedItem(product)); // Redux state ke liye
+  const handleRemove = (id: string) => {
+    dispatch(removeFromCart(id));
   };
   
   return (
@@ -63,10 +62,7 @@ const Cart = () => {
             {cartItems.map((product)=>(
             <tr
             key={product.id}
-            className={`border-b border-[#E5E5E5] text-[10px] md:text-base cursor-pointery ${
-              selectCartItem?.id === product.id ? "border-yellow-500 bg-yellow-100" : ""
-            }`}
-            onClick={() => handleSelectProduct(product)}
+            className={`border-b border-[#E5E5E5] text-[10px] md:text-base cursor-pointer`}
           >
               {/* Product Image */}
               <td className="py-4 md:px-4 px-2">
@@ -95,35 +91,38 @@ const Cart = () => {
 
               {/* Subtotal */}
               <td className="py-4 md:px-4 px-2 text-black">$ {product.price * product.quantity}</td>
+              <td onClick={()=> handleRemove(product.id)}>
+                <MdDelete color='#B88E2F' size={20}/>
+              </td>
             </tr>
             ))}
           </tbody>
         </table>
 
-         {/*  cart total box */}
-        <div className='md:w-[393px] bg-[#FFF9E5] md:h-[390px] h-[320px] flex flex-col items-center'>
-          <h1 className='mt-4 font-semibold text-[32px]'>Cart Totals</h1>
+        {/* Cart Totals Box */}
+<div className='md:w-[393px] bg-[#FFF9E5] md:h-[390px] h-[320px] flex flex-col items-center'>
+  <h1 className='mt-4 font-semibold text-[32px]'>Cart Totals</h1>
 
-          <div className='flex justify-between md:p-16 px-5 py-8 w-[90%]'>
-            <div className='flex flex-col gap-10 font-medium text-base'>
-              <p>Price Of 1 Product</p>
-              <p>Subtotal</p>
-            </div>
+  <div className='flex justify-between md:p-16 px-5 py-8 w-[90%]'>
+    <div className='flex flex-col gap-10 font-medium text-base'>
+      <p>Subtotal</p>
+      <p>Total</p>
+    </div>
 
-            <div className='flex flex-col gap-10 font-medium text-base text-right'>
-              <p className='text-base font-normal text-[#9F9F9F]'>
-              ${selectedProductSubtotal.toFixed(2)}
-              </p>
-              <p className='text-xl font-medium text-[#B88E2F]'>
-              ${selectedProductTotal.toFixed(2)}
-              </p>
-            </div>
-          </div>
+    <div className='flex flex-col gap-10 font-medium text-base text-right'>
+      <p className='text-base font-normal text-[#9F9F9F]'>
+        ${cartTotal.toFixed(2)}
+      </p>
+      <p className='text-xl font-medium text-[#B88E2F]'>
+        ${cartTotal.toFixed(2)}
+      </p>
+    </div>
+  </div>
 
-          <Link href={"Checkout"} className='flex justify-center mx-auto rounded-[15px] font-normal text-xl w-[222px] lg:py-5 py-3 border border-black'>
-            Check Out
-          </Link>
-        </div>
+  <Link href={"Checkout"} className='flex justify-center mx-auto rounded-[15px] font-normal text-xl w-[222px] lg:py-5 py-3 border border-black'>
+    Check Out
+  </Link>
+</div>
 
 
       </div>

@@ -28,7 +28,7 @@ export interface IProduct {
     description?: string;
     size?:string,
     color:string,
-    price?: number;
+    price: number;
     category?: string;
     stockLevel?: number;
     isFeaturedProduct?: boolean;
