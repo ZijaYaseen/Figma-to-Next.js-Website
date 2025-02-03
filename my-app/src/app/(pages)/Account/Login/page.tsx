@@ -1,9 +1,14 @@
+"use client";
 
 import Link from "next/link"
+import { useState } from "react"
+import { PiEyeSlashThin, PiEyeThin } from "react-icons/pi";
 
 const Login = () => {
+
+    const [showPassword, setShowPassword] = useState(false)
     return (
-        <div className='max-w-[1440vw] font-poppins w-full md:mt-[90px] mt-[60px]' >
+        <div className='max-w-[1440px] font-poppins w-full md:mt-[90px] mt-[60px]' >
 
             <div className="md:w-[85%] w-[90%] mx-auto pb-10">
 
@@ -31,14 +36,23 @@ const Login = () => {
                             <label htmlFor="text" className="text-base font-medium">
                                 Password
                             </label>
+                            <div className="relative">
                             <input
-                                type="text"
+                                type={showPassword ? "text" : "password"}
                                 id="text"
                                 name="username"
-                                className="mt-1 p-6 border border-[#9F9F9F] md:w-[453px] lg:h-[75px] h-12 rounded-[10px]  focus:outline-none"
+                                className="mt-1 p-6 border border-[#9F9F9F] w-full md:w-[453px] lg:h-[75px] h-12 rounded-[10px]  focus:outline-none"
                                 placeholder=""
                                 required
                             />
+                            <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)} 
+                            className="absolute inset-y-0 md:right-14 right-4 flex items-center text-gray-500 focus:outline-none"
+                            >
+                                {showPassword? < PiEyeThin size={24}/> : <PiEyeSlashThin size={24} />}
+                            </button>
+                            </div>
                         </div>
 
                         <div className="flex gap-5 items-center">

@@ -2,7 +2,7 @@
 
 const Register = () => {
     return (
-        <div className='max-w-[1440vw] font-poppins w-full md:mt-[90px] mt-[60px]' >
+        <div className='max-w-[1440px] font-poppins w-full md:mt-[90px] mt-[60px]' >
 
 
             <div className="flex flex-col md:flex-row justify-between md:w-[85%] w-[90%] mx-auto pb-10">
