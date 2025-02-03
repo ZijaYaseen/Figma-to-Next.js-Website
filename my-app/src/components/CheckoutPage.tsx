@@ -35,7 +35,7 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `http://localhost:3000/success?amount=${amount}`, // Update with your actual success URL
+        return_url: `http://localhost:3000/Payment-success?amount=${amount}`, // Update with your actual success URL
       },
     });
 
