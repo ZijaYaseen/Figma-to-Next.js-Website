@@ -18,15 +18,8 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
       body: JSON.stringify({ amount: ConvertToSubcurrency(amount) }),
     })
       .then((res) => res.json())
-      .then((data) => {
-        if (data.clientSecret) {
-          setClientSecret(data.clientSecret);
-          console.log("clientSecret fetched:", data.clientSecret);
-        } else {
-          console.error("No clientSecret in response:", data);
-        }
-      })
-      .catch((err) => console.error("Error fetching clientSecret:", err));
+      .then((data) => setClientSecret(data.clientSecret));
+      
   }, [amount]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -42,7 +35,7 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "http://localhost:3000/success", // Update with your actual success URL
+        return_url: `http://localhost:3000/success?amount=${amount}`, // Update with your actual success URL
       },
     });
 
@@ -52,13 +45,27 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
     }
   };
 
+  if(!clientSecret || !stripe || !elements){
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="inline-block w-8 h-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white" role="status">
+          <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+            Loading...
+          </span>
+        </div>
+      </div>
+    )
+  }
   return (
     <form onSubmit={handleSubmit} className="bg-white p-2 rounded-md max-w-md mx-auto py-10">
+
       {/* Render PaymentElement only if clientSecret is available */}
-      {clientSecret ? <PaymentElement /> : <p>Loading payment details...</p>}
+      {clientSecret && <PaymentElement />}
+
       {errorMessage && <div>{errorMessage}</div>}
-      <button disabled={!stripe || loading} className="text-white p-5 w-full bg-black mt-5">
-        Pay ${amount}
+
+      <button disabled={!stripe || loading} className="text-white p-5 w-full bg-black mt-2 rounded-md font-bold disabled:opacity-50 disabled:animate-pulse">
+       { !loading? ` Pay $${amount}` : "Processing..."}
       </button>
     </form>
   );
