@@ -57,7 +57,7 @@ const ProductsList: React.FC = () => {
           <div className="relative w-36 md:w-72 h-auto md:h-[422px] hover:shadow-md flex flex-col justify-center mx-auto">
             {/* Discount Badge */}
   {product.discountPercentage > 0  &&
-  <div className="absolute top-8 right-8 bg-red-600 text-white text-sm font-bold px-3 py-1 rounded-md shadow-lg">
+  <div className="absolute lg:top-8 lg:right-8 top-2 right-2 bg-red-600 text-white lg:text-sm text-[10px] font-bold px-3 py-1 rounded-md shadow-lg">
     {product.discountPercentage}% OFF
   </div>
 }

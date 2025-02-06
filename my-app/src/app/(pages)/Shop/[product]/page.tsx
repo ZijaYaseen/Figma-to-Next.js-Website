@@ -240,7 +240,8 @@ export default function Product({ params }: { params: { product: string } }) {
 
 
           {/* Add to Cart Section */}
-          <div className="flex md:gap-4 gap-2 my-5 pb-14 border-b border-[#D9D9D9]">
+          <div className='flex flex-col pb-12 gap-5 border-b border-[#D9D9D9]'>
+          <div className="flex md:gap-4 gap-2 my-5 ">
             <div className="flex px-2 md:gap-8 gap-4 items-center border border-[#9F9F9F] w-[123px] md:h-16 h-12 rounded-[10px] justify-center">
               <button onClick={handleDecrement} className="text-xl font-bold"> - </button>
               <p className="text-lg">{count}</p>
@@ -260,6 +261,19 @@ export default function Product({ params }: { params: { product: string } }) {
 
               <ToastContainer />
             </div>
+
+          </div>
+
+          {product.discountPercentage > 0 ? (
+  <div className="inline-block bg-green-100 text-green-800 font-bold px-4 py-2  w-fit rounded-md shadow-md">
+    In Stock , Grab Yours Now!
+  </div>
+) : (
+  <div className="inline-block bg-red-100 text-red-800 font-bold px-4 py-2 rounded-md shadow-md">
+    Out of Stock
+  </div>
+)}
+
           </div>
 
 
