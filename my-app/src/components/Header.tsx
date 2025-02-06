@@ -71,7 +71,9 @@ const Header = (props: { bgColor: string, shadow: string }) => {
           <CiUser size={28} className="w-7 h-7 lg:w-8 lg:h-8 hidden md:block" />
         </div>
         <SearchBar />
+        <Link href={"/Wishlist"}>
         <CiHeart size={28} className="w-7 h-7 lg:w-8 lg:h-8" />
+        </Link>
 
         {/* Shopping Cart Icon */}
         <Link href={"/Cart"}>
