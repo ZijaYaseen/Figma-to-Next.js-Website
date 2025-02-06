@@ -8,12 +8,34 @@ First, run the development server:
 npm install react-toastify
 
 ```
+For react Toastify Message.
+
 ```npm
 npm i --save stripe @stripe/react-stripe-js @stripe/stripe-js
 
 ```
 
-For react Toastify Message.
+```npm install bcryptjs```
+```npm i --save-dev @types/bcryptjs```
+
+🔑 bcrypt Kya Hota Hai? (Bilkul Simple Samajho)
+🔹 bcrypt ek algorithm hai jo password ko encrypt (secure) karne ke liye use hota hai.
+🔹 Iska main kaam hota hai:
+
+Password ko hash (encrypt) karna
+Jab user login kare, password match karna
+Secure authentication provide karna
+
+
+```npm install jsonwebtoken```
+```npm i --save-dev @types/jsonwebtoken```
+JWT token , for user sign up and login (expired in 24hours)
+
+```npm install jwt-decode```
+for decode jwt-code
+
+```npm install next-auth```
+next-auth for sign in authentication.
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 

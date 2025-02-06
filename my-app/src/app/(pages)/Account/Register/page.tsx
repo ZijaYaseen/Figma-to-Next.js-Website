@@ -5,7 +5,7 @@ const Register = () => {
         <div className='max-w-[1440px] font-poppins w-full md:mt-[90px] mt-[60px]' >
 
 
-            <div className="flex flex-col md:flex-row justify-between md:w-[85%] w-[90%] mx-auto pb-10">
+            <div className="flex flex-col md:flex-row justify-between md:w-[85%] w-[80%] mx-auto pb-10">
 
                 {/* Register */}
                 <div className="flex flex-col gap-8 md:w-[40%] w-full mx-auto">

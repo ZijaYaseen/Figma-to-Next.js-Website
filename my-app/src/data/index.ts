@@ -10,8 +10,6 @@ export const NavMbl = [
     {name:"Shop", Link:"/Shop"},
     {name:"About", Link:"/About"},
     {name:"Contact", Link:"/Contact"},
-    {name:"Login", Link:"/Account/Login"},
-    {name:"Sign Up", Link:"/Account/Sign-up"},
 ]
 
 export const Help = [
@@ -25,13 +23,14 @@ export interface IProduct {
     _id: string;
     name: string;
     imagePath: string;
-    description?: string;
-    size?:string,
-    color:string,
+    description: string;
+    size:string[],
+    color:string[],
     price: number;
     category?: string;
-    stockLevel?: number;
+    stockLevel: number;
     isFeaturedProduct?: boolean;
+    discountPercentage: number;
     tags?: string[];
     
   }

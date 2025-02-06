@@ -40,7 +40,7 @@ const CartSidebar =({ CartmenuOpen, CartsetMenuOpen }: { CartmenuOpen: boolean, 
                 </div>
 
                 {CartmenuOpen && (
-       <div className={`absolute top-0 bottom-0 md:w-[30%] right-0 w-[75%] max-h-full bg-white shadow-lg z-[100] flex flex-col`}>
+       <div className={`fixed top-0 bottom-0 md:w-[30%] right-0 w-[75%] max-h-full bg-white shadow-lg z-[100] flex flex-col`}>
        <div className="flex flex-col space-y-5 text-start md:p-8 p-4">
          {/* Header */}
          <div className="flex justify-between">

@@ -30,11 +30,12 @@ export default function Product({ params }: { params: { product: string } }) {
   const dispatch = useDispatch()
 
   const handleAddToCart = () => {
-    if (!selectedSize) {
+    if (product && product.size?.length && !selectedSize) {
       setError("Please select a size.");
       return;
     }
-    if (!selectedColor) {
+
+    if (product && product.color?.length && !selectedColor) {
       setError("Please select a color.");
       return;
     }
@@ -44,11 +45,12 @@ export default function Product({ params }: { params: { product: string } }) {
         id: product._id,
         name: product.name,
         imagePath: product.imagePath,
-        description: product.description || "",
-        price: product.price || 0,
+        description: product.description,
+        price: product.price,
         size: selectedSize,
         color: selectedColor,
         quantity: count,
+        discountPercntage : product.discountPercentage
       };
 
       dispatch(addToCart(cartItem));
@@ -157,19 +159,25 @@ export default function Product({ params }: { params: { product: string } }) {
         </div>
 
         {/* Center: Main Product Image */}
-        <div className="md:mr-20">
+        <div className="relative md:mr-20">
+  {/* Discount Badge */}
+  {product.discountPercentage > 0 &&
+  <div className="absolute top-4 right-4 bg-red-600 text-white text-lg font-bold px-3 py-1 rounded-md shadow-lg">
+    {product.discountPercentage}% OFF
+  </div>
+}
 
+  {/* Product Image */}
+  <Image
+    src={product.imagePath}
+    width={423}
+    height={500}
+    alt="Asgaard Sofa"
+    priority
+    className="bg-[#FFF9E5] w-[423px] md:h-[500px] h-[200px] rounded-lg"
+  />
+</div>
 
-          <Image
-            src={product.imagePath}
-            width={423}
-            height={500}
-            alt="Asgaard Sofa"
-            priority
-            className="bg-[#FFF9E5] w-[423px] md:h-[500px] h-[200px] rounded-lg"
-          />
-
-        </div>
 
         {/* Right: Product Description */}
         <div className="flex flex-col md:w-[35%] w-full">
@@ -194,30 +202,40 @@ export default function Product({ params }: { params: { product: string } }) {
           {/* Size Options */}
           <p className="text-[#9F9F9F] font-normal text-sm mb-3">Size</p>
           <div className="flex gap-4">
-            {['L', 'XL', 'XS'].map((size) => (
-              <p
-                key={size}
-                onClick={() => setSelectedSize(size)}
-                className={`flex w-8 h-8 rounded-md text-sm justify-center items-center cursor-pointer bg-[#FAF4F4] ${selectedSize === size ? 'bg-[#FBEBB5]' : 'bg-[#FAF4F4]'
-                  }`}
-              >
-                {size}
-              </p>
-            ))}
+            {product.size?.length ? (
+              product.size.map((size) => (
+                <p
+                  key={size}
+                  onClick={() => setSelectedSize(size)}
+                  className={`flex p-1 rounded-md text-sm justify-center items-center cursor-pointer ${selectedSize === size ? 'bg-[#FBEBB5]' : 'bg-[#FAF4F4]'
+                    }`}
+                >
+                  {size}
+                </p>
+              ))
+            ) : (
+              <p>Only this size available</p>
+            )}
           </div>
           {/* Error Message */}
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           {/* Color Options */}
           <p className="text-[#9F9F9F] font-normal text-sm my-3">Color</p>
           <div className="flex gap-4">
-            {['#816DFA', '#000000', '#CDBA7B'].map((color, index) => (
-              <button key={index}
-                onClick={() => setSelectedColor(color)}
-              >
-                <p className={`w-[30px] h-[30px] rounded-full ${selectedColor === color ? 'border-2 border-lime-950' : 'border-2 border-transparent'
-                  }`} style={{ backgroundColor: color }}></p>
-              </button>
-            ))}
+            {product.color?.length ? (
+              product.color.map((color, index) => (
+                <button key={index} onClick={() => setSelectedColor(color)}>
+                  <p
+                    className={`w-[30px] h-[30px] rounded-full ${selectedColor === color ? 'border-4 border-lime-950' : 'border-2 border-transparent'
+                      }`}
+                    style={{ backgroundColor: color }}
+                  ></p>
+                </button>
+              ))
+            ) : (
+              <p>Only this color available</p>
+            )}
+
           </div>
 
 

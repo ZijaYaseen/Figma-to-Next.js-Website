@@ -9,14 +9,63 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  // Validation form:
+  const [form, setForm] = useState({
+    fullName:"",
+    email:"",
+    password:"",
+    confirmPassword:"",
+  });
+
+  const handleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
+    setForm({...form, [e.target.name] : e.target.value})
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+  
+    if (form.password !== form.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+  
+    try {
+      const response = await fetch("/api/account/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: form.fullName,
+          email: form.email,
+          password: form.password,
+        }),
+        credentials: "include", // Cookies store karne ke liye
+      });
+  
+      const data = await response.json();
+      if (data.success) {
+        localStorage.setItem("token" , data.token)    // Token localStorage me save kia he
+        window.location.href = "/Dashboard"  // Redirect user to Home page
+      } else {
+        alert(data.error || "Failed to sign up!");
+      }
+    } catch (error) {
+      alert("Error! Try again.");
+    }
+  };
+  
+
   return (
     <div className="max-w-[1440px] font-poppins w-full md:mt-[90px] mt-[60px]">
-      <div className="md:w-[85%] w-[90%] mx-auto pb-10">
+      <div className="md:w-[85%] w-[80%] mx-auto pb-10">
+
         {/* Sign Up Section */}
         <div className="flex flex-col gap-8 md:w-[40%] w-full mx-auto">
           <h1 className="font-semibold text-4xl">Sign Up</h1>
 
-          <form className="flex flex-col gap-7" method="POST">
+
+
+          <form onSubmit={handleSubmit}
+          className="flex flex-col gap-7" method="POST">
             {/* Full Name */}
             <div className="flex flex-col gap-4">
               <label htmlFor="fullName" className="text-base font-medium">
@@ -26,8 +75,10 @@ const SignUp = () => {
                 type="text"
                 id="fullName"
                 name="fullName"
+                value= {form.fullName}
+                onChange={handleChange}
                 className="mt-1 p-6 border border-[#9F9F9F] md:w-[453px] lg:h-[75px] h-12 rounded-[10px] focus:outline-none"
-                placeholder="Enter your full name"
+                placeholder="Enter your full Name"
                 required
               />
             </div>
@@ -41,6 +92,8 @@ const SignUp = () => {
                 type="email"
                 id="email"
                 name="email"
+                value = {form.email}
+                onChange={handleChange}
                 className="mt-1 p-6 border border-[#9F9F9F] md:w-[453px] lg:h-[75px] h-12 rounded-[10px] focus:outline-none"
                 placeholder="Enter your email address"
                 required
@@ -57,6 +110,8 @@ const SignUp = () => {
                   type={showPassword ? "text" : "password"}
                   id="password"
                   name="password"
+                  value = {form.password}
+                  onChange={handleChange}
                   className="mt-1 p-6 border border-[#9F9F9F] md:w-[453px] w-full lg:h-[75px] h-12 rounded-[10px] focus:outline-none pr-12"
                   placeholder="Enter your password"
                   required
@@ -81,6 +136,8 @@ const SignUp = () => {
                   type={showConfirmPassword ? "text" : "password"}
                   id="confirmPassword"
                   name="confirmPassword"
+                  value={form.confirmPassword}
+                  onChange={handleChange}
                   className="mt-1 p-6 border border-[#9F9F9F] md:w-[453px] w-full lg:h-[75px] h-12 rounded-[10px] focus:outline-none pr-12"
                   placeholder="Confirm your password"
                   required

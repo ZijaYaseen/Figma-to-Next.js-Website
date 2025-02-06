@@ -6,7 +6,7 @@ import { RiArrowRightSLine } from 'react-icons/ri'
 const PagesHeader = (props:{name:string, title:string}) => {
   return (
     <div
-    className='bg-[url("/Rectangle1.svg")] bg-cover bg-center flex flex-col items-center justify-center h-[318px] px-4'
+    className='bg-[url("/Rectangle1.svg")] bg-cover bg-center flex flex-col items-center justify-center lg:h-[318px] h-[150px] px-4'
   >
     <Image
       src={"/Logo.svg"}
@@ -20,7 +20,7 @@ const PagesHeader = (props:{name:string, title:string}) => {
         {props.title}
     </h1>
   
-    <div className='flex space-x-2 py-2 text-sm sm:text-base'>
+    <div className='flex space-x-2 py-1 text-sm sm:text-base'>
       <Link href={"/"}>
       <h1 className='font-medium'>Home</h1>
       </Link>

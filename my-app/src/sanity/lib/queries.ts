@@ -13,6 +13,9 @@ export async function GetProductsData(searchQuery: string = '') {
       price,
       category,
       stockLevel,
+      size,
+      color,
+      discountPercentage,
       isFeaturedProduct
     }
   `;

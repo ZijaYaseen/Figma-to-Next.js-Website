@@ -54,7 +54,13 @@ const ProductsList: React.FC = () => {
     <div className="grid grid-cols-2 md:grid-cols-4 py-4 place-items-center px-6 md:px-16 lg:px-28 gap-[31px]">
       {paginatedProducts.map((product) => (
         <Link href={`Shop/${product._id}`} key={product._id}>
-          <div className="w-36 md:w-72 h-auto md:h-[422px] hover:shadow-md flex flex-col justify-center mx-auto">
+          <div className="relative w-36 md:w-72 h-auto md:h-[422px] hover:shadow-md flex flex-col justify-center mx-auto">
+            {/* Discount Badge */}
+  {product.discountPercentage > 0  &&
+  <div className="absolute top-8 right-8 bg-red-600 text-white text-sm font-bold px-3 py-1 rounded-md shadow-lg">
+    {product.discountPercentage}% OFF
+  </div>
+}
             <Image
               src={product.imagePath}
               alt={product.name}

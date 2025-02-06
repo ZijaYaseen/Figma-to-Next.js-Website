@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { UseAppDispatch } from "@/redux/hooks";
 import { performSearch } from "@/redux/Search/searchActions";
-import { useRouter } from "next/navigation"; // Correct useRouter import for App Directory
+import { useRouter } from "next/navigation";
 import { MdClose } from "react-icons/md";
 import { CiSearch } from "react-icons/ci";
 
@@ -11,7 +11,7 @@ const SearchBar: React.FC = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = UseAppDispatch();
-  const router = useRouter(); // Ensure it's imported from next/navigation
+  const router = useRouter(); 
   console.log(router);
   
 
@@ -36,7 +36,7 @@ const SearchBar: React.FC = () => {
         ) : (
           <CiSearch
             size={28}
-            className="cursor-pointer w-6 h-6 lg:w-8 lg:h-8"
+            className="cursor-pointer w-7 h-7 lg:w-8 lg:h-8"
             onClick={() => setSearchOpen(true)}
           />
         )}
