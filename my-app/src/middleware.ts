@@ -19,7 +19,7 @@ export async function middleware(req: NextRequest) {
 
     return NextResponse.next(); // Request allow ho jayegi
     
-  } catch (error) {
+  } catch (_error) {
 
     // Agar token invalid ya expire ho gaya to Home page pe redirect kar do
     return NextResponse.redirect(new URL("/", req.url));

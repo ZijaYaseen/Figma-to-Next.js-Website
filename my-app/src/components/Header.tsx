@@ -45,9 +45,6 @@ const Header = (props: { bgColor: string, shadow: string }) => {
   };
 
   const cartItems = UseAppSelector((state) => state.cart.items);
-  cartItems.length
-
-
 
   return (
     <nav className={`fixed z-10 top-0 left-0 flex items-center w-full md:h-[90px] max-w-[1920px] h-[60px] ${props.shadow} ${props.bgColor}`}>

@@ -55,7 +55,7 @@ export async function POST(req: Request) {
       }
     );
 
-    const resultData = await sanityResponse.json();
+     await sanityResponse.json();
 
 
     // Generate JWT Token for the user

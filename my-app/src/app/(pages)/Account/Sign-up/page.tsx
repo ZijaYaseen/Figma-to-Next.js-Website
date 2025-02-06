@@ -49,7 +49,7 @@ const SignUp = () => {
         alert(data.error || "Failed to sign up!");
       }
     } catch (error) {
-      alert("Error! Try again.");
+      alert("Error! Try again." + error);
     }
   };
   

@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
     // Return only non-sensitive details
     const { fullName, role } = payload as { fullName: string; role: string };
     return NextResponse.json({ fullName, role });
-  } catch (error) {
+  } catch (_error) {
     return NextResponse.json({ error: "Invalid token" }, { status: 401 });
   }
 }

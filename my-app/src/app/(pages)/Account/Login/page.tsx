@@ -97,7 +97,7 @@ const Login = () => {
                             </button>
 
                             <Link href={"/Account/Sign-up"}>
-                                Don't have an account? <span className="border-b text-base w-36 text-blue-600 border-blue-600">Sign Up</span>
+                                Don&#39;t have an account? <span className="border-b text-base w-36 text-blue-600 border-blue-600">Sign Up</span>
                             </Link>
                         </div>
                     </form>
