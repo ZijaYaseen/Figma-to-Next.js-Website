@@ -19,9 +19,10 @@ export async function middleware(req: NextRequest) {
 
     return NextResponse.next(); // Request allow ho jayegi
     
-  } catch (_error) {
+  } catch (error) {
 
     // Agar token invalid ya expire ho gaya to Home page pe redirect kar do
+    console.error("JWT Verification Failed:", error);
     return NextResponse.redirect(new URL("/", req.url));
   }
 }
