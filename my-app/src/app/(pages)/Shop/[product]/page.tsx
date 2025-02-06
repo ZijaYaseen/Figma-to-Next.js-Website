@@ -265,7 +265,7 @@ export default function Product({ params }: { params: { product: string } }) {
           </div>
 
           {product.discountPercentage > 0 ? (
-  <div className="inline-block bg-green-100 text-green-800 font-bold px-4 py-2  w-fit rounded-md shadow-md">
+  <div className="inline-block bg-[#FBEBB5] text-black font-bold px-4 py-2  w-fit rounded-md shadow-md">
     In Stock , Grab Yours Now!
   </div>
 ) : (
