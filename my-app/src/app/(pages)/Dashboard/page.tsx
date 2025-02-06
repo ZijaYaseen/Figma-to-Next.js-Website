@@ -1,38 +1,29 @@
 "use client";
-
-import AdminDashboard from "@/components/AdminDashboard";
-import UserDashboard from "@/components/UserDashboard";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import {jwtDecode} from "jwt-decode"; // Install it: npm install jwt-decode
+import AdminDashboard from "@/components/AdminDashboard";
+import UserDashboard from "@/components/UserDashboard";
 
 const Dashboard = () => {
   const router = useRouter();
   const [user, setUser] = useState<{ fullName: string; role: string } | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      router.push("/Account/Login");
-    } else {
-      try {
-        const decodedUserData = jwtDecode<{ fullName: string; role: string }>(token);
-        setUser(decodedUserData);
-        // console.log(decodedUserData);
-        
-      } catch (error) {
-        console.error("Invalid Token:", error);
-        localStorage.removeItem("token");
+    const fetchUserDetails = async () => {
+      const res = await fetch("/api/account/user", { credentials: "include" });
+      if (res.ok) {
+        const data = await res.json();
+        setUser(data);
+      } else {
         router.push("/Account/Login");
       }
-    }
-  }, []);
+    };
+    fetchUserDetails();
+  }, [router]);
 
   const handleLogout = async () => {
-    localStorage.removeItem("token");
     await fetch("/api/account/logout", { method: "POST", credentials: "include" });
-    router.push("/");
+    router.push("/Account/Login");
   };
 
   return (
@@ -40,14 +31,9 @@ const Dashboard = () => {
       <h1 className="text-4xl font-semibold text-center">
         Welcome {user ? user.fullName : "Guest"}!
       </h1>
-
-      {user?.role === "user" ? <UserDashboard /> : <AdminDashboard />}
-
+      {user?.role === "admin" ? <AdminDashboard /> : <UserDashboard />}
       <div className="flex justify-center mt-10">
-        <button
-          onClick={handleLogout}
-          className="bg-red-600 text-white px-6 py-3 rounded-lg text-lg"
-        >
+        <button onClick={handleLogout} className="bg-red-600 text-white px-6 py-3 rounded-lg text-lg">
           Logout
         </button>
       </div>
