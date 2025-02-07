@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
         const { payload } = await jwtVerify(token, SECRET_KEY);
         userId = (payload as { _id: string })._id;
       } catch (err) {
-        console.warn("Invalid Token, proceeding as guest user.");
+        console.warn("Invalid Token, proceeding as guest user.", err);
       }
     }
 
@@ -149,7 +149,7 @@ export async function GET(req: NextRequest) {
       const { payload } = await jwtVerify(token, SECRET_KEY);
       userId = (payload as { _id: string })._id;
     } catch (err) {
-      console.warn("Invalid token");
+      console.warn("Invalid token", err);
       return NextResponse.json(
         { success: false, error: "Invalid token" },
         { status: 401 }
@@ -210,7 +210,7 @@ export async function DELETE(req: NextRequest) {
         const { payload } = await jwtVerify(token, SECRET_KEY);
         userId = (payload as { _id: string })._id;
       } catch (err) {
-        console.warn("Invalid Token, proceeding as guest user.");
+        console.warn("Invalid Token, proceeding as guest user.", err);
       }
     }
 

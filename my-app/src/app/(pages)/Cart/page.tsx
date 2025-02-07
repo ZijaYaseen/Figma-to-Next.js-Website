@@ -80,74 +80,84 @@ const Cart = () => {
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   {cartItems.map((item) => (
-                    <tr key={item._key} className="border-b border-gray-300">
-                      <td className="px-6 py-4 whitespace-nowrap ">
-                        <div className="flex items-center space-x-4">
-                          <div className="relative w-16 h-16 flex-shrink-0">
-                            <Image
-                              src={item.product.imagePath}
-                              alt={item.product.name}
-                              layout="fill"
-                              objectFit="cover"
-                              className="rounded"
-                            />
-                          </div>
-                          <div>
-                            <p className="text-sm font-medium text-gray-900">
-                              {item.product.name}
-                            </p>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                        ${item.product.price.toFixed(2)}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="w-12 h-8 border border-gray-300 rounded flex items-center justify-center text-sm">
-                          {item.quantity}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                        ${item.subtotal.toFixed(2)}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <button
-                          onClick={() => handleRemove(item.product._id)}
-                          className="text-[#B88E2F]"
-                        >
-                          <MdDelete size={20} />
-                        </button>
-                      </td>
-                    </tr>
+                    <Link key={item._key} href={`/Shop/${item.product._id}`} passHref legacyBehavior>
+                      {/* The <a> wrapper with display: contents ensures proper table semantics */}
+                      <a style={{ display: "contents" }}>
+                        <tr className="border-b border-gray-300">
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="flex items-center space-x-4">
+                              <div className="relative w-16 h-16 flex-shrink-0">
+                                <Image
+                                  src={item.product.imagePath}
+                                  alt={item.product.name}
+                                  layout="fill"
+                                  objectFit="cover"
+                                  className="rounded"
+                                />
+                              </div>
+                              <div>
+                                <p className="text-sm font-medium text-gray-900">
+                                  {item.product.name}
+                                </p>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                            ${item.product.price.toFixed(2)}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="w-12 h-8 border border-gray-300 rounded flex items-center justify-center text-sm">
+                              {item.quantity}
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                            ${item.subtotal.toFixed(2)}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {/* Prevent the delete button click from triggering the row Link */}
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                handleRemove(item.product._id);
+                              }}
+                              className="text-[#B88E2F]"
+                            >
+                              <MdDelete size={20} />
+                            </button>
+                          </td>
+                        </tr>
+                      </a>
+                    </Link>
                   ))}
                 </tbody>
+
               </table>
             </div>
 
             {/* Cart Totals Section */}
-          <div className="md:w-[343px] bg-[#FFF9E5] md:h-[390px] h-[320px] flex flex-col items-center w-[80%] mx-auto">
-            <h1 className="mt-4 font-semibold text-[32px]">Cart Totals</h1>
-            <div className="flex justify-between md:p-16 px-5 py-8 w-[90%]">
-              <div className="flex flex-col gap-10 font-medium text-base">
-                <p>Subtotal</p>
-                <p>Total</p>
+            <div className="md:w-[343px] bg-[#FFF9E5] md:h-[390px] h-[320px] flex flex-col items-center w-[80%] mx-auto">
+              <h1 className="mt-4 font-semibold text-[32px]">Cart Totals</h1>
+              <div className="flex justify-between md:p-16 px-5 py-8 w-[90%]">
+                <div className="flex flex-col gap-10 font-medium text-base">
+                  <p>Subtotal</p>
+                  <p>Total</p>
+                </div>
+                <div className="flex flex-col gap-10 font-medium text-base text-right">
+                  <p className="text-base font-normal text-[#9F9F9F]">
+                    ${cartTotal.toFixed(2)}
+                  </p>
+                  <p className="text-xl font-medium text-[#B88E2F]">
+                    ${cartTotal.toFixed(2)}
+                  </p>
+                </div>
               </div>
-              <div className="flex flex-col gap-10 font-medium text-base text-right">
-                <p className="text-base font-normal text-[#9F9F9F]">
-                  ${cartTotal.toFixed(2)}
-                </p>
-                <p className="text-xl font-medium text-[#B88E2F]">
-                  ${cartTotal.toFixed(2)}
-                </p>
-              </div>
-            </div>
 
-            <Link href="/Checkout">
-              <button className="flex justify-center mx-auto rounded-[15px] font-normal text-xl w-[222px] lg:py-5 py-3 border border-black">
-                Check Out
-              </button>
-            </Link>
-          </div>
+              <Link href="/Checkout">
+                <button className="flex justify-center mx-auto rounded-[15px] font-normal text-xl w-[222px] lg:py-5 py-3 border border-black">
+                  Check Out
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
       )}

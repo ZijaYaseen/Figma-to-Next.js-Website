@@ -8,13 +8,25 @@ interface Product {
   price: number;
 }
 
-// Define the CartItem type to match your API response.
+// Define the CartItem type (new nested structure).
 export interface CartItem {
   _key: string;         // Unique key (from Sanity or generated via nanoid)
   product: Product;     // Populated product details
   quantity: number;
   subtotal: number;     // Calculated as quantity * product.price
 }
+
+// Define the flat cart item type (old structure).
+interface FlatCartItem {
+  id: string;
+  name: string;
+  imagePath: string;
+  price: number;
+  quantity: number;
+}
+
+// Create a union type for the addToCart payload.
+type AddToCartPayload = CartItem | FlatCartItem;
 
 // Define the state shape.
 interface CartState {
@@ -30,12 +42,12 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    // addToCart: if item exists (by product._id) then update quantity and recalc subtotal.
-    addToCart: (state, action: PayloadAction<any>) => {
-      // Normalize the payload.
-      // If action.payload.product is not defined, assume the payload is using the old flat structure.
+    // addToCart: if an item with the same product._id exists, update quantity and recalc subtotal.
+    addToCart: (state, action: PayloadAction<AddToCartPayload>) => {
       let newItem: CartItem;
-      if (!action.payload.product) {
+      // Check if the payload already has a nested product property.
+      if (!("product" in action.payload)) {
+        // If not, assume the payload is using the flat structure.
         newItem = {
           _key: action.payload.id, // using id as key; ideally you have a unique key
           product: {
@@ -48,6 +60,7 @@ const cartSlice = createSlice({
           subtotal: action.payload.quantity * action.payload.price,
         };
       } else {
+        // Otherwise, use the payload directly.
         newItem = action.payload;
       }
       
