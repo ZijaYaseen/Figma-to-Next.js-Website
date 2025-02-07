@@ -6,6 +6,28 @@ import { nanoid } from "nanoid";
 // Convert the secret key from your environment variable
 const SECRET_KEY = new TextEncoder().encode(process.env.JWT_SECRET as string);
 
+// ------------------
+// Define interfaces for the cart document structure returned from Sanity.
+// ------------------
+
+// For items stored in the cart document, note that in our POST endpoint we
+// expect each item to have a "product" field that is a reference (with _ref).
+interface CartItemInDocument {
+  _key: string;
+  product: { _ref: string };
+  quantity: number;
+  subtotal: number;
+}
+
+// The cart document itself
+interface ExistingCart {
+  _id: string;
+  items: CartItemInDocument[];
+}
+
+// ------------------
+// POST request: Add/Update Cart
+// ------------------
 export async function POST(req: NextRequest) {
   try {
     const { productId, quantity } = await req.json();
@@ -51,18 +73,20 @@ export async function POST(req: NextRequest) {
     } else if (guestId) {
       // For guest users, query by guestId.
       query = `*[_type == "cart" && guestId == $guestId][0]`;
-      queryParams = { guestId: guestId! };
+      queryParams = { guestId };
     }
 
-    const existingCart = await client.fetch(query, queryParams);
+    // Cast the result as an ExistingCart (or undefined if not found)
+    const existingCart = (await client.fetch(query, queryParams)) as ExistingCart | undefined;
 
     if (existingCart) {
       // 4. Check if the product is already in the cart's items array.
       const productIndex = existingCart.items.findIndex(
-        (item: any) => item.product._ref === productId
+        (item: CartItemInDocument) => item.product._ref === productId
       );
 
-      let updatedItems = [...existingCart.items];
+      // Create a copy of the items array.
+      const updatedItems = [...existingCart.items];
 
       if (productIndex > -1) {
         // If the product is already there, update the quantity.
@@ -74,7 +98,7 @@ export async function POST(req: NextRequest) {
         // Otherwise, add a new cartItem (with a unique _key) including the calculated subtotal.
         updatedItems.push({
           _key: nanoid(),
-          product: { _type: "reference", _ref: productId },
+          product: { _ref: productId },
           quantity,
           subtotal: quantity * productPrice,
         });
@@ -130,8 +154,9 @@ export async function POST(req: NextRequest) {
   }
 }
 
-//  GET request --------------------------------------------------------------------------------------------------------
-
+// ------------------
+// GET request: Fetch Cart
+// ------------------
 export async function GET(req: NextRequest) {
   try {
     // 1. Get the token from cookies.
@@ -177,7 +202,7 @@ export async function GET(req: NextRequest) {
       success: true,
       cart: cart || { items: [] },
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Cart Fetch Error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to fetch cart" },
@@ -186,8 +211,9 @@ export async function GET(req: NextRequest) {
   }
 }
 
-// DELETE request --------------------------------------------------------------------------------------------------------
-
+// ------------------
+// DELETE request: Remove Item from Cart
+// ------------------
 export async function DELETE(req: NextRequest) {
   try {
     // Expect the DELETE request to have a JSON body containing the productId to remove.
@@ -203,7 +229,7 @@ export async function DELETE(req: NextRequest) {
     // 1. Token check: determine if user is logged in or is a guest.
     const token = req.cookies.get("token")?.value;
     let userId: string | null = null;
-    let guestId = req.cookies.get("guestId")?.value;
+    const guestId = req.cookies.get("guestId")?.value;
 
     if (token) {
       try {
@@ -232,7 +258,7 @@ export async function DELETE(req: NextRequest) {
     }
 
     // 3. Fetch the existing cart from Sanity.
-    const existingCart = await client.fetch(query, queryParams);
+    const existingCart = (await client.fetch(query, queryParams)) as ExistingCart | undefined;
 
     if (!existingCart) {
       return NextResponse.json(
@@ -243,7 +269,7 @@ export async function DELETE(req: NextRequest) {
 
     // 4. Remove the product from the items array.
     const filteredItems = existingCart.items.filter(
-      (item: any) => item.product._ref !== productId
+      (item: CartItemInDocument) => item.product._ref !== productId
     );
 
     // Update the items array in the cart document.

@@ -4,10 +4,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import PagesHeader from "@/components/PagesHeader";
 import { UseAppSelector } from "@/redux/hooks";
-import Link from "next/link";
 import { useDispatch } from "react-redux";
-import { removeFromCart, setCartItems } from "@/redux/cartSlice";
-import { MdDelete, MdClose } from "react-icons/md";
+import { setCartItems } from "@/redux/cartSlice";
 import axios from "axios";
 
 // Define the interface for form fields

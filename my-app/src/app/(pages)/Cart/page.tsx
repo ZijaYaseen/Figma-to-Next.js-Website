@@ -79,57 +79,58 @@ const Cart = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
-                  {cartItems.map((item) => (
-                    <Link key={item._key} href={`/Shop/${item.product._id}`} passHref legacyBehavior>
-                      {/* The <a> wrapper with display: contents ensures proper table semantics */}
-                      <a style={{ display: "contents" }}>
-                        <tr className="border-b border-gray-300">
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex items-center space-x-4">
-                              <div className="relative w-16 h-16 flex-shrink-0">
-                                <Image
-                                  src={item.product.imagePath}
-                                  alt={item.product.name}
-                                  layout="fill"
-                                  objectFit="cover"
-                                  className="rounded"
-                                />
-                              </div>
-                              <div>
-                                <p className="text-sm font-medium text-gray-900">
-                                  {item.product.name}
-                                </p>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                            ${item.product.price.toFixed(2)}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="w-12 h-8 border border-gray-300 rounded flex items-center justify-center text-sm">
-                              {item.quantity}
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                            ${item.subtotal.toFixed(2)}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            {/* Prevent the delete button click from triggering the row Link */}
-                            <button
-                              onClick={(e) => {
-                                e.preventDefault();
-                                handleRemove(item.product._id);
-                              }}
-                              className="text-[#B88E2F]"
-                            >
-                              <MdDelete size={20} />
-                            </button>
-                          </td>
-                        </tr>
-                      </a>
-                    </Link>
-                  ))}
-                </tbody>
+  {cartItems.map((item) => (
+    <Link key={item._key} href={`/Shop/${item.product._id}`} passHref legacyBehavior>
+      {/* The <a> wrapper with display: contents ensures proper table semantics */}
+      <a style={{ display: "contents" }}>
+        <tr className="border-b border-gray-300">
+          <td className="px-6 py-4 whitespace-nowrap align-middle">
+            <div className="flex items-center space-x-4">
+              <div className="relative w-16 h-16 flex-shrink-0">
+                <Image
+                  src={item.product.imagePath}
+                  alt={item.product.name}
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded"
+                />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-900">
+                  {item.product.name}
+                </p>
+              </div>
+            </div>
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 align-middle">
+            ${item.product.price.toFixed(2)}
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap align-middle">
+            <div className="w-12 h-8 border border-gray-300 rounded flex items-center justify-center text-sm">
+              {item.quantity}
+            </div>
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 align-middle">
+            ${item.subtotal.toFixed(2)}
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap align-middle">
+            {/* Prevent the delete button click from triggering the row Link */}
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                handleRemove(item.product._id);
+              }}
+              className="text-[#B88E2F]"
+            >
+              <MdDelete size={20} />
+            </button>
+          </td>
+        </tr>
+      </a>
+    </Link>
+  ))}
+</tbody>
+
 
               </table>
             </div>
