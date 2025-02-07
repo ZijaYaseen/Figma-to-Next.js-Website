@@ -156,7 +156,15 @@ export default function Product({ params }: { params: { product: string } }) {
   const handleDecrement = () => setCount((prev) => Math.max(1, prev - 1));
 
   if (loading) {
-    return <div><h1 className="flex justify-center items-center h-[300px] mt-14 font-bold text-2xl">Loading...</h1></div>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="inline-block w-8 h-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white" role="status">
+          <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+            Loading...
+          </span>
+        </div>
+      </div>
+    )
   }
 
   if (!product) {

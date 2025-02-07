@@ -39,8 +39,9 @@ const Cart = () => {
 
   const handleRemove = async (id: string) => {
     try {
-      await axios.delete(`/api/cart/${id}`); // API request to delete item
       dispatch(removeFromCart(id)); // Update Redux store after deletion
+      await axios.delete(`/api/cart/${id}`); // API request to delete item
+      
     } catch (error) {
       console.error("Error removing item:", error);
     }
