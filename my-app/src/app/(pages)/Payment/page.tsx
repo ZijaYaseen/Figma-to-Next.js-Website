@@ -16,7 +16,10 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
  
 const Stripe = () => {
   const cartItems = UseAppSelector((state) => state.cart.items);
-      const cartTotal = cartItems.reduce((acc, product) => acc + (product.price * product.quantity), 0);
+  const cartTotal = cartItems.reduce(
+    (acc, item) => acc + (item.subtotal || 0),
+    0
+  );
       
 
   return (
