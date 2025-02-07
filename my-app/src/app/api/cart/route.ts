@@ -18,6 +18,18 @@ interface CartItemInDocument {
   quantity: number;
   subtotal: number;
 }
+interface NewCart {
+  _type: string;
+  items: {
+    _key: string;
+    product: { _type: string; _ref: string };
+    quantity: number;
+    subtotal: number;
+  }[];
+  // Optionally include other fields like user or guestId:
+  user?: { _type: string; _ref: string };
+  guestId?: string;
+}
 
 // The cart document itself
 interface ExistingCart {
@@ -118,7 +130,7 @@ export async function POST(req: NextRequest) {
       return res;
     } else {
       // 6. No cart exists—create a new cart document.
-      const newCart: any = {
+      const newCart: NewCart = {
         _type: "cart",
         items: [
           {
