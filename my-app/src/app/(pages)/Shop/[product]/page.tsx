@@ -192,7 +192,7 @@ export default function Product({ params }: { params: { product: string } }) {
               width={100}
               height={100}
               priority={false} // Default lazy loading
-              className="bg-[#FFF9E5] w-[76px] md:h-[80px] h-[55px] md:rounded-lg rounded-sm border hover:border-black"
+              className="bg-[#FFF9E5] w-[66px] md:h-[80px] h-[55px] md:rounded-lg rounded-sm border hover:border-black"
             />
           ))}
         </div>
