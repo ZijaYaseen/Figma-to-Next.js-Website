@@ -29,9 +29,11 @@ const Dashboard = () => {
   return (
     <div className="max-w-[1440px] font-poppins w-full mx-auto mt-[90px]">
       <h1 className="text-4xl font-semibold text-center">
-        Welcome {user ? user.fullName : "Guest"}!
+        Hello {user ? user.fullName : "!"}
       </h1>
-      {user?.role === "admin" ? <AdminDashboard /> : <UserDashboard />}
+      {user?.role === "admin" && <AdminDashboard />}
+      {user?.role === "user" && <UserDashboard />}
+
       <div className="flex justify-center mt-10">
         <button onClick={handleLogout} className="bg-red-600 text-white px-6 py-3 rounded-lg text-lg">
           Logout

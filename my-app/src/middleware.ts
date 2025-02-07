@@ -15,7 +15,9 @@ export async function middleware(req: NextRequest) {
 
   try {
     // JWT verify karo using jose
-     await jwtVerify(token, SECRET_KEY);
+    await jwtVerify(token, SECRET_KEY);
+    // console.log("Response JWT token :"  ,payload); 
+    
 
     return NextResponse.next(); // Request allow ho jayegi
     

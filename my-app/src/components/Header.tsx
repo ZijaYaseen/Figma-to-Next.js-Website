@@ -35,6 +35,7 @@ const Header = (props: { bgColor: string, shadow: string }) => {
   }, [])
 
   const handleLoginClick = () => {
+    handleLinkClick()
     if (token) {
       router.push("/Dashboard");
     }

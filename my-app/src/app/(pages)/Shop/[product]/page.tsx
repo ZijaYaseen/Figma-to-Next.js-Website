@@ -15,6 +15,7 @@ import TopPicks from '@/components/TopPicks';
 import CartSidebar from '@/components/CartSidebar';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // for toast mesage
+import OutOfStockModal from "@/components/OutOfStockModal"
 
 
 export default function Product({ params }: { params: { product: string } }) {
@@ -26,55 +27,92 @@ export default function Product({ params }: { params: { product: string } }) {
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [error, setError] = useState('');
   const [cartSidebar, setCartSidebar] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const dispatch = useDispatch()
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
+    // Check if the requested quantity exceeds the available stock
+    if (product && product.stockLevel < count) {
+      setIsModalOpen(true); // Show modal if out of stock
+      return;
+    }
+  
+    // Check if a size is required but not selected
     if (product && product.size?.length && !selectedSize) {
       setError("Please select a size.");
       return;
     }
-
+  
+    // Check if a color is required but not selected
     if (product && product.color?.length && !selectedColor) {
       setError("Please select a color.");
       return;
     }
-
-    if (product) {
-      const cartItem = {
-        id: product._id,
-        name: product.name,
-        imagePath: product.imagePath,
-        description: product.description,
-        price: product.price,
-        size: selectedSize,
-        color: selectedColor,
-        quantity: count,
-        discountPercntage : product.discountPercentage
-      };
-
-      dispatch(addToCart(cartItem));
-      setError(""); // Clear error after successful addition
-
-      // Cart Sidebar open karein
-      setCartSidebar(true);
-
-      //  Toastify message for success
-      toast.success(`Item added to cart! `, {
-        position: 'bottom-center',
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-
-    } else {
+  
+    if (!product) {
       console.error("Product is null. Cannot add to cart.");
+      return;
     }
-
-
+    
+    // Create a detailed cart item for Redux (for UI purposes)
+    const cartItem = {
+      id: product._id,
+      name: product.name,
+      imagePath: product.imagePath,
+      description: product.description,
+      price: product.price,
+      size: selectedSize,
+      color: selectedColor,
+      quantity: count,
+      discountPercentage: product.discountPercentage,
+    };
+  
+    // Step 1: Update Redux cart state
+    dispatch(addToCart(cartItem));
+    setError(""); // Clear any existing errors
+  
+    // Step 2: Open the cart sidebar
+    setCartSidebar(true);
+  
+    // Step 3: Send a POST request to your Sanity API route to update the cart
+    try {
+      const response = await fetch("/api/cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // Only send the minimal data needed for the Sanity schema:
+        // product reference and quantity.
+        body: JSON.stringify({
+          productId: product._id,
+          quantity: count,
+        }),
+      });
+  
+      const data = await response.json();
+      if (data.success) {
+        console.log("Cart saved in Sanity:", data);
+      } else {
+        console.error("Failed to save cart in Sanity");
+      }
+    } catch (error) {
+      console.error("Error saving to Sanity:", error);
+    }
+  
+    // Step 4: Display a toast notification for success
+    toast.success(`Added ${count} ${product.name} to cart!`, {
+      position: "bottom-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
   };
+  
+  
+  
 
   useEffect(() => {
     async function fetchProductData() {
@@ -144,7 +182,8 @@ export default function Product({ params }: { params: { product: string } }) {
       {/* 2nd Section: Product Details */}
       <div className="flex md:flex-row flex-col mt-10 w-full md:px-20 px-5 gap-4">
         {/* Left: Thumbnail Images */}
-        <div className="flex md:flex-col flex-row md:gap-8 gap-4 md:mr-10 mr-3">
+        <div className='md:flex flex-col-reverse flex gap-3'>
+        <div className="flex md:flex-col flex-row md:gap-8 gap-3 md:mr-10 mr-3">
           {[product.imagePath, product.imagePath, product.imagePath, product.imagePath].map((src, index) => (
             <Image
               key={index}
@@ -153,7 +192,7 @@ export default function Product({ params }: { params: { product: string } }) {
               width={100}
               height={100}
               priority={false} // Default lazy loading
-              className="bg-[#FFF9E5] w-[76px] md:h-[80px] h-[45px] md:rounded-lg rounded-sm border hover:border-black"
+              className="bg-[#FFF9E5] w-[76px] md:h-[80px] h-[55px] md:rounded-lg rounded-sm border hover:border-black"
             />
           ))}
         </div>
@@ -174,10 +213,10 @@ export default function Product({ params }: { params: { product: string } }) {
     height={500}
     alt="Asgaard Sofa"
     priority
-    className="bg-[#FFF9E5] w-[423px] md:h-[500px] h-[200px] rounded-lg"
+    className="bg-[#FFF9E5] w-[423px] md:h-[500px] h-[250px] rounded-lg"
   />
 </div>
-
+</div>
 
         {/* Right: Product Description */}
         <div className="flex flex-col md:w-[35%] w-full">
@@ -257,14 +296,18 @@ export default function Product({ params }: { params: { product: string } }) {
                 Add To Cart
               </button>
 
+              {/* Show Modal if Out of Stock */}
+              <OutOfStockModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+
               <CartSidebar CartmenuOpen={cartSidebar} CartsetMenuOpen={setCartSidebar} />
 
               <ToastContainer />
+              
             </div>
 
           </div>
 
-          {product.discountPercentage > 0 ? (
+          {product.stockLevel > 0 ? (
   <div className="inline-block bg-[#FBEBB5] text-black font-bold px-4 py-2  w-fit rounded-md shadow-md">
     In Stock , Grab Yours Now!
   </div>

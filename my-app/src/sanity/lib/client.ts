@@ -7,4 +7,5 @@ export const client = createClient({
   dataset,
   apiVersion,
   useCdn: false, // Set to false if statically generating pages, using ISR or tag-based revalidation.. cache false kro ta k fresh data available ho ske..
+  token: process.env.SANITY_API_TOKEN,
 })

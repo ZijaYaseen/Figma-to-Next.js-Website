@@ -27,12 +27,13 @@ export async function POST(req: Request) {
     // 3. JWT generate kia
     const token = jwt.sign(
       {
+        _id: user._id,
         fullName: user.fullName,
         email: user.email,
         role: user.role,
       },
       SECRET_KEY,
-      { expiresIn: "24h" }
+      { expiresIn: "24d" }
     );
 
     //  4. Token ko cookies me set kia

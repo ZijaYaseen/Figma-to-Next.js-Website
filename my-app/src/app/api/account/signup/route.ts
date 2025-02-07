@@ -55,18 +55,20 @@ export async function POST(req: Request) {
       }
     );
 
-     await sanityResponse.json();
+    const sanityResult = await sanityResponse.json(); // Response ko variable me store kiya
+    const userId =  sanityResult?.results[0]?._id; // Sanity ka user ID extract kiya
 
 
     // Generate JWT Token for the user
     const token = jwt.sign(
       {
+        _id: userId, // Sanity se aaya hua user ID
         fullName,
         email,
         role: userData.role
       }, // JWT token me user ka email and email saved kia he.
       process.env.JWT_SECRET as string, // Secret key
-      { expiresIn: "24h" } // Token expiry time
+      { expiresIn: "24d" } // Token expiry time
     );
 
     // Set token as a cookie

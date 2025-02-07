@@ -1,125 +1,158 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import PagesHeader from '@/components/PagesHeader';
-import { UseAppSelector } from '@/redux/hooks';
-import Link from 'next/link';
-import { useDispatch } from 'react-redux';
-import { removeFromCart } from '@/redux/cartSlice';
+import Image from "next/image";
+import PagesHeader from "@/components/PagesHeader";
+import { UseAppSelector } from "@/redux/hooks";
+import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { removeFromCart, setCartItems } from "@/redux/cartSlice";
 import { MdDelete } from "react-icons/md";
+import { useEffect } from "react";
+import axios from "axios";
 
 const Cart = () => {
   const cartItems = UseAppSelector((state) => state.cart.items);
-
-  // Calculate total and subtotal for all cart items
-const cartTotal = cartItems.reduce((acc, product) => acc + (product.price * product.quantity), 0);
-
-
   const dispatch = useDispatch();
 
-  const handleRemove = (id: string) => {
-    dispatch(removeFromCart(id));
+  // Fetch Cart Items from API
+  const fetchCartItems = async () => {
+    try {
+      const response = await axios.get("/api/cart");
+      // Debug: Check the API response structure
+      console.log("API Response:", response.data);
+      // Dispatch only the array of items from the response
+      dispatch(setCartItems(response.data.cart.items));
+    } catch (error) {
+      console.error("Error fetching cart items:", error);
+    }
   };
-  
+
+  useEffect(() => {
+    fetchCartItems(); // Fetch items when the page loads
+  }, [dispatch]);
+
+  // Calculate total using the subtotal provided by the backend
+  const cartTotal = cartItems.reduce(
+    (acc, item) => acc + (item.subtotal || 0),
+    0
+  );
+
+  const handleRemove = async (id: string) => {
+    try {
+      await axios.delete(`/api/cart/${id}`); // API request to delete item
+      dispatch(removeFromCart(id)); // Update Redux store after deletion
+    } catch (error) {
+      console.error("Error removing item:", error);
+    }
+  };
+
   return (
-    <div className='max-w-[1440vw] font-poppins w-full md:mt-[90px] mt-[60px]' >
+    <div className="w-full mt-16 md:mt-24 font-poppins">
+      {/* Page Header */}
+      <PagesHeader name="Cart" title="Cart" />
 
-      {/* Cart 1st section */}
-      <div>
-        <PagesHeader name='Cart' title='Cart' />
-      </div>
-
-      
       {cartItems.length === 0 ? (
-      <div className='text-center items-center flex justify-center text-2xl font-bold h-[400px]'>Your cart is empty.</div>
-    ) : (
-    //  cart product deatails
-      <div className='md:py-10 py-5 gap-5 md:w-[90%] w-[95%] flex flex-col md:flex-row justify-between mx-auto'>
-    
-        <table className="md:w-[60%] w-full border-collapse">
-          {/* Table Header */}
-          <thead className="bg-[#FFF9E5] font-medium lg:text-base text-xs md:h-[80px] h-[50px]">
-            <tr className="md:p0">
-              <th>Product</th>
-              <th>Price</th>
-              <th>Quantity</th>
-              <th>Subtotal</th>
-            </tr>
-          </thead>
+        <div className="flex items-center justify-center h-96 text-2xl font-bold">
+          Your cart is empty.
+        </div>
+      ) : (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          <div className="flex flex-col md:flex-row gap-8">
+            {/* Cart Items Table */}
+            <div className="flex-1 overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-[#FFF9E5]">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                      Product
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                      Price
+                    </th>
+                    <th className="px-6 py-3 text-center text-sm font-semibold text-gray-700">
+                      Quantity
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                      Subtotal
+                    </th>
+                    <th className="px-6 py-3"></th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  {cartItems.map((item) => (
+                    <tr key={item._key} className="border-b border-gray-300">
+                      <td className="px-6 py-4 whitespace-nowrap ">
+                        <div className="flex items-center space-x-4">
+                          <div className="relative w-16 h-16 flex-shrink-0">
+                            <Image
+                              src={item.product.imagePath}
+                              alt={item.product.name}
+                              layout="fill"
+                              objectFit="cover"
+                              className="rounded"
+                            />
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium text-gray-900">
+                              {item.product.name}
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                        ${item.product.price.toFixed(2)}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="w-12 h-8 border border-gray-300 rounded flex items-center justify-center text-sm">
+                          {item.quantity}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                        ${item.subtotal.toFixed(2)}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <button
+                          onClick={() => handleRemove(item.product._id)}
+                          className="text-[#B88E2F]"
+                        >
+                          <MdDelete size={20} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
 
-          {/* Table Body */}
-          <tbody className='mt-5'>
-            {cartItems.map((product)=>(
-            <tr
-            key={product.id}
-            className={`border-b border-[#E5E5E5] text-[10px] md:text-base cursor-pointer`}
-          >
-              {/* Product Image */}
-              <td className="py-4 md:px-4 px-2">
-                <div className="flex items-center gap-2 md:gap-4">
-                  <Image
-                    src={product.imagePath}
-                    alt="Cart"
-                    width={100}
-                    height={100}
-                    className="bg-[#FBEBB5] md:w-[76px] w-[50px] md:h-[80px] h-[40px] md:rounded-[10px] rounded-sm"
-                  />
-                  <span className="text-[#9F9F9F]">{product.name}</span>
-                </div>
-              </td>
+            {/* Cart Totals Section */}
+          <div className="md:w-[343px] bg-[#FFF9E5] md:h-[390px] h-[320px] flex flex-col items-center w-[80%] mx-auto">
+            <h1 className="mt-4 font-semibold text-[32px]">Cart Totals</h1>
+            <div className="flex justify-between md:p-16 px-5 py-8 w-[90%]">
+              <div className="flex flex-col gap-10 font-medium text-base">
+                <p>Subtotal</p>
+                <p>Total</p>
+              </div>
+              <div className="flex flex-col gap-10 font-medium text-base text-right">
+                <p className="text-base font-normal text-[#9F9F9F]">
+                  ${cartTotal.toFixed(2)}
+                </p>
+                <p className="text-xl font-medium text-[#B88E2F]">
+                  ${cartTotal.toFixed(2)}
+                </p>
+              </div>
+            </div>
 
-
-              {/* Product Name */}
-              <td className="py-4 md:px-4 px-2 text-[#9F9F9F]">$ {product.price} </td>
-
-              {/* Quantity */}
-              <td className="py-4 md:px-4 px-2">
-                <div className="border border-[#9F9F9F] w-8 h-8 rounded-[5px] flex items-center justify-center text-black">
-                  {product.quantity}
-                </div>
-              </td>
-
-              {/* Subtotal */}
-              <td className="py-4 md:px-4 px-2 text-black">$ {product.price * product.quantity}</td>
-              <td onClick={()=> handleRemove(product.id)}>
-                <MdDelete color='#B88E2F' size={20}/>
-              </td>
-            </tr>
-            ))}
-          </tbody>
-        </table>
-
-        {/* Cart Totals Box */}
-<div className='md:w-[393px] bg-[#FFF9E5] md:h-[390px] h-[320px] flex flex-col items-center'>
-  <h1 className='mt-4 font-semibold text-[32px]'>Cart Totals</h1>
-
-  <div className='flex justify-between md:p-16 px-5 py-8 w-[90%]'>
-    <div className='flex flex-col gap-10 font-medium text-base'>
-      <p>Subtotal</p>
-      <p>Total</p>
+            <Link href="/Checkout">
+              <button className="flex justify-center mx-auto rounded-[15px] font-normal text-xl w-[222px] lg:py-5 py-3 border border-black">
+                Check Out
+              </button>
+            </Link>
+          </div>
+          </div>
+        </div>
+      )}
     </div>
+  );
+};
 
-    <div className='flex flex-col gap-10 font-medium text-base text-right'>
-      <p className='text-base font-normal text-[#9F9F9F]'>
-        ${cartTotal.toFixed(2)}
-      </p>
-      <p className='text-xl font-medium text-[#B88E2F]'>
-        ${cartTotal.toFixed(2)}
-      </p>
-    </div>
-  </div>
-
-  <Link href={"Checkout"} className='flex justify-center mx-auto rounded-[15px] font-normal text-xl w-[222px] lg:py-5 py-3 border border-black'>
-    Check Out
-  </Link>
-</div>
-
-
-      </div>
-          )}
-
-    </div>
-  )
-}
-
-export default Cart
+export default Cart;
