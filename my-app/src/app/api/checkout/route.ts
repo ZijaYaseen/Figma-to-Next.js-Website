@@ -4,17 +4,45 @@ import { jwtVerify } from 'jose';
 import { client } from '@/sanity/lib/client';
 
 const SECRET_KEY = new TextEncoder().encode(process.env.JWT_SECRET as string);
+interface BillingDetails {
+  firstName: string;
+  lastName: string;
+  companyName?: string;
+  country: string;
+  streetAddress: string;
+  town: string;
+  province: string;
+  zip: string;
+  phone: string;
+  email: string;
+}
+
+interface OrderItem {
+  product: { _type: 'reference'; _ref: string }; // Reference to the product document
+  selectedColor: string;
+  selectedSize: string;
+  quantity: number;
+  subtotal: number;
+}
+
+interface PaymentDetails {
+  transactionId: string;
+  paymentAmount: number;
+  paymentCard: string;
+}
+
 interface Order {
   _type: 'order';
-  billingDetails: any; // Ideally, replace `any` with the actual type
-  paymentMethod: string;
-  orderItems: any[]; // Replace with a specific type if possible
+  billingDetails: BillingDetails;
+  paymentMethod: 'cod' | 'bank'; // Cash on Delivery or Direct Bank Transfer
+  orderItems: OrderItem[];
   orderTotal: number;
-  createdAt: string;
-  orderStatus: 'pending' | 'paid';
-  user?: { _type: 'reference'; _ref: string };
-  paymentDetails?: any; // Again, specify a more detailed type if possible
+  createdAt: string; // ISO 8601 format (e.g., "2025-01-17T10:00:00Z")
+  orderStatus: 'pending' | 'paid' | 'shipped' | 'delivered' | 'cancelled';
+  user?: { _type: 'reference'; _ref: string }; // Reference to the user document
+  paymentDetails?: PaymentDetails;
 }
+
 
 export async function POST(req: NextRequest) {
   try {
