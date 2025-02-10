@@ -15,7 +15,7 @@ const PagesHeader = (props: { name: string; title: string }) => {
         className="object-cover"
       />
       {/* Content Overlay */}
-      <div className="relative z-10 flex flex-col items-center">
+      <div className="relative flex flex-col items-center">
         <Image
           src="/Logo.svg"
           alt="logo"
