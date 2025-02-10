@@ -4,6 +4,17 @@ import { jwtVerify } from 'jose';
 import { client } from '@/sanity/lib/client';
 
 const SECRET_KEY = new TextEncoder().encode(process.env.JWT_SECRET as string);
+interface Order {
+  _type: 'order';
+  billingDetails: any; // Ideally, replace `any` with the actual type
+  paymentMethod: string;
+  orderItems: any[]; // Replace with a specific type if possible
+  orderTotal: number;
+  createdAt: string;
+  orderStatus: 'pending' | 'paid';
+  user?: { _type: 'reference'; _ref: string };
+  paymentDetails?: any; // Again, specify a more detailed type if possible
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -20,7 +31,9 @@ export async function POST(req: NextRequest) {
       const { payload } = await jwtVerify(token, SECRET_KEY);
       userId = (payload as { _id: string })._id;
     } catch (error) {
+      console.log(error);
       return NextResponse.json(
+        
         { success: false, error: 'Invalid token. Please log in again.' },
         { status: 401 }
       );
@@ -48,7 +61,7 @@ export async function POST(req: NextRequest) {
     }
 
     // For COD or for bank payments that have been completed, create the Order document.
-    const newOrder: any = {
+    const newOrder: Order = {
       _type: 'order',
       billingDetails,
       paymentMethod,
