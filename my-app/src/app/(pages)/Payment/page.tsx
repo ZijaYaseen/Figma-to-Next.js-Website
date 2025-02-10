@@ -23,7 +23,7 @@ const Stripe = () => {
       
 
   return (
-    <main className='lg:mt-[90px] '>
+    <main className='lg:mt-[90px] mt-[60px] '>
         <div>
           <PagesHeader name='Payment' title='Payment' />
         </div>

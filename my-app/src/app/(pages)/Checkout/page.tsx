@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { setCartItems } from "@/redux/cartSlice";
 import axios from "axios";
 
-// Define the interface for form fields
+// Define the interface for billing form fields.
 interface FormData {
   firstName: string;
   lastName: string;
@@ -24,15 +24,15 @@ interface FormData {
 }
 
 const Checkout = () => {
-  // Fetch cart items from Redux
+  // Get cart items from Redux.
   const cartItems = UseAppSelector((state) => state.cart.items);
   const dispatch = useDispatch();
   const router = useRouter();
 
-  // Payment method state
+  // Payment method state (bank transfer or cash on delivery).
   const [paymentMethod, setPaymentMethod] = useState("bank");
 
-  // Billing details state and error state
+  // Billing details state and error state.
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
     lastName: "",
@@ -48,13 +48,15 @@ const Checkout = () => {
   });
   const [errors, setErrors] = useState<Partial<FormData>>({});
 
-  // Fetch cart items from the API and update Redux
+  // Fetch cart items from the backend API (/api/cart).
+  // The endpoint returns data for both guest and logged‑in users.
   const fetchCartItems = async () => {
     try {
       const response = await axios.get("/api/cart");
       console.log("API Response:", response.data);
-      // Dispatch only the array of cart items from the response
-      dispatch(setCartItems(response.data.cart.items));
+      if (response.data.success && response.data.cart) {
+        dispatch(setCartItems(response.data.cart.items));
+      }
     } catch (error) {
       console.error("Error fetching cart items:", error);
     }
@@ -64,13 +66,13 @@ const Checkout = () => {
     fetchCartItems();
   }, [dispatch]);
 
-  // Calculate cart total using the subtotal provided by the backend
+  // Calculate the cart total using the subtotals provided by the backend.
   const cartTotal = cartItems.reduce(
     (acc, item) => acc + (item.subtotal || 0),
     0
   );
 
-  // Handle input changes and clear field errors
+  // Handle changes in billing form fields.
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -79,7 +81,7 @@ const Checkout = () => {
     setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
-  // Basic validation for required fields
+  // Basic validation for required billing fields.
   const validate = (): Partial<FormData> => {
     const newErrors: Partial<FormData> = {};
     if (!formData.firstName.trim())
@@ -100,23 +102,58 @@ const Checkout = () => {
     return newErrors;
   };
 
-  // Handle form submission with validation
-  const handlePlaceOrder = (e: React.FormEvent<HTMLFormElement>) => {
+  // Handle form submission.
+  // On submit, this function sends the checkout data to your API endpoint.
+  // The API will first check if the user is logged in.
+  //  If not logged in (or token missing), a 401 response will be returned and the client will redirect to /login.
+  //  If logged in and paymentMethod === "bank" but payment details are not present,
+  //   the API instructs the client to redirect to the Payment page.
+  //  If paymentMethod === "cod", the API creates the order immediately and returns success.
+  const handlePlaceOrder = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      return; // Do not place order if there are validation errors
+      return;
     }
-    // Route based on payment method
-    if (paymentMethod === "bank") {
-      router.push("/Payment");
-    } else if (paymentMethod === "cod") {
-      router.push("/Order-place-success");
+
+    // Prepare the checkout payload.
+    const checkoutData = {
+      billingDetails: formData,
+      paymentMethod,
+      orderItems: cartItems, // You can include full product details (selected color, size, quantity, etc.)
+      orderTotal: cartTotal,
+      // Note: For bank transfer payment, you might send paymentDetails later after successful payment.
+    };
+
+    try {
+      const response = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(checkoutData),
+      });
+      const data = await response.json();
+
+      if (response.status === 401) {
+        // User is not logged in, redirect to the login page.
+        router.push("/Account/Login");
+      } else if (data.redirectTo) {
+        // If the API instructs a redirect (for example, for bank transfer payment),
+        // redirect the user to the specified payment page.
+        router.push(data.redirectTo);
+      } else if (data.success) {
+        // For COD (or after a successful bank payment), order is created.
+        // Redirect to order confirmation page.
+        router.push("/Order-place-success");
+      } else {
+        console.error("Checkout error:", data.error);
+      }
+    } catch (error) {
+      console.error("Error placing order:", error);
     }
   };
 
-  // If cart is empty, show a message
+  // If the cart is empty, show a message instead of the form.
   if (!cartItems || cartItems.length === 0) {
     return (
       <div className="w-full mt-16 md:mt-24 font-poppins">
@@ -132,7 +169,10 @@ const Checkout = () => {
     <div className="w-full mt-16 md:mt-24 font-poppins">
       <PagesHeader name="Checkout" title="Checkout" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <form onSubmit={handlePlaceOrder} className="flex flex-col md:flex-row gap-10">
+        <form
+          onSubmit={handlePlaceOrder}
+          className="flex flex-col md:flex-row gap-10"
+        >
           {/* Billing Details Section */}
           <div className="flex-1">
             <h2 className="text-4xl font-semibold mb-6">Billing Details</h2>
@@ -151,7 +191,6 @@ const Checkout = () => {
                   className={`mt-1 p-3 border rounded-md focus:outline-none ${
                     errors.firstName ? "border-red-500" : "border-gray-300"
                   }`}
-                  placeholder=""
                 />
                 {errors.firstName && (
                   <p className="text-red-500 text-sm">{errors.firstName}</p>
@@ -171,7 +210,6 @@ const Checkout = () => {
                   className={`mt-1 p-3 border rounded-md focus:outline-none ${
                     errors.lastName ? "border-red-500" : "border-gray-300"
                   }`}
-                  placeholder=""
                 />
                 {errors.lastName && (
                   <p className="text-red-500 text-sm">{errors.lastName}</p>
@@ -189,7 +227,6 @@ const Checkout = () => {
                   value={formData.companyName}
                   onChange={handleChange}
                   className="mt-1 p-3 border rounded-md focus:outline-none border-gray-300"
-                  placeholder=""
                 />
               </div>
               {/* Country / Region */}
@@ -214,7 +251,10 @@ const Checkout = () => {
               </div>
               {/* Street Address */}
               <div className="flex flex-col md:col-span-2">
-                <label htmlFor="streetAddress" className="text-base font-medium">
+                <label
+                  htmlFor="streetAddress"
+                  className="text-base font-medium"
+                >
                   Street Address
                 </label>
                 <input
@@ -226,10 +266,11 @@ const Checkout = () => {
                   className={`mt-1 p-3 border rounded-md focus:outline-none ${
                     errors.streetAddress ? "border-red-500" : "border-gray-300"
                   }`}
-                  placeholder=""
                 />
                 {errors.streetAddress && (
-                  <p className="text-red-500 text-sm">{errors.streetAddress}</p>
+                  <p className="text-red-500 text-sm">
+                    {errors.streetAddress}
+                  </p>
                 )}
               </div>
               {/* Town / City */}
@@ -246,7 +287,6 @@ const Checkout = () => {
                   className={`mt-1 p-3 border rounded-md focus:outline-none ${
                     errors.town ? "border-red-500" : "border-gray-300"
                   }`}
-                  placeholder=""
                 />
                 {errors.town && (
                   <p className="text-red-500 text-sm">{errors.town}</p>
@@ -286,7 +326,6 @@ const Checkout = () => {
                   className={`mt-1 p-3 border rounded-md focus:outline-none ${
                     errors.zip ? "border-red-500" : "border-gray-300"
                   }`}
-                  placeholder=""
                 />
                 {errors.zip && (
                   <p className="text-red-500 text-sm">{errors.zip}</p>
@@ -306,7 +345,6 @@ const Checkout = () => {
                   className={`mt-1 p-3 border rounded-md focus:outline-none ${
                     errors.phone ? "border-red-500" : "border-gray-300"
                   }`}
-                  placeholder=""
                 />
                 {errors.phone && (
                   <p className="text-red-500 text-sm">{errors.phone}</p>
@@ -326,7 +364,6 @@ const Checkout = () => {
                   className={`mt-1 p-3 border rounded-md focus:outline-none ${
                     errors.email ? "border-red-500" : "border-gray-300"
                   }`}
-                  placeholder=""
                 />
                 {errors.email && (
                   <p className="text-red-500 text-sm">{errors.email}</p>
@@ -334,7 +371,10 @@ const Checkout = () => {
               </div>
               {/* Additional Information (Optional) */}
               <div className="flex flex-col md:col-span-2">
-                <label htmlFor="additionalInfo" className="text-base font-medium">
+                <label
+                  htmlFor="additionalInfo"
+                  className="text-base font-medium"
+                >
                   Additional Information (Optional)
                 </label>
                 <textarea
@@ -360,7 +400,9 @@ const Checkout = () => {
               >
                 <div className="flex flex-col">
                   <p className="text-lg font-medium">{item.product.name}</p>
-                  <p className="text-sm text-[#9F9F9F]">Quantity: {item.quantity}</p>
+                  <p className="text-sm text-[#9F9F9F]">
+                    Quantity: {item.quantity}
+                  </p>
                 </div>
                 <div className="text-right">
                   <p className="text-lg font-medium">
@@ -408,7 +450,9 @@ const Checkout = () => {
                 </div>
               </div>
               <p className="mt-6 text-sm text-gray-600">
-                Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our{" "}
+                Your personal data will be used to support your experience
+                throughout this website, to manage access to your account, and
+                for other purposes described in our{" "}
                 <span className="font-semibold">privacy policy</span>.
               </p>
             </div>

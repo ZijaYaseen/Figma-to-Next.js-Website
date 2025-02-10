@@ -190,7 +190,7 @@ export default function Product({ params }: { params: { product: string } }) {
       {/* 2nd Section: Product Details */}
       <div className="flex md:flex-row flex-col mt-10 w-full md:px-20 px-5 gap-4">
         {/* Left: Thumbnail Images */}
-        <div className='md:flex flex-col-reverse flex gap-3'>
+        <div className='md:flex-row  flex-col-reverse flex gap-3'>
         <div className="flex md:flex-col flex-row md:gap-8 gap-3 md:mr-10 mr-3">
           {[product.imagePath, product.imagePath, product.imagePath, product.imagePath].map((src, index) => (
             <Image

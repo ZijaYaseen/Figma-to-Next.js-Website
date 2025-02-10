@@ -1,60 +1,109 @@
+// /app/api/cart/route.ts
+
 import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 import { client } from "@/sanity/lib/client";
 import { nanoid } from "nanoid";
 
-// Convert the secret key from your environment variable
+// Convert the secret key from the environment variable.
 const SECRET_KEY = new TextEncoder().encode(process.env.JWT_SECRET as string);
 
-// ------------------
-// Define interfaces for the cart document structure returned from Sanity.
-// ------------------
-
-// For items stored in the cart document, note that in our POST endpoint we
-// expect each item to have a "product" field that is a reference (with _ref).
+// ----------------------------
+// Define Interfaces for Cart Data
+// ----------------------------
 interface CartItemInDocument {
   _key: string;
   product: { _ref: string };
   quantity: number;
   subtotal: number;
 }
+
 interface NewCart {
   _type: string;
   items: {
     _key: string;
-    product: { _type: string; _ref: string };
+    product: { _type?: string; _ref: string };
     quantity: number;
     subtotal: number;
   }[];
-  // Optionally include other fields like user or guestId:
+  // Optional fields for association:
   user?: { _type: string; _ref: string };
   guestId?: string;
 }
 
-// The cart document itself
 interface ExistingCart {
   _id: string;
   items: CartItemInDocument[];
+  // Optionally stored fields:
+  user?: { _type: string; _ref: string };
+  guestId?: string;
 }
 
-// ------------------
-// POST request: Add/Update Cart
-// ------------------
+// ----------------------------
+// Function to Merge Guest Cart with User Cart
+// ----------------------------
+async function mergeGuestCartWithUserCart(userId: string, guestId: string): Promise<void> {
+  // 1. Fetch the guest cart (if any)
+  const guestCartQuery = `*[_type == "cart" && guestId == $guestId][0]`;
+  const guestCart = await client.fetch(guestCartQuery, { guestId }) as ExistingCart | undefined;
+
+  // 2. Fetch the user's existing cart (if any)
+  const userCartQuery = `*[_type == "cart" && user._ref == $userId][0]`;
+  const userCart = await client.fetch(userCartQuery, { userId }) as ExistingCart | undefined;
+
+  if (!guestCart) return; // Agar guest cart nahin hai, to kuch merge karne ki zarurat nahin.
+
+  if (userCart) {
+    // Merge items from guest cart into the existing user cart.
+    const mergedItems = [...userCart.items];
+    for (const guestItem of guestCart.items) {
+      // Check if product already exists in user cart.
+      const index = mergedItems.findIndex(item => item.product._ref === guestItem.product._ref);
+      if (index > -1) {
+        // Agar product exists karta hai, quantity add karo.
+        mergedItems[index].quantity += guestItem.quantity;
+        // Recalculate subtotal. (Yahan assume kiya gaya hai ke product price remains same.)
+        const productPrice =
+          guestItem.quantity > 0 ? guestItem.subtotal / guestItem.quantity : 0;
+        mergedItems[index].subtotal = mergedItems[index].quantity * productPrice;
+      } else {
+        // Naya item add karo.
+        mergedItems.push(guestItem);
+      }
+    }
+    await client.patch(userCart._id).set({ items: mergedItems }).commit();
+    // (Optional) Agar aap guest cart document ko delete karna chahte hain, to aap niche wali line uncomment kar sakte hain.
+    // await client.delete(guestCart._id);
+  } else {
+    // Agar user ke paas pehle se cart nahin hai, to guest cart ko user cart bana dein.
+    await client
+      .patch(guestCart._id)
+      .set({
+        user: { _type: "reference", _ref: userId },
+        guestId: null, // Guest ID ko clear kar sakte hain.
+      })
+      .commit();
+  }
+}
+
+// ----------------------------
+// POST: Add/Update Cart
+// ----------------------------
 export async function POST(req: NextRequest) {
   try {
     const { productId, quantity } = await req.json();
 
-    // 1. Check if the request comes from a logged-in user by verifying the token.
+    // 1. Check if the request comes from a logged-in user.
     const token = req.cookies.get("token")?.value;
     let userId: string | null = null;
-    let guestId = req.cookies.get("guestId")?.value; // Retrieve guestId from cookies
+    let guestId = req.cookies.get("guestId")?.value;
 
     if (token) {
       try {
         const { payload } = await jwtVerify(token, SECRET_KEY);
         userId = (payload as { _id: string })._id;
       } catch (err) {
-        console.warn("Invalid Token, proceeding as guest user.", err);
+        console.warn("Invalid token, proceeding as guest.", err);
       }
     }
 
@@ -63,7 +112,12 @@ export async function POST(req: NextRequest) {
       guestId = nanoid();
     }
 
-    // 2. Fetch the product's price from Sanity using the product reference.
+    // 2. If user is logged in but a guestId exists, merge guest cart with user cart.
+    if (userId && guestId) {
+      await mergeGuestCartWithUserCart(userId, guestId);
+    }
+
+    // 3. Fetch the product’s price from Sanity.
     const productQuery = `*[_type == "product" && _id == $productId][0]{ price }`;
     const product = await client.fetch(productQuery, { productId });
     if (!product) {
@@ -74,40 +128,32 @@ export async function POST(req: NextRequest) {
     }
     const productPrice = product.price;
 
-    // 3. Determine which cart to update/fetch.
+    // 4. Determine which cart to update (user’s cart or guest cart).
     let query = "";
     let queryParams: { userId?: string; guestId?: string } = {};
 
     if (userId) {
-      // For logged-in users, query by user reference.
       query = `*[_type == "cart" && user._ref == $userId][0]`;
       queryParams = { userId };
     } else if (guestId) {
-      // For guest users, query by guestId.
       query = `*[_type == "cart" && guestId == $guestId][0]`;
       queryParams = { guestId };
     }
 
-    // Cast the result as an ExistingCart (or undefined if not found)
     const existingCart = (await client.fetch(query, queryParams)) as ExistingCart | undefined;
 
     if (existingCart) {
-      // 4. Check if the product is already in the cart's items array.
+      // 5. Update existing cart: either update the quantity or add the new item.
       const productIndex = existingCart.items.findIndex(
         (item: CartItemInDocument) => item.product._ref === productId
       );
-
-      // Create a copy of the items array.
       const updatedItems = [...existingCart.items];
 
       if (productIndex > -1) {
-        // If the product is already there, update the quantity.
         updatedItems[productIndex].quantity += quantity;
-        // Update subtotal based on new quantity and product price.
         updatedItems[productIndex].subtotal =
           updatedItems[productIndex].quantity * productPrice;
       } else {
-        // Otherwise, add a new cartItem (with a unique _key) including the calculated subtotal.
         updatedItems.push({
           _key: nanoid(),
           product: { _ref: productId },
@@ -116,14 +162,11 @@ export async function POST(req: NextRequest) {
         });
       }
 
-      // 5. Update the existing cart document in Sanity.
       await client.patch(existingCart._id).set({ items: updatedItems }).commit();
-
       const res = NextResponse.json({
         success: true,
         message: "Cart updated successfully!",
       });
-      // For guest users, ensure the guestId cookie is set.
       if (!userId && guestId) {
         res.cookies.set("guestId", guestId, { path: "/" });
       }
@@ -149,7 +192,6 @@ export async function POST(req: NextRequest) {
       }
 
       const createdCart = await client.create(newCart);
-
       const res = NextResponse.json({
         success: true,
         message: "Cart created successfully!",
@@ -161,61 +203,79 @@ export async function POST(req: NextRequest) {
       return res;
     }
   } catch (error) {
-    console.error("Cart Error:", error);
+    console.error("Cart POST Error:", error);
     return NextResponse.json({ success: false, error: "Failed to update cart" });
   }
 }
 
-// ------------------
-// GET request: Fetch Cart
-// ------------------
+// ----------------------------
+// GET: Fetch Cart (Handles Both Logged-in and Guest Users)
+// ----------------------------
 export async function GET(req: NextRequest) {
   try {
-    // 1. Get the token from cookies.
+    // 1. Retrieve token and guestId from cookies.
     const token = req.cookies.get("token")?.value;
-    if (!token) {
-      return NextResponse.json(
-        { success: false, error: "User not logged in" },
-        { status: 401 }
-      );
-    }
-
-    // 2. Verify token and extract the user ID.
+    const guestId = req.cookies.get("guestId")?.value;
     let userId: string | null = null;
-    try {
-      const { payload } = await jwtVerify(token, SECRET_KEY);
-      userId = (payload as { _id: string })._id;
-    } catch (err) {
-      console.warn("Invalid token", err);
-      return NextResponse.json(
-        { success: false, error: "Invalid token" },
-        { status: 401 }
-      );
+
+    if (token) {
+      try {
+        const { payload } = await jwtVerify(token, SECRET_KEY);
+        userId = (payload as { _id: string })._id;
+      } catch (err) {
+        console.warn("Invalid token", err);
+      }
     }
 
-    // 3. Query Sanity for the cart document that belongs to this user,
-    //    including a projection that populates product details.
-    const query = `*[_type == "cart" && user._ref == $userId][0]{
-      ...,
-      items[]{
-        ...,
-        product->{
-          _id,
-          name,
-          imagePath,
-          price
-        }
-      }
-    }`;
-    const cart = await client.fetch(query, { userId });
+    // 2. If user is logged in and a guestId exists, merge the guest cart.
+    if (userId && guestId) {
+      await mergeGuestCartWithUserCart(userId, guestId);
+    }
 
-    // 4. Return the cart data (if no cart is found, return an empty cart).
+    // 3. Build query based on whether the user is logged in or is a guest.
+    let query = "";
+    let queryParams: { userId?: string; guestId?: string } = {};
+
+    if (userId) {
+      query = `*[_type == "cart" && user._ref == $userId][0]{
+        ...,
+        items[]{
+          ...,
+          product->{
+            _id,
+            name,
+            imagePath,
+            price
+          }
+        }
+      }`;
+      queryParams = { userId };
+    } else if (guestId) {
+      query = `*[_type == "cart" && guestId == $guestId][0]{
+        ...,
+        items[]{
+          ...,
+          product->{
+            _id,
+            name,
+            imagePath,
+            price
+          }
+        }
+      }`;
+      queryParams = { guestId };
+    } else {
+      // Agar koi identifier nahin, to empty cart return karein.
+      return NextResponse.json({ success: true, cart: { items: [] } });
+    }
+
+    const cart = await client.fetch(query, queryParams);
     return NextResponse.json({
       success: true,
       cart: cart || { items: [] },
     });
   } catch (error) {
-    console.error("Cart Fetch Error:", error);
+    console.error("Cart GET Error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to fetch cart" },
       { status: 500 }
@@ -223,14 +283,12 @@ export async function GET(req: NextRequest) {
   }
 }
 
-// ------------------
-// DELETE request: Remove Item from Cart
-// ------------------
+// ----------------------------
+// DELETE: Remove Item from Cart
+// ----------------------------
 export async function DELETE(req: NextRequest) {
   try {
-    // Expect the DELETE request to have a JSON body containing the productId to remove.
     const { productId } = await req.json();
-
     if (!productId) {
       return NextResponse.json(
         { success: false, error: "Missing productId" },
@@ -238,7 +296,7 @@ export async function DELETE(req: NextRequest) {
       );
     }
 
-    // 1. Token check: determine if user is logged in or is a guest.
+    // 1. Determine user identity from token or guestId.
     const token = req.cookies.get("token")?.value;
     let userId: string | null = null;
     const guestId = req.cookies.get("guestId")?.value;
@@ -248,11 +306,11 @@ export async function DELETE(req: NextRequest) {
         const { payload } = await jwtVerify(token, SECRET_KEY);
         userId = (payload as { _id: string })._id;
       } catch (err) {
-        console.warn("Invalid Token, proceeding as guest user.", err);
+        console.warn("Invalid token, proceeding as guest.", err);
       }
     }
 
-    // 2. Build query based on user or guest status.
+    // 2. Build query based on whether it's a user or guest cart.
     let query = "";
     let queryParams: { userId?: string; guestId?: string } = {};
     if (userId) {
@@ -262,16 +320,14 @@ export async function DELETE(req: NextRequest) {
       query = `*[_type == "cart" && guestId == $guestId][0]`;
       queryParams = { guestId };
     } else {
-      // If no identifier is found, we return a 401 response.
       return NextResponse.json(
         { success: false, error: "Unauthorized" },
         { status: 401 }
       );
     }
 
-    // 3. Fetch the existing cart from Sanity.
+    // 3. Fetch the existing cart.
     const existingCart = (await client.fetch(query, queryParams)) as ExistingCart | undefined;
-
     if (!existingCart) {
       return NextResponse.json(
         { success: false, error: "Cart not found" },
@@ -279,12 +335,10 @@ export async function DELETE(req: NextRequest) {
       );
     }
 
-    // 4. Remove the product from the items array.
+    // 4. Filter out the product to be removed.
     const filteredItems = existingCart.items.filter(
       (item: CartItemInDocument) => item.product._ref !== productId
     );
-
-    // Update the items array in the cart document.
     await client.patch(existingCart._id).set({ items: filteredItems }).commit();
 
     return NextResponse.json({

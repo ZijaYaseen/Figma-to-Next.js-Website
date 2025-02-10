@@ -16,14 +16,16 @@ interface CartSidebarProps {
 const CartSidebar = ({ CartmenuOpen, CartsetMenuOpen }: CartSidebarProps) => {
   const dispatch = useDispatch();
 
-  // Retrieve cart items from Redux store.
-  // Now each item is expected to have a populated product, quantity, and subtotal.
+  // Redux store se cart items retrieve kar rahe hain.
   const cartItems = UseAppSelector((state) => state.cart.items);
 
   // Calculate the cart total using the subtotal provided by the backend.
-  const cartTotal = cartItems.reduce((acc, item) => acc + (item.subtotal || 0), 0);
+  const cartTotal = cartItems.reduce(
+    (acc, item) => acc + (item.subtotal || 0),
+    0
+  );
 
-  // Fetch the cart data from the backend (GET request) and update Redux.
+  // GET request: Fetch the cart data from the backend and update Redux store.
   useEffect(() => {
     async function fetchCart() {
       try {
@@ -50,7 +52,7 @@ const CartSidebar = ({ CartmenuOpen, CartsetMenuOpen }: CartSidebarProps) => {
     CartsetMenuOpen(false);
   };
 
-  // Remove a product: call the DELETE API endpoint and update Redux.
+  // DELETE request: Remove a product from the cart.
   const handleRemove = async (productId: string) => {
     try {
       const response = await fetch("/api/cart", {
@@ -100,7 +102,10 @@ const CartSidebar = ({ CartmenuOpen, CartsetMenuOpen }: CartSidebarProps) => {
                 </div>
               ) : (
                 cartItems.map((item, index) => (
-                  <div key={item._key || index} className="flex flex-col gap-4 border-b py-5">
+                  <div
+                    key={item._key || index}
+                    className="flex flex-col gap-4 border-b py-5"
+                  >
                     <div className="flex items-center gap-4">
                       <Link
                         href={`/Shop/${item.product._id}`}
@@ -122,7 +127,7 @@ const CartSidebar = ({ CartmenuOpen, CartsetMenuOpen }: CartSidebarProps) => {
                             <p>Quantity: {item.quantity}</p>
                             <MdClose size={12} />
                             <span className="text-[#B88E2F] font-bold">
-                              ${item.product.price}
+                              ${item.product.price.toFixed(2)}
                             </span>
                           </div>
                         </div>
@@ -137,7 +142,7 @@ const CartSidebar = ({ CartmenuOpen, CartsetMenuOpen }: CartSidebarProps) => {
                     <div className="flex justify-between">
                       <p className="text-sm font-medium">Subtotal</p>
                       <p className="text-[#B88E2F] font-bold">
-                        ${item.subtotal}
+                        ${item.subtotal.toFixed(2)}
                       </p>
                     </div>
                   </div>
@@ -149,7 +154,9 @@ const CartSidebar = ({ CartmenuOpen, CartsetMenuOpen }: CartSidebarProps) => {
             <div className="absolute bottom-0 left-0 right-0">
               <div className="p-3 px-8 items-center flex justify-between">
                 <h2 className="text-2xl font-semibold">Total</h2>
-                <p className="text-[#B88E2F] font-bold text-xl">${cartTotal}</p>
+                <p className="text-[#B88E2F] font-bold text-xl">
+                  ${cartTotal.toFixed(2)}
+                </p>
               </div>
               <div className="p-4 bg-white shadow-lg border-t border-[#D9D9D9] flex justify-between gap-2">
                 <Link

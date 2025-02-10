@@ -11,16 +11,16 @@ import { useEffect } from "react";
 import axios from "axios";
 
 const Cart = () => {
+  // Redux se cart items le rahe hain
   const cartItems = UseAppSelector((state) => state.cart.items);
   const dispatch = useDispatch();
 
-  // Fetch Cart Items from API
+  // API se cart items fetch karne ke liye function
   const fetchCartItems = async () => {
     try {
       const response = await axios.get("/api/cart");
-      // Debug: Check the API response structure
       console.log("API Response:", response.data);
-      // Dispatch only the array of items from the response
+      // Response ke andar cart object ka items array update kar rahe hain
       dispatch(setCartItems(response.data.cart.items));
     } catch (error) {
       console.error("Error fetching cart items:", error);
@@ -28,20 +28,22 @@ const Cart = () => {
   };
 
   useEffect(() => {
-    fetchCartItems(); // Fetch items when the page loads
+    fetchCartItems(); // Page load par cart items fetch karo
   }, [dispatch]);
 
-  // Calculate total using the subtotal provided by the backend
+  // Cart total calculate karne ke liye
   const cartTotal = cartItems.reduce(
     (acc, item) => acc + (item.subtotal || 0),
     0
   );
 
+  // Item remove karne ka handler
   const handleRemove = async (id: string) => {
     try {
-      dispatch(removeFromCart(id)); // Update Redux store after deletion
-      await axios.delete(`/api/cart/${id}`); // API request to delete item
-      
+      // Redux store se update karo
+      dispatch(removeFromCart(id));
+      // DELETE request bhejo, yahan product id JSON body mein bheji ja rahi hai
+      await axios.delete("/api/cart", { data: { productId: id } });
     } catch (error) {
       console.error("Error removing item:", error);
     }
@@ -80,59 +82,62 @@ const Cart = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
-  {cartItems.map((item) => (
-    <Link key={item._key} href={`/Shop/${item.product._id}`} passHref legacyBehavior>
-      {/* The <a> wrapper with display: contents ensures proper table semantics */}
-      <a style={{ display: "contents" }}>
-        <tr className="border-b border-gray-300">
-          <td className="px-6 py-4 whitespace-nowrap align-middle">
-            <div className="flex items-center space-x-4">
-              <div className="relative w-16 h-16 flex-shrink-0">
-                <Image
-                  src={item.product.imagePath}
-                  alt={item.product.name}
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded"
-                />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-gray-900">
-                  {item.product.name}
-                </p>
-              </div>
-            </div>
-          </td>
-          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 align-middle">
-            ${item.product.price.toFixed(2)}
-          </td>
-          <td className="px-6 py-4 whitespace-nowrap align-middle">
-            <div className="w-12 h-8 border border-gray-300 rounded flex items-center justify-center text-sm">
-              {item.quantity}
-            </div>
-          </td>
-          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 align-middle">
-            ${item.subtotal.toFixed(2)}
-          </td>
-          <td className="px-6 py-4 whitespace-nowrap align-middle">
-            {/* Prevent the delete button click from triggering the row Link */}
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                handleRemove(item.product._id);
-              }}
-              className="text-[#B88E2F]"
-            >
-              <MdDelete size={20} />
-            </button>
-          </td>
-        </tr>
-      </a>
-    </Link>
-  ))}
-</tbody>
-
-
+                  {cartItems.map((item) => (
+                    <Link
+                      key={item._key}
+                      href={`/Shop/${item.product._id}`}
+                      passHref
+                      legacyBehavior
+                    >
+                      {/* <a> wrapper with display: contents ensures proper table semantics */}
+                      <a style={{ display: "contents" }}>
+                        <tr className="border-b border-gray-300">
+                          <td className="px-6 py-4 whitespace-nowrap align-middle">
+                            <div className="flex items-center space-x-4">
+                              <div className="relative w-16 h-16 flex-shrink-0">
+                                <Image
+                                  src={item.product.imagePath}
+                                  alt={item.product.name}
+                                  layout="fill"
+                                  objectFit="cover"
+                                  className="rounded"
+                                />
+                              </div>
+                              <div>
+                                <p className="text-sm font-medium text-gray-900">
+                                  {item.product.name}
+                                </p>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 align-middle">
+                            ${item.product.price.toFixed(2)}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap align-middle">
+                            <div className="w-12 h-8 border border-gray-300 rounded flex items-center justify-center text-sm">
+                              {item.quantity}
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 align-middle">
+                            ${item.subtotal.toFixed(2)}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap align-middle">
+                            {/* Delete button ke click se row Link trigger na ho */}
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                handleRemove(item.product._id);
+                              }}
+                              className="text-[#B88E2F]"
+                            >
+                              <MdDelete size={20} />
+                            </button>
+                          </td>
+                        </tr>
+                      </a>
+                    </Link>
+                  ))}
+                </tbody>
               </table>
             </div>
 

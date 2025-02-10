@@ -38,8 +38,8 @@ const Login = () => {
     };
 
     return (
-        <div className='max-w-[1440px] font-poppins w-full md:mt-[90px] mt-[60px]'>
-            <div className="md:w-[85%] w-[80%] mx-auto pb-10">
+        <div className='max-w-[1440px] font-poppins w-full'>
+            <div className="w-[80%] mx-auto py-10">
                 <div className="flex flex-col gap-8 md:w-[40%] w-full mx-auto">
                     <h1 className="font-semibold text-4xl">Log In</h1>
 
@@ -75,7 +75,7 @@ const Login = () => {
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute inset-y-0 md:right-14 right-4 flex items-center text-gray-500 focus:outline-none"
+                                    className="absolute inset-y-0 md:right-6 right-4 flex items-center text-gray-500 focus:outline-none"
                                 >
                                     {showPassword ? <PiEyeThin size={24} /> : <PiEyeSlashThin size={24} />}
                                 </button>
