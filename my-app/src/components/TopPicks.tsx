@@ -15,7 +15,7 @@ const TopPicks = ({products}:TopPicksProps) => {
   </p>
 
   {/* Products */}
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:mt-8 w-full max-w-[1200px]">
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:mt-8 w-full">
     {products.map((product) => (
         <Link href={`Shop/${product._id}`} key={product.name}>
       <div className="flex flex-col items-center">

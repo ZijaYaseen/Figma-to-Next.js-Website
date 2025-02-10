@@ -10,10 +10,11 @@ interface HeroSectionProps {
 const HeroSection = ({ product }: HeroSectionProps) => {
 
   return (
-    <div className="mt-4 flex flex-col-reverse lg:flex-row justify-between items-center w-full bg-[#FBEBB5] px-3 lg:px-16 py-8">
+    <div className="mt-4 w-full bg-[#FBEBB5] lg:px-16 py-8">
       {/* Text Content */}
-      <div className="lg:ml-[202px] w-full lg:w-[40%] text-center lg:text-left lg:h-[600px] flex flex-col justify-center">
-        <h1 className="font-medium text-[32px] sm:text-[48px] lg:text-[64px] lg:leading-tight">
+      <div className="md:w-[80%] w-full mx-auto flex flex-col-reverse lg:flex-row md:justify-between">
+      <div className=" text-center lg:text-left  flex flex-col justify-center">
+        <h1 className="font-medium text-[32px] sm:text-[48px] lg:text-[60px] lg:leading-tight">
           {product.name}
         </h1>
         <Link href={`/Shop/${product._id}`}>
@@ -24,7 +25,7 @@ const HeroSection = ({ product }: HeroSectionProps) => {
       </div>
 
       {/* Image Content */}
-      <div className="w-full lg:w-auto flex justify-center lg:mr-10">
+      <div>
         <Image
           src={product.imagePath}
           alt={product.name}
@@ -32,6 +33,7 @@ const HeroSection = ({ product }: HeroSectionProps) => {
           height={100}
           priority
         />
+      </div>
       </div>
     </div>
   );

@@ -1,0 +1,11 @@
+Test Case ID,Test Case Description,Test Steps,Expected Result,Actual Result,Status,Severity Level,Assigned To,Remarks
+TC001,Verify homepage loads properly,Open the website URL,Homepage should display correctly,Homepage loaded successfully,Passed,Low,Frontend Team,No issues found
+TC002,Check navigation bar links,Click on each navigation link,Navigation should work properly,Some links not working,Failed,High,Frontend Team,Fix broken links
+TC003,Test responsiveness on mobile,Resize browser to mobile width,Layout should adjust properly,Layout is breaking on small screens,Failed,High,UI Team,Needs CSS fixes
+TC004,Check login functionality,Enter valid credentials and login,User should be logged in,Login successful,Passed,Low,Backend Team,No issues
+TC005,Test account page accessibility,Navigate to account page,Account details should be visible,Account details not loading,Failed,Medium,Backend Team,Fix API call issue
+TC006,Verify product search feature,Enter search term and submit,Relevant products should display,Products displayed correctly,Passed,Low,Backend Team,No issues
+TC007,Test checkout process,Add product to cart and complete checkout,Order should be placed successfully,Checkout failed due to payment issue,Failed,High,Payment Team,Investigating payment gateway issues
+TC008,Check website performance (Lighthouse),Run Lighthouse test,Performance score should be above 80,Performance score is 72,Failed,Medium,Performance Team,Optimize images and reduce JS execution
+TC009,API response time check,Measure API response time in Postman,Response time should be under 200ms,Response time is 350ms,Failed,High,Backend Team,Optimize database queries
+TC010,Security vulnerability check,Run security scan,No vulnerabilities should be found,1 vulnerability detected,Failed,High,Security Team,Apply security patch

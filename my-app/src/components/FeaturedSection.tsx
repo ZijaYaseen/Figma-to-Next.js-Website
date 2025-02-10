@@ -21,6 +21,7 @@ const FeaturedSection = ({products}:FeaturedProps) => {
       width={450}
       height={300}
       priority
+       className="object-cover w-[450px] h-[300px]"
     ></Image>
    </Link>
     <h2 className="font-medium text-2xl sm:text-3xl lg:text-4xl mb-3 ">

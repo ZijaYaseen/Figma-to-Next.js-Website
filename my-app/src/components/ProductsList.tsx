@@ -51,7 +51,7 @@ const ProductsList: React.FC = () => {
   }
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 py-4 place-items-center px-6 md:px-16 lg:px-28 gap-[31px]">
+    <div className="grid grid-cols-2 lg:grid-cols-4 py-4 place-items-center px-6 md:px-16 lg:px-28 gap-[31px]">
       {paginatedProducts.map((product) => (
         <Link href={`Shop/${product._id}`} key={product._id}>
           <div className="relative w-36 md:w-72 h-auto md:h-[422px] hover:shadow-md flex flex-col justify-center mx-auto">
@@ -66,7 +66,8 @@ const ProductsList: React.FC = () => {
               alt={product.name}
               width={600}
               height={600}
-              priority={false} // Default lazy loading
+              quality={75}
+              priority
               className="w-52 h-32 md:w-60 md:h-72 flex flex-col justify-center mx-auto"
             />
             <div className="w-[130px] md:w-[194px] flex-col justify-center mx-auto">
