@@ -13,9 +13,9 @@ import TopPicks from '@/components/TopPicks';
 const Home = async () => {
 
 const HeroSectionProductData = await HeroSectionData();
-console.log(HeroSectionProductData);
+const FeaturedSectionProductData = await FeaturedSectionData();
+console.log(FeaturedSectionProductData);
 
-const FeaturedSectionProductData = await FeaturedSectionData()
 const TopPicksProductData = await TopPicksData()
 
 
