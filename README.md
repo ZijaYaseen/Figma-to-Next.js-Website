@@ -42,28 +42,28 @@ I am a passionate frontend web developer dedicated to crafting user-friendly, mo
 A comprehensive documentation folder has been created to record the project progress over a 7-day period. It includes detailed files and testing reports:
 
 - **[Day-1_Laying-the-Foundation-for-the-Marketplace.pdf](./.document/Day-1_Laying-the-Foundation-for-the-Marketplace.pdf)**  
-  Covers the initial planning and foundational steps for setting up the marketplace. *(Updated last month)*
+  Covers the initial planning and foundational steps for setting up the marketplace.
 
 - **[Day-2-Marketplace-Technical-Foundation-Of-EcoFurnish.pdf](./.document/Day-2-Marketplace-Technical-Foundation-Of-EcoFurnish.pdf)**  
-  Describes the technical architecture and setup for the EcoFurnish marketplace. *(Updated last month)*
+  Describes the technical architecture and setup for the EcoFurnish marketplace. 
 
 - **[Day-3_API-Integration.pdf](./.document/Day-3_API-Integration.pdf)**  
-  Explains the API integration process used to fetch and post data between the frontend and Sanity. *(Updated last month)*
+  Explains the API integration process used to fetch and post data between the frontend and Sanity.
 
 - **[Day-4_Dynamic-Frontend-Components.pdf](./.document/Day-4_Dynamic-Frontend-Components.pdf)**  
-  Details the creation and integration of dynamic frontend components for a responsive user experience. *(Updated last week)*
+  Details the creation and integration of dynamic frontend components for a responsive user experience. 
 
 - **[Day-5_Testing_and_Refinement.pdf](./.document/Day-5_Testing_and_Refinement.pdf)**  
-  Outlines the testing procedures and subsequent refinements made to improve the website’s functionality. *(Updated last week)*
+  Outlines the testing procedures and subsequent refinements made to improve the website’s functionality.
 
 - **[Day-6_EcoFurnish-Marketplace.pdf](./.document/Day-6_EcoFurnish-Marketplace.pdf)**  
-  Summarizes the final development stages and consolidates the progress made on the EcoFurnish marketplace. *(Updated last week)*
+  Summarizes the final development stages and consolidates the progress made on the EcoFurnish marketplace. 
 
 - **[Performance_Testing_Report.pdf](./.document/Performance_Testing_Report.pdf)**  
-  Provides a detailed performance testing report to ensure the website meets all performance benchmarks. *(Updated last week)*
+  Provides a detailed performance testing report to ensure the website meets all performance benchmarks.
 
 - **[testing_report.csv](./.document/testing_report.csv)**  
-  Contains raw testing data and metrics for performance analysis. *(Updated last week)*
+  Contains raw testing data and metrics for performance analysis. 
 
 For full details, please visit the [Documentation Folder](./.document).
 
