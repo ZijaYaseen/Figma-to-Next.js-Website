@@ -17,7 +17,7 @@ const HeroSection = ({ product }: HeroSectionProps) => {
         <h1 className="font-medium text-[32px] sm:text-[48px]  lg:leading-tight mt-4">
           {product.name}
         </h1>
-        <Link href={`/Shop${product._id}`}
+        <Link href={`/Shop/${product._id}`}
 >
   <button className="mt-4 sm:mt-[20px] lg:mt-[35px] font-medium text-lg sm:text-xl lg:text-2xl border-b-2 border-[#3f3b2d] leading-10">
     Shop Now
