@@ -21,7 +21,7 @@ const TopPicksProductData = await TopPicksData()
     <div className='max-w-[1920px] font-poppins h-full w-full overflow-hidden'>
 
       <header>
-      <Header bgColor="bg-[#FBEBB5]" shadow='no' />
+      <Header bgColor="bg-[#FAF4F4]" shadow='no' />
       </header>
 
      {/* Home 1 Section Rocket Single Seater sofa*/}
