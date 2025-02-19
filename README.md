@@ -69,5 +69,5 @@ For full details, please visit the [Documentation Folder](./.document).
 
 ## Contact
 
-If you're interested in collaborating or would like to have a similar project built, please feel free to contact me at [zijayaseen15@gmail.com].
+If you're interested in collaborating or would like to have a similar project built, please feel free to contact me at [LinkdIn](www.linkedin.com/in/zija-yaseen).
 
