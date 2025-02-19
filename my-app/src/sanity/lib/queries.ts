@@ -60,3 +60,19 @@ export async function TopPicksData() {
   return await client.fetch(query);
 };
 
+// New Arrivals product data
+export async function NewArrivalsSanity() {
+  const query = `
+  *[_type == "product" && "One Product" in tags] {
+    _id,
+    name,
+    imagePath,
+    tags
+  }
+  `;
+  const data = await client.fetch(query);
+  console.log(data);
+  return data;
+  
+}
+
